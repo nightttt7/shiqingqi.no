@@ -7,7 +7,7 @@ lang="zh-CN" style="height:100%;
 <!-- html标签属性 -->
 
 <!-- 以下是head部分 -->
-{% block title %}喵喵的家- welcome{% endblock %}
+{% block title %}喵喵的家{% endblock %}
 <!-- 设定title -->
 
 {% block metas %}{{ super() }}
@@ -63,7 +63,11 @@ style="min-height:100%;position:relative;"
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"><em>log in</em></a></li>
+        {% if current_user.is_authenticated() %}
+        <li><a href="{{ url_for('auth.logout') }}"><em>log out</em></a></li>
+        {% else %}
+        <li><a href="{{ url_for('auth.login') }}"><em>log in</em></a></li>
+        {% endif %}
         <li><a href="#"><em>contact</em></a></li>
       </ul>
     </div>
