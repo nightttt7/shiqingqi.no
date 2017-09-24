@@ -27,4 +27,4 @@ class User(UserMixin, db.Model):
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
-# 你需要提供一个 user_loader 回调。这个回调用于从会话中存储的用户 ID 重新加载用户对象。它应该接受一个用户的 unicode ID，并返回相应的用户对象。
+

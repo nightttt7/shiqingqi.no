@@ -39,7 +39,7 @@ style="min-height:100%;position:relative;"
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#" style="font-size: 25px">喵喵的家</a>
+      <a class="navbar-brand" href="{{ url_for('main.index') }}" style="font-size: 25px">喵喵的家</a>
     </div>
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
@@ -63,7 +63,7 @@ style="min-height:100%;position:relative;"
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        {% if current_user.is_authenticated() %}
+        {% if current_user.is_authenticated %}
         <li><a href="{{ url_for('auth.logout') }}"><em>log out</em></a></li>
         {% else %}
         <li><a href="{{ url_for('auth.login') }}"><em>log in</em></a></li>
@@ -76,6 +76,7 @@ style="min-height:100%;position:relative;"
 {% endblock %}
 
 <!-- 以下是content部分 -->
+
 {% block content %}
 {% endblock %}
 

@@ -1,4 +1,3 @@
-# 暂时没有mail和moment功能
 from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
