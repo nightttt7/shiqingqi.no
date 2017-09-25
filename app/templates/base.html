@@ -43,7 +43,7 @@ style="min-height:100%;position:relative;"
     </div>
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li><a href="#">dicts</a></li>
+        <li><a href="{{ url_for('dicts.index') }}">dicts</a></li>
         <li><a href="#">study</a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">share <span class="caret"></span></a>
@@ -64,7 +64,7 @@ style="min-height:100%;position:relative;"
       </ul>
       <ul class="nav navbar-nav navbar-right">
         {% if current_user.is_authenticated %}
-        <li><a href="{{ url_for('auth.logout') }}"><em>log out</em></a></li>
+        <li><a href="{{ url_for('auth.logout') }}"><em> {{ current_user.email }} log out</em></a></li>
         {% else %}
         <li><a href="{{ url_for('auth.login') }}"><em>log in</em></a></li>
         {% endif %}

@@ -1,13 +1,12 @@
 {% extends "base.html" %}
-{% block title %}喵喵的家- welcome{% endblock %}
 {% block content %}
 <div class="container">
     <div class="row">
         <div class="col-sm-6">
           <div class="jumbotron" style="height: 300px;">
             <h1>dicts</h1>
-            <p>在线字典大集合<br>搜索框</p>
-            <p><a href="#" class="btn btn-default">查词</a></p>
+            <p>在线字典<br>大集合</p>
+            <p><a href="{{ url_for('dicts.index') }}" class="btn btn-default">GO!</a></p>
           </div>
         </div>
         <div class="col-sm-6">
