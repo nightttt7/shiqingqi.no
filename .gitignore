@@ -1,9 +1,12 @@
+# temp test
+temptest.py
+
 # pycharm
 /.idea/
-
-
-
 *~
+
+# VScode
+/.vscode/
 
 # temporary files which can be created if a process still has a handle open of a deleted file
 .fuse_hidden*
@@ -16,9 +19,6 @@
 
 # .nfs files are created when an open file is removed but is still being accessed
 .nfs*
-
-
-
 
 # Windows thumbnail cache files
 Thumbs.db
@@ -42,9 +42,6 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
-
-
-
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

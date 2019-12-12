@@ -1,5 +1,5 @@
 from flask import Blueprint
 
-dicts = Blueprint('dicts',  __name__)
+chop = Blueprint('CV', __name__)
 
 from . import views

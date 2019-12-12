@@ -21,7 +21,7 @@
 - homepage
      - blog
      - CV
-     - tools
+     - tool
      - game
           - chips
 - private page
@@ -41,12 +41,12 @@
       |-forms.py         #
       |-views.py         #
     |-__init__.py        #
-    |-email.py           #
-    |-models.py          #
   |-tests/               #
     |-__init__.py        #
     |-test*.py           # 
   |-requirements.txt     #
   |-config.py            #
   |-manage.py            #
+  |-README.md            #
+  |-requirements.txt     #
 ```
