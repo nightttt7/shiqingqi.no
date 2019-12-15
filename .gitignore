@@ -1,8 +1,8 @@
-# temp test
-temptest.py
-
 # database
 *.db
+
+# temp test
+temptest.py
 
 # pycharm
 /.idea/
