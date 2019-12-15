@@ -14,7 +14,8 @@
 | None | 2017/9/26          | 改为使用mysql数据库，工作环境迁移至windows7 |                                                            |
 | None | 2017/9/27-2018/3/9 | 停工                           | 搁置                                                         |
 | None | 2018/3/10          | 修改计划                         | 更改项目名为nightttt7,不再使用网易云笔记作为readme,调整一些网页结构和文件结构的计划,开始缓慢的更新 |
-| c1   | 2019/12/12         | new start                    | change develop evironment to windows10, change structures  |
+| None | 2019/12/12         | new start                    | change develop evironment to windows10, change structures  |
+| None | 2019/12/15         | basic edition               | have index, login, CV and Blog|
 
 # web structure
 
@@ -24,29 +25,8 @@
      - tool
      - game
           - chips
+     - login (logout)
+     - contact
 - private page
      - timesheet
      - keep
-
-# file structure
-
-```
-|-nightttt7
-  |-app/  
-    |-templates/         #
-    |-static/            #
-    |-main/  
-      |-__init__.py      #
-      |-errors.py        #
-      |-forms.py         #
-      |-views.py         #
-    |-__init__.py        #
-  |-tests/               #
-    |-__init__.py        #
-    |-test*.py           # 
-  |-requirements.txt     #
-  |-config.py            #
-  |-manage.py            #
-  |-README.md            #
-  |-requirements.txt     #
-```
