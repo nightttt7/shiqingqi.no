@@ -8,7 +8,6 @@ bootstrap = Bootstrap()
 db = SQLAlchemy()
 
 login_manager = LoginManager()
-login_manager.session_protection = 'strong'
 login_manager.login_view = 'auth.login'
 
 
@@ -26,5 +25,11 @@ def create_app(config_name):
 
     from .auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint, url_prefix='/auth')
+
+    from .Blog import Blog as Blog_blueprint
+    app.register_blueprint(Blog_blueprint, url_prefix='/Blog')
+
+    from .CV import CV as CV_blueprint
+    app.register_blueprint(CV_blueprint, url_prefix='/CV')
 
     return app

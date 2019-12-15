@@ -1,19 +1,20 @@
 {% extends "bootstrap/base.html" %}
 
 {% block html_attribs %}
-lang="zh-CN" style="height:100%;
+lang="en" style="height:100%;
 {% endblock %}
 
 {% block title %}Nightttt7's Blog{% endblock %}
 
-{% block metas %}{{ super() }}
+{% block metas %}
+{{ super() }}
 <meta name="keywords" content="Blog" />
 <meta name="description" content="Nightttt7's Blog" />
 <meta charset="utf-8"/>
 {% endblock %}
 
 {% block styles %}
-<!-- use boostrap cosmo -->
+<!-- use boostrap cosmo from cdn -->
 <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" integrity="sha384-h21C2fcDk/eFsW9sC9h0dhokq5pDinLNklTKoxIZRUn3+hvmgQSffLLQ4G4l2eEr" crossorigin="anonymous">  
 {% endblock %}
 
@@ -66,26 +67,10 @@ style="min-height:100%;position:relative;"
 </nav>
 {% endblock %}
 
-<!-- content -->
-
-{% block content %}
-{% endblock %}
-
-<!-- footer -->
-{% block body %}{{ super() }}
+{% block body %}
+{{ super() }}
 <div style="padding-bottom:50px;"></div>
 <footer style="text-align: center; position:absolute;bottom:0;width:100%;height:50px;">
   <p>Nightttt7's Blog | Email: nightttt7@gmail.com</p>
 </footer>
 {% endblock %}
-
-<!-- scripts -->
-{% block scripts %}{{ super() }}
-  {% block addscripts %}
-  {% endblock %}
-{% endblock %}
-
-<!-- available blocks:
-content
-addscripts
- -->
