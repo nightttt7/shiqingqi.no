@@ -30,6 +30,11 @@ class User(UserMixin, db.Model):
             if self.role is None:
                 self.role = Role.query.filter_by(default=True).first()
 
+    @staticmethod
+    def giveblog(email):
+        User.query.filter_by(email=email).first().role = Role.query.filter_by(name='Bloger').first()
+        db.session.commit()
+
     @property
     def password(self):
         raise AttributeError('no password')

@@ -55,6 +55,10 @@ style="min-height:100%;position:relative;"
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
+        {% block navforadmin %}
+        {% endblock %}
+        {% block navforblog %}
+        {% endblock %}
         {% if current_user.is_authenticated %}
         <li><a href="#"><em>Timesheet</em></a></li>
         <li><a href="#"><em>Keep</em></a></li>

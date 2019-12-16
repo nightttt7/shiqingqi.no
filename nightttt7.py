@@ -5,6 +5,7 @@ from app import create_app, db
 from app.models import User, Role, URL
 
 app = create_app('development')
+# !!! in production environment
 # app = create_app(os.getenv('FLASK_CONFIG'))
 migrate = Migrate(app, db)
 

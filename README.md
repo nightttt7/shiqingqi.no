@@ -20,11 +20,13 @@
 # web structure
 
 - homepage[Nightttt7's Blog]
-     - Blog
      - CV
      - Tool
+          - ...
      - Game
-          - chips
+          - ...
+     - (manage *if is Administrator)
+     - (My Blog *if is Bloger)
      - (Timesheet *if log in)
      - (Keep *if log in)
      - (profile [your email] *if log in)
