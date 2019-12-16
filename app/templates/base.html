@@ -56,7 +56,7 @@ style="min-height:100%;position:relative;"
       </ul>
       <ul class="nav navbar-nav navbar-right">
         {% if current_user.is_authenticated %}
-        <li><a href="{{ url_for('auth.logout') }}"><em> {{ current_user.email }} log out</em></a></li>
+        <li>{{ current_user.email }}<a href="{{ url_for('auth.logout') }}"><em>log out</em></a></li>
         {% else %}
         <li><a href="{{ url_for('auth.login') }}"><em>log in</em></a></li>
         {% endif %}
