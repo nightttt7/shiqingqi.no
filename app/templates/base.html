@@ -39,7 +39,7 @@ style="min-height:100%;position:relative;"
         <li><a href="{{ url_for('Blog.index') }}">Blog</a></li>
         <li><a href="{{ url_for('CV.index') }}">CV</a></li>
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">tool<span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Tool<span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             <li><a href="#">temp</a></li>
             <li><a href="#">temp</a></li>
@@ -47,7 +47,7 @@ style="min-height:100%;position:relative;"
           </ul>
         </li>
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">game<span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Game<span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             <li><a href="#">chips</a></li>
             <li><a href="#">temp</a></li>
@@ -56,11 +56,13 @@ style="min-height:100%;position:relative;"
       </ul>
       <ul class="nav navbar-nav navbar-right">
         {% if current_user.is_authenticated %}
-        <li>{{ current_user.email }}<a href="{{ url_for('auth.logout') }}"><em>log out</em></a></li>
+        <li><a href="#"><em>Timesheet</em></a></li>
+        <li><a href="#"><em>Keep</em></a></li>
+        <li><a href="#"><em>{{ current_user.email }}</em></a></li>
+        <li><a href="{{ url_for('auth.logout') }}"><em>log out</em></a></li>
         {% else %}
         <li><a href="{{ url_for('auth.login') }}"><em>log in</em></a></li>
         {% endif %}
-        <li><a href="#"><em>contact</em></a></li>
       </ul>
     </div>
   </div>

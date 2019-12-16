@@ -19,14 +19,13 @@
 
 # web structure
 
-- homepage
-     - blog
+- homepage[Nightttt7's Blog]
+     - Blog
      - CV
-     - tool
-     - game
+     - Tool
+     - Game
           - chips
-     - login (logout)
-     - contact
-- private page
-     - timesheet
-     - keep
+     - (Timesheet *if log in)
+     - (Keep *if log in)
+     - (profile [your email] *if log in)
+     - login (logout *if log in)

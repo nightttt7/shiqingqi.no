@@ -4,11 +4,12 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config:
     SECRET_KEY = 'key'
+    # the variable name "SECRET_KEY" should not change
     # !!! in production environment
     # SECRET_KEY = os.environ.get('SECRET_KEY')
-    FLASKY_ADMIN = 'nightttt7@gmail.com'
+    FLASK_ADMIN = 'nightttt7@gmail.com'
     # !!! in production environment
-    # FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN')
+    # FLASK_ADMIN = os.environ.get('FLASK_ADMIN')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     @staticmethod
