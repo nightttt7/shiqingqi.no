@@ -20,14 +20,32 @@
 # web structure
 
 - homepage[Nightttt7's Blog]
-     - CV
-     - Tool
-          - ...
-     - Game
-          - ...
-     - (manage *if is Administrator)
-     - (My Blog *if is Bloger)
-     - (Timesheet *if log in)
-     - (Keep *if log in)
-     - (profile [your email] *if log in)
-     - login (logout *if log in)
+     - .CV
+- Tool
+     - ...
+- Game
+     - ...
+- (Timesheet *if log in)
+- (Keep *if log in)
+- (profile [your email] *if log in)
+- login (logout *if log in)
+- (My Blog *if is Bloger)
+- (manage *if is Administrator)
+
+# run development server
+```
+$env:FLASK_APP = "nightttt7.py"
+$env:FLASK_DEBUG=1
+flask run -h 127.0.0.1 -p 5000
+```
+
+# database
+```
+flask shell
+db.drop_all()
+db.create_all()
+db.session.add(u)
+db.session.commit()
+Role.insert_roles()
+User.giveblog('a@b.com')
+```

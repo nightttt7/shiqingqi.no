@@ -47,6 +47,7 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password_hash, password)
 
     # return True if has this permission
+    # parameter see class Permission
     def can(self, perm):
         return self.role is not None and self.role.has_permission(perm)
 

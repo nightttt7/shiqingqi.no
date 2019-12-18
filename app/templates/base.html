@@ -1,13 +1,10 @@
-{% extends "bootstrap/base.html" %}
+{% extends "base0.html" %}
 
-{% block html_attribs %}
-lang="en" style="height:100%;
-{% endblock %}
+{% block html_attribs %}lang="en" style="height:100%;"{% endblock %}
 
 {% block title %}Nightttt7's Blog{% endblock %}
 
-{% block metas %}
-{{ super() }}
+{% block metas %}{{ super() }}
 <meta name="keywords" content="Blog" />
 <meta name="description" content="Nightttt7's Blog" />
 <meta charset="utf-8"/>
@@ -36,8 +33,6 @@ style="min-height:100%;position:relative;"
     </div>
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li><a href="{{ url_for('Blog.index') }}">Blog</a></li>
-        <li><a href="{{ url_for('CV.index') }}">CV</a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Tool<span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
@@ -53,19 +48,24 @@ style="min-height:100%;position:relative;"
             <li><a href="#">temp</a></li>
           </ul>
         </li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        {% block navforadmin %}
-        {% endblock %}
-        {% block navforblog %}
-        {% endblock %}
         {% if current_user.is_authenticated %}
         <li><a href="#"><em>Timesheet</em></a></li>
         <li><a href="#"><em>Keep</em></a></li>
+        {% endif %}
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        {% if current_user.is_authenticated %}
         <li><a href="#"><em>{{ current_user.email }}</em></a></li>
         <li><a href="{{ url_for('auth.logout') }}"><em>log out</em></a></li>
         {% else %}
         <li><a href="{{ url_for('auth.login') }}"><em>log in</em></a></li>
+        {% endif %}
+        {% if current_user.is_administrator() %}
+        <li><a href="#"><em>manage</em></a></li>
+        {% elif current_user.can(1) and not current_user.is_administrator() %}
+        <li><a href="#"><em>my Blog</em></a></li>
+        {% elif current_user.is_authenticated %}
+        <li><a href="#"><em>apply a Blog</em></a></li>
         {% endif %}
       </ul>
     </div>
@@ -73,10 +73,9 @@ style="min-height:100%;position:relative;"
 </nav>
 {% endblock %}
 
-{% block body %}
-{{ super() }}
+{% block footer %}
 <div style="padding-bottom:50px;"></div>
-<footer style="text-align: center; position:absolute;bottom:0;width:100%;height:50px;">
-  <p>Nightttt7's Blog | Email: nightttt7@gmail.com</p>
+<footer style="text-align:center;position:absolute;bottom:0;width:100%;height:50px;">
+  <p>© 2020 nightttt7. Powered by Flask & Bootswatch: Cosmo</p>
 </footer>
 {% endblock %}
