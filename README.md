@@ -16,11 +16,13 @@
 | None | 2018/3/10          | 修改计划                         | 更改项目名为nightttt7,不再使用网易云笔记作为readme,调整一些网页结构和文件结构的计划,开始缓慢的更新 |
 | None | 2019/12/12         | new start                    | change develop evironment to windows10, change structures  |
 | None | 2019/12/15         | basic edition               | have index, login, CV and Blog|
+| None | 2019/12/20         | add post              | / |
 
 # web structure
 
 - homepage[Nightttt7's Blog]
      - .CV
+     - (.Post Blog *if Bloger)
 - Tool
      - ...
 - Game
@@ -29,7 +31,6 @@
 - (Keep *if log in)
 - (profile [your email] *if log in)
 - login (logout *if log in)
-- (My Blog *if is Bloger)
 - (manage *if is Administrator)
 
 # run development server

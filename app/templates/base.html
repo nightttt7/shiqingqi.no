@@ -62,10 +62,6 @@ style="min-height:100%;position:relative;"
         {% endif %}
         {% if current_user.is_administrator() %}
         <li><a href="#"><em>manage</em></a></li>
-        {% elif current_user.can(1) and not current_user.is_administrator() %}
-        <li><a href="#"><em>my Blog</em></a></li>
-        {% elif current_user.is_authenticated %}
-        <li><a href="#"><em>apply a Blog</em></a></li>
         {% endif %}
       </ul>
     </div>

@@ -1,16 +1,29 @@
 {% extends "base.html" %}
+{% import "_macros.html" as macros %}
 {% block content %}
 <div class="container">
-  <div class="row">
-    <div class="col-sm-6">
-      <div class="jumbotron" style="height: 300px;">
-        <h1>Welcome</h1>
-        <h2><a href="{{ url_for('CV.index') }}">Qingqi's CV</a><h2>
-        {% if current_user.is_administrator() %}
-        <h2><a href="{{ url_for('Blog.post') }}">Post Blog</a><h2>
-        {% endif %}
-      </div>
+  <div class="jumbotron">
+    <h1 class="display-3">Welcome</h1>
+    <p class="lead"><a href="{{ url_for('CV.index') }}">nightttt7's CV, he is looking for a job</a></p>
+    <p class="lead">
+    {% if current_user.can(1) %}
+    <a href="{{ url_for('Blog.post') }}">Post Blog</a>
+    {% endif %}
+    </p>
+    <hr class="my-4">
+    <ul class="posts">
+      {% for post in posts %}
+      <li class="post">
+        <div class="post-title">{{ post.title }}</div>
+        <div class="post-author">by {{ post.author.username }}</div>
+        <div class="post-body">{{ post.body }}</div>
+      </li>
+      {% endfor %}
+    </ul>
+    <div class="pagination">
+      {{ macros.pagination_widget(pagination, '.index') }}
     </div>
   </div>
 </div>
+
 {% endblock %}

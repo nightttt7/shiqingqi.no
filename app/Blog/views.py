@@ -1,4 +1,4 @@
-from flask import render_template
+from flask import render_template, redirect, url_for
 from flask_login import current_user
 from . import Blog
 from .forms import PostForm
@@ -14,7 +14,7 @@ def post():
     if current_user.can(Permission.BLOG) and form.validate_on_submit():
         post = Post(title=form.title.data,
                     body=form.body.data,
-                    author_id=current_user._get_current_object())
+                    author=current_user._get_current_object())
         db.session.add(post)
         db.session.commit()
         return redirect(url_for('main.index'))

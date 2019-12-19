@@ -8,6 +8,7 @@ from ..models import Role, User
 
 
 class PostForm(FlaskForm):
-    title = TextAreaField("title", validators=[DataRequired()])
-    body = TextAreaField("What's on your mind?", validators=[DataRequired()])
-    submit = SubmitField('Submit')
+    title = StringField("Title", validators=[DataRequired()])
+    body = TextAreaField("Blog", validators=[DataRequired()],
+                         render_kw={"rows": "15"})
+    submit = SubmitField('Post')
