@@ -37,6 +37,7 @@
 $env:FLASK_APP = "nightttt7.py"
 $env:FLASK_DEBUG=1
 flask run -h 127.0.0.1 -p 5000
+
 ```
 
 # database

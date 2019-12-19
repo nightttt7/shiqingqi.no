@@ -6,6 +6,9 @@
       <div class="jumbotron" style="height: 300px;">
         <h1>Welcome</h1>
         <h2><a href="{{ url_for('CV.index') }}">Qingqi's CV</a><h2>
+        {% if current_user.is_administrator() %}
+        <h2><a href="{{ url_for('Blog.post') }}">Post Blog</a><h2>
+        {% endif %}
       </div>
     </div>
   </div>
