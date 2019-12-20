@@ -11,15 +11,10 @@
     {% endif %}
     </p>
     <hr class="my-4">
-    <ul class="posts">
-      {% for post in posts %}
-      <li class="post">
-        <div class="post-title">{{ post.title }}</div>
-        <div class="post-author">by {{ post.author.username }}</div>
-        <div class="post-body">{{ post.body }}</div>
-      </li>
-      {% endfor %}
-    </ul>
+    {% for post in posts %}
+    <p><a href="{{ url_for('Blog.read', id=post.id) }}">{{ post.title }}</a> [by {{ post.author.username }}]</p>
+    {% endfor %}
+    <hr class="my-4">
     <div class="pagination">
       {{ macros.pagination_widget(pagination, '.index') }}
     </div>

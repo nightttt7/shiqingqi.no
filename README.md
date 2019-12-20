@@ -51,3 +51,9 @@ db.session.commit()
 Role.insert_roles()
 User.giveblog('a@b.com')
 ```
+
+```
+flask db init
+flask db migrate -m "comments"
+flask db upgrade
+```

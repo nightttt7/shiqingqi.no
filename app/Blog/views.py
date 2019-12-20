@@ -19,3 +19,9 @@ def post():
         db.session.commit()
         return redirect(url_for('main.index'))
     return render_template('Blog/post.html',  form=form)
+
+
+@Blog.route('/<int:id>')
+def read(id):
+    post = Post.query.get_or_404(id)
+    return render_template('Blog/Blog.html', post=post)
