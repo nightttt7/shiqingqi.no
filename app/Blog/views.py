@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for
 from flask_login import current_user
 from . import Blog
-from .forms import PostForm
+from .forms import PostForm, DeleteForm
 from .. import db
 from ..models import Permission, Role, User, Post
 from ..decorators import permission_required
@@ -25,3 +25,27 @@ def post():
 def read(id):
     post = Post.query.get_or_404(id)
     return render_template('Blog/Blog.html', post=post)
+
+
+@Blog.route('/edit/<int:id>', methods=['GET', 'POST'])
+@permission_required(Permission.BLOG)
+def edit(id):
+    post = Post.query.get_or_404(id)
+    if current_user != post.author and \
+            not current_user.can(Permission.ADMIN):
+        abort(403)
+    form = PostForm()
+    form_d = DeleteForm()
+    if form.validate_on_submit():
+        post.title = form.title.data
+        post.body = form.body.data
+        db.session.add(post)
+        db.session.commit()
+        return redirect(url_for('Blog.read', id=post.id))
+    if form_d.validate_on_submit():
+        db.session.delete(post)
+        db.session.commit()
+        return redirect(url_for('main.index', id=post.id))
+    form.title.data = post.title
+    form.body.data = post.body
+    return render_template('BLog/edit.html', form=form, form_d=form_d)

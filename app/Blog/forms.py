@@ -9,3 +9,7 @@ class PostForm(FlaskForm):
     body = TextAreaField("Blog", validators=[DataRequired()],
                          render_kw={"rows": "15"})
     submit = SubmitField('Post')
+
+
+class DeleteForm(FlaskForm):
+    submit = SubmitField('Delete')
