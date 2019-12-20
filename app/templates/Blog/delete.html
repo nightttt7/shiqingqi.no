@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content %}
+<div class="container">
+  <h1 class="display-3">{{ post.title }}</h1>
+  <p class="lead"> by {{ post.author.username }}</p>
+  <div class="alert alert-dismissible alert-danger">
+    {{ wtf.quick_form(form_d) }}
+  </div>
+</div>
+</div>
+{% endblock %}

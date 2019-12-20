@@ -7,7 +7,6 @@ from datetime import datetime
 import bleach
 
 
-
 class URL(db.Model):
     __tablename__ = 'urls'
     id = db.Column(db.Integer, primary_key=True)
@@ -158,10 +157,10 @@ class Post(db.Model):
     def on_changed_body(target, value, oldvalue, initiator):
         allowed_tags = ['a', 'abbr', 'acronym', 'b', 'blockquote', 'code',
                         'em', 'i', 'li', 'ol', 'pre', 'strong', 'ul',
-                        'h1', 'h2', 'h3', 'p']
-        target.body_html = bleach.linkify(bleach.clean(
-            markdown(value, output_format='html'),
-            tags=allowed_tags, strip=True))
+                        'h1', 'h2', 'h3', 'p', 'table', 'thead', 'tr', 'th', 'td', 'tbody',
+                        'dl', 'dt', 'dd', ]
+        target.body_html = bleach.linkify(bleach.clean(markdown(value, 
+            extensions=['abbr', 'def_list', 'fenced_code', 'footnotes', 'tables']), tags=allowed_tags))
 
 
 db.event.listen(Post.body, 'set', Post.on_changed_body)
@@ -175,3 +174,6 @@ class Comment(db.Model):
     is_user = db.Column(db.Boolean, default=False)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
+
+    def __repr__(self):
+        return '< name: %r, comment: %r>' % (self.name,self.body)

@@ -5,16 +5,19 @@
 <div class="container">
   <div class="jumbotron">
     <h1 class="display-3">{{ post.title }}</h1>
-    <p class="lead">[by {{ post.author.username }}]</p>
+    <p class="lead"> by {{ post.author.username }}</p>
     {% if current_user == post.author %}
-    <p class="lead"><a href="{{ url_for('Blog.edit', id=post.id) }}">edit</a></p>
+    <p class="lead"><a href="{{ url_for('Blog.edit', id=post.id) }}">[edit]</a></p>
+    {% endif %}
+    {% if current_user.is_administrator() %}
+    <p class="lead"><a href="{{ url_for('Blog.delete', id=post.id) }}">[delete]</a></p>
     {% endif %}
     <hr class="my-4">
     <p>{% if post.body_html %} {{ post.body_html | safe }} {% else %} {{ post.body }} {% endif %}</p>
     <hr class="my-4">
     {% for comment in comments %}
     <p><small>{% if comment.is_user %}Real {% else %}Maybe {% endif %}</small><strong>{{ comment.name }}</strong>:</p>
-    <p>{{ comment.body }}</p>
+    <p>{{ comment.body }} <a href="{{ url_for('Blog.deletecomment', id=post.id, id_c=comment.id) }}">[delete]</a></p>
     {% endfor %}
     <div class="alert alert-dismissible alert-secondary">
       {{ wtf.quick_form(form_c) }}
@@ -22,7 +25,7 @@
     {% if post.comments.count() > 9 %}
     <hr class="my-4">
     <div class="pagination">
-      {{ macros.pagination_widget(pagination, '.index') }}
+      {{ macros.pagination_widget(pagination, 'Blog.read', id=post.id) }}
     </div>
     {% endif %}
   </div>

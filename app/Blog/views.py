@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, request
+from flask import render_template, redirect, url_for, request, abort
 from flask_login import current_user
 from . import Blog
 from .forms import PostForm, DeleteForm, CommentForm
@@ -29,7 +29,7 @@ def read(id):
         is_user = False
         if current_user.is_authenticated:
             if form_c.name.data == current_user.username:
-                is_user=True
+                is_user = True
         comment = Comment(name=form_c.name.data, body=form_c.body.data,
                           is_user=is_user, post=post)
         db.session.add(comment)
@@ -45,7 +45,7 @@ def read(id):
         form_c.name.data = current_user.username
     else:
         form_c.name.data = 'anonymous'
-    return render_template('Blog/read.html', post=post, form_c=form_c, 
+    return render_template('Blog/read.html', post=post, form_c=form_c,
                            comments=comments, pagination=pagination)
 
 
@@ -53,8 +53,7 @@ def read(id):
 @permission_required(Permission.BLOG)
 def edit(id):
     post = Post.query.get_or_404(id)
-    if current_user != post.author and \
-            not current_user.can(Permission.ADMIN):
+    if current_user != post.author:
         abort(403)
     form = PostForm()
     form_d = DeleteForm()
@@ -71,3 +70,27 @@ def edit(id):
     form.title.data = post.title
     form.body.data = post.body
     return render_template('BLog/edit.html', form=form, form_d=form_d)
+
+@Blog.route('/delete/<int:id>', methods=['GET', 'POST'])
+@permission_required(Permission.ADMIN)
+def delete(id):
+    post = Post.query.get_or_404(id)
+    if not current_user.is_administrator():
+        abort(403)
+    form_d = DeleteForm()
+    if form_d.validate_on_submit():
+        db.session.delete(post)
+        for comment in Comment.query.filter_by(post=post):
+            db.session.delete(comment)
+        db.session.commit()
+        return redirect(url_for('main.index', id=post.id))
+    return render_template('BLog/delete.html', form_d=form_d, post=post)
+
+
+@Blog.route('<int:id>/deletecomment/<int:id_c>')
+@permission_required(Permission.ADMIN)
+def deletecomment(id, id_c):
+    comment = Comment.query.get_or_404(id_c)
+    db.session.delete(comment)
+    db.session.commit()
+    return redirect(url_for('Blog.read', id=id))

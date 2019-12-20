@@ -11,7 +11,7 @@
 | None | 2017/9/20-23       | 停工                           | 补充相关知识                                                     |
 | None | 2017/9/24          | 加入login                      | 加入login并修改了其他文件                                            |
 | b1   | 2017/9/25          | 加入dicts                      | 修改了login的错误，上线成功，加入了词典集合dicts，可以进行自定义单词查询                  |
-| None | 2017/9/26          | 改为使用mysql数据库，工作环境迁移至windows7 |                                                            |
+| None | 2017/9/26          | 改为使用mysql数据库，工作环境迁移至windows7 |         /                                                  |
 | None | 2017/9/27-2018/3/9 | 停工                           | 搁置                                                         |
 | None | 2018/3/10          | 修改计划                         | 更改项目名为nightttt7,不再使用网易云笔记作为readme,调整一些网页结构和文件结构的计划,开始缓慢的更新 |
 | None | 2019/12/12         | new start                    | change develop evironment to windows10, change structures  |
@@ -49,6 +49,7 @@ flask shell
 db.drop_all()
 db.create_all()
 db.session.add(u)
+db.session.delete(u)
 db.session.commit()
 Role.insert_roles()
 User.giveblog('a@b.com')
