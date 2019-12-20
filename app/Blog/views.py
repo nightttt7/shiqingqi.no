@@ -1,9 +1,9 @@
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, request
 from flask_login import current_user
 from . import Blog
-from .forms import PostForm, DeleteForm
+from .forms import PostForm, DeleteForm, CommentForm
 from .. import db
-from ..models import Permission, Role, User, Post
+from ..models import Permission, Role, User, Post, Comment
 from ..decorators import permission_required
 
 
@@ -21,10 +21,32 @@ def post():
     return render_template('Blog/post.html',  form=form)
 
 
-@Blog.route('/<int:id>')
+@Blog.route('/<int:id>', methods=['GET', 'POST'])
 def read(id):
     post = Post.query.get_or_404(id)
-    return render_template('Blog/Blog.html', post=post)
+    form_c = CommentForm()
+    if form_c.validate_on_submit():
+        is_user = False
+        if current_user.is_authenticated:
+            if form_c.name.data == current_user.username:
+                is_user=True
+        comment = Comment(name=form_c.name.data, body=form_c.body.data,
+                          is_user=is_user, post=post)
+        db.session.add(comment)
+        db.session.commit()
+        return redirect(url_for('Blog.read', id=post.id, page=-1))
+    page = request.args.get('page', 1, type=int)
+    if page == -1:
+        page = (post.comments.count() - 1) // 8 + 1
+    pagination = post.comments.order_by(Comment.timestamp.asc()).paginate(
+        page, per_page=8, error_out=False)
+    comments = pagination.items
+    if current_user.is_authenticated:
+        form_c.name.data = current_user.username
+    else:
+        form_c.name.data = 'anonymous'
+    return render_template('Blog/read.html', post=post, form_c=form_c, 
+                           comments=comments, pagination=pagination)
 
 
 @Blog.route('/edit/<int:id>', methods=['GET', 'POST'])

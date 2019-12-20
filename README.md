@@ -15,18 +15,19 @@
 | None | 2017/9/27-2018/3/9 | 停工                           | 搁置                                                         |
 | None | 2018/3/10          | 修改计划                         | 更改项目名为nightttt7,不再使用网易云笔记作为readme,调整一些网页结构和文件结构的计划,开始缓慢的更新 |
 | None | 2019/12/12         | new start                    | change develop evironment to windows10, change structures  |
-| None | 2019/12/15         | basic edition               | have index, login, CV and Blog|
-| None | 2019/12/20         | add post              | / |
+| None | 2019/12/15         | basic edition                | have index, login, CV and Blog                             |
+| None | 2019/12/20         | add post                     | /                                                          |
+| None | 2019/12/20         | add comment                  | /                                                          |
 
 # web structure
 
 - homepage[Nightttt7's Blog]
-     - .CV
-     - (.Post Blog *if Bloger)
+    - .CV
+    - (.Post Blog *if Bloger)
 - Tool
-     - ...
+    - ...
 - Game
-     - ...
+    - ...
 - (Timesheet *if log in)
 - (Keep *if log in)
 - (profile [your email] *if log in)
@@ -34,14 +35,15 @@
 - (manage *if is Administrator)
 
 # run development server
+
 ```
 $env:FLASK_APP = "nightttt7.py"
 $env:FLASK_DEBUG=1
 flask run -h 127.0.0.1 -p 5000
-
 ```
 
 # database
+
 ```
 flask shell
 db.drop_all()
