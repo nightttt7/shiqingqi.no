@@ -61,3 +61,9 @@ flask db init
 flask db migrate -m "comments"
 flask db upgrade
 ```
+
+# pip freeze
+
+```
+pip freeze > requirements.txt
+```
