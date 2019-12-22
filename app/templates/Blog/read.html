@@ -17,7 +17,10 @@
     <hr class="my-4">
     {% for comment in comments %}
     <p><small>{% if comment.is_user %}Real {% else %}Maybe {% endif %}</small><strong>{{ comment.name }}</strong>:</p>
-    <p>{{ comment.body }} <a href="{{ url_for('Blog.deletecomment', id=post.id, id_c=comment.id) }}">[delete]</a></p>
+    <p>
+      {{ comment.body }} 
+      {% if current_user.is_administrator() %}<a href="{{ url_for('Blog.deletecomment', id=post.id, id_c=comment.id) }}">[delete]</a>{% endif %}
+    </p>
     {% endfor %}
     <div class="alert alert-dismissible alert-secondary">
       {{ wtf.quick_form(form_c) }}

@@ -18,6 +18,7 @@
 | None | 2019/12/15         | basic edition                | have index, login, CV and Blog                             |
 | None | 2019/12/20         | add post                     | /                                                          |
 | None | 2019/12/20         | add comment                  | /                                                          |
+| None | 2019/12/22         | add register                 | /                                                          |
 
 # web structure
 
