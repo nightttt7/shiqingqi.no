@@ -70,3 +70,9 @@ flask db upgrade
 ```
 pip freeze > requirements.txt
 ```
+
+# Gunicorn
+
+```
+gunicorn -c gunicorn_conf.py nightttt7:nightttt7
+```
