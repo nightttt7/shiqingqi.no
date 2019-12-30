@@ -21,6 +21,7 @@
 | 2019/12/20           | add comment                  | add post comment part                                        |
 | 2019/12/22           | add register                 | add post register part, this web "could in use" now          |
 | 2019/12/23-2020/1/?  | pause                        | next plan: change the front-end, try to use React and Primer |
+| 2019/12/30           | ready to production environment  | next: deploy in a linux server |
 
 # web structure
 
@@ -36,6 +37,14 @@
 - (profile [your email] *if log in)
 - login (logout *if log in)
 - (manage *if is Administrator)
+
+# todo in production environment
+
+- Install a database server such as MySQL 
+- Install a production-ready web server such as Gunicorn 
+- Install a process-monitoring utility such as Supervisor, that immediately restarts the web server if it crashes or after the host is power-cycled.
+- Install and configure an SSL certificate to enable secure HTTP. 
+- (Optional but highly recommended) Install a front-end reverse proxy web server such as nginx or Apache. This server is configured to serve static files directly and forward application requests into the application’s web server, which is listening on a private port on localhost.
 
 # run development server
 
