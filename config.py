@@ -27,7 +27,16 @@ class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI =  \
         'sqlite:///' + os.path.join(basedir, 'data.db')
 
+    @classmethod
+    def init_app(cls, app):
+        Config.init_app(app)
 
+        # log to syslog
+        import logging
+        from logging.handlers import SysLogHandler
+        syslog_handler = SysLogHandler()
+        syslog_handler.setLevel(logging.INFO)
+        app.logger.addHandler(syslog_handler)
 
 
 config = {

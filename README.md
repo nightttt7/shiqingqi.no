@@ -51,6 +51,7 @@ flask run -h 127.0.0.1 -p 5000
 flask shell
 db.drop_all()
 db.create_all()
+u = User(email='xxx', username='xxx', password='xxx')
 db.session.add(u)
 db.session.delete(u)
 db.session.commit()
