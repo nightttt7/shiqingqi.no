@@ -1,12 +1,17 @@
 import os
+from dotenv import load_dotenv
 import click
-from flask_migrate import Migrate
+from flask_migrate import Migrate, upgrade
 from app import create_app, db
 from app.models import User, Role, URL, Post, Comment
 
-app = create_app('development')
-# !!! in production environment
-# app = create_app(os.getenv('FLASK_CONFIG'))
+
+dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
+if os.path.exists(dotenv_path):
+    load_dotenv(dotenv_path)
+
+
+app = create_app(os.getenv('FLASK_CONFIG'))
 migrate = Migrate(app, db)
 
 
@@ -22,3 +27,13 @@ def test():
     import unittest
     tests = unittest.TestLoader().discover('tests')
     unittest.TextTestRunner(verbosity=2).run(tests)
+
+
+@app.cli.command()
+def deploy():
+    """Run deployment tasks."""
+    # migrate database to latest revision
+    upgrade()
+
+    # create or update user roles
+    Role.insert_roles()

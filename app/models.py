@@ -36,7 +36,8 @@ class User(UserMixin, db.Model):
 
     @staticmethod
     def giveblog(email):
-        User.query.filter_by(email=email).first().role = Role.query.filter_by(name='Bloger').first()
+        User.query.filter_by(email=email).first().role = \
+            Role.query.filter_by(name='Bloger').first()
         db.session.commit()
 
     @property
@@ -101,7 +102,8 @@ class Role(db.Model):
         roles = {
             'Keeper': [Permission.KEEP],
             'Bloger': [Permission.KEEP, Permission.BLOG],
-            'Administrator': [Permission.KEEP, Permission.BLOG, Permission.ADMIN],
+            'Administrator': [Permission.KEEP, Permission.BLOG,
+                              Permission.ADMIN],
         }
         default_role = 'Keeper'
         for r in roles:
@@ -157,10 +159,11 @@ class Post(db.Model):
     def on_changed_body(target, value, oldvalue, initiator):
         allowed_tags = ['a', 'abbr', 'acronym', 'b', 'blockquote', 'code',
                         'em', 'i', 'li', 'ol', 'pre', 'strong', 'ul',
-                        'h1', 'h2', 'h3', 'p', 'table', 'thead', 'tr', 'th', 'td', 'tbody',
-                        'dl', 'dt', 'dd', ]
-        target.body_html = bleach.linkify(bleach.clean(markdown(value, 
-            extensions=['abbr', 'def_list', 'fenced_code', 'footnotes', 'tables']), tags=allowed_tags))
+                        'h1', 'h2', 'h3', 'p', 'table', 'thead', 'tr', 'th',
+                        'td', 'tbody', 'dl', 'dt', 'dd', ]
+        target.body_html = bleach.linkify(bleach.clean(markdown(
+            value, extensions=['abbr', 'def_list', 'fenced_code',
+                               'footnotes', 'tables']), tags=allowed_tags))
 
 
 db.event.listen(Post.body, 'set', Post.on_changed_body)
@@ -169,11 +172,11 @@ db.event.listen(Post.body, 'set', Post.on_changed_body)
 class Comment(db.Model):
     __tablename__ = 'comments'
     id = db.Column(db.Integer, primary_key=True)
-    name =  db.Column(db.Text)
+    name = db.Column(db.Text)
     body = db.Column(db.Text)
     is_user = db.Column(db.Boolean, default=False)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
 
     def __repr__(self):
-        return '< name: %r, comment: %r>' % (self.name,self.body)
+        return '< name: %r, comment: %r>' % (self.name, self.body)
