@@ -85,3 +85,8 @@ pip freeze > requirements.txt
 ```
 gunicorn -c gunicorn_conf.py nightttt7:nightttt7
 ```
+
+# about venv
+
+- some problem with the venv in computer L, so just use main python in computer L
+- install new in hand in computer HP, and renew requirements.txt in computer HP
