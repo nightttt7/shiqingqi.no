@@ -1,27 +1,30 @@
-# 工作日志
+# log
 
-| 日期                   | 事项                           | 详细                                                           |
-| -------------------- | ---------------------------- | ------------------------------------------------------------ |
-| 2017/9/14            | 立项                           | 建立github项目；将readme同步到网易云笔记；计划优先作出dicts v1.0                  |
-| 2017/9/15            | 见详细                          | 加入template文件夹，增加模板文件base和index                               |
-| 2017/9/16            | 停工                           | 补充相关知识                                                       |
-| 2017/9/17            | 加入完整结构                       | 加入多个文件夹，更改templates位置，readme文件转移至有道云笔记链接方便修改                 |
-| 2017/9/18            | 加入chop文件夹                    | 加入chop文件夹                                                    |
-| 2017/9/19            | 加入dicts文件夹                   | 加入dicts文件夹，并做了其他细节的修改                                        |
-| 2017/9/20-23         | 停工                           | 补充相关知识                                                       |
-| 2017/9/24            | 加入login                      | 加入login并修改了其他文件                                              |
-| 2017/9/25            | 加入dicts                      | 修改了login的错误，上线成功，加入了词典集合dicts，可以进行自定义单词查询                    |
-| 2017/9/26            | 改为使用mysql数据库，工作环境迁移至windows7 | /                                                            |
-| 2017/9/27-2018/3/9   | 停工                           | 搁置                                                           |
-| 2018/3/10            | 修改计划                         | 更改项目名为nightttt7,不再使用网易云笔记作为readme,调整一些网页结构和文件结构的计划,开始缓慢的更新   |
-| 2018/3/11-2019/12/11 | 停工                           | 开始上班, 修改计划失败, 搁置                                             |
-| 2019/12/12           | new start                    | change develop evironment to windows10, change structures    |
-| 2019/12/15           | basic edition                | have index, login, CV and Blog                               |
-| 2019/12/20           | add post                     | add post related part                                        |
-| 2019/12/20           | add comment                  | add post comment part                                        |
-| 2019/12/22           | add register                 | add post register part, this web "could in use" now          |
-| 2019/12/23-2020/1/?  | pause                        | next plan: change the front-end, try to use React and Primer |
-| 2019/12/30           | ready to production environment  | next: deploy in a linux server |
+| date                   | log                                                                         | detail                                                                                                                                                                    |
+| -------------------- | -------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2017/9/14            | start project                                                              | Set up github project; sync readme to Netease cloud notes; plan to make dicts v1.0 first                                                                              |
+| 2017/9/15            |                                                                            | Add template folder, add template file base and index                                                                                                                 |
+| 2017/9/16            | Shutdown                                                                   | Supplementary knowledge                                                                                                                                               |
+| 2017/9/17            | Add the complete structure                                                 | Add multiple folders, change templates location, transfer readme files to Youdao Cloud Notes link for easy modification                                               |
+| 2017/9/18            | add chop folder                                                            | add chop folder                                                                                                                                                       |
+| 2017/9/19            | add dicts folder                                                           | Added dicts folder and modified other details                                                                                                                         |
+| 2017/9/20-23         | Shutdown                                                                   | Supplementary knowledge                                                                                                                                               |
+| 2017/9/24            | add login function                                                         | Joined login and modified other files                                                                                                                                 |
+| 2017/9/25            | add dicts function                                                         | Corrected the login error, went online successfully, added the dictionary set dicts, and can perform custom word queries                                              |
+| 2017/9/26            | Use mysql database instead and migrate the working environment to windows7 | /                                                                                                                                                                     |
+| 2017/9/27-2018/3/9   | Shutdown                                                                   | Put on hold                                                                                                                                                           |
+| 2018/3/10            | Modify plan                                                                | Change the project name to nightttt7, no longer use Netease Cloud Notes as a readme, adjust some web page structure and file structure plans, and start a slow update |
+| 2018/3/11-2019/12/11 | Shutdown                                                                   | Started work, failed to modify plan, shelved                                                                                                                          |
+| 2019/12/12           | new start                                                                  | change develop evironment to windows10, change structures                                                                                                             |
+| 2019/12/15           | basic edition                                                              | have index, login, CV and Blog                                                                                                                                        |
+| 2019/12/20           | add post                                                                   | add post related part                                                                                                                                                 |
+| 2019/12/20           | add comment                                                                | add post comment part                                                                                                                                                 |
+| 2019/12/22           | add register                                                               | add post register part, this web "could in use" now                                                                                                                   |
+| 2019/12/23-2020/1/?  | pause                                                                      | next plan: change the front-end, try to use React and Primer                                                                                                          |
+| 2019/12/30           | ready to production environment                                            | next: deploy in a linux server                                                                                                                                        |
+
+# environment
+- development: windows10, python3.73
 
 # web structure
 
@@ -85,8 +88,3 @@ pip freeze > requirements.txt
 ```
 gunicorn -c gunicorn_conf.py nightttt7:nightttt7
 ```
-
-# about venv
-
-- some problem with the venv in computer L, so just use main python in computer L
-- install new in hand in computer HP, and renew requirements.txt in computer HP
