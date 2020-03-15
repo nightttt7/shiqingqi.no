@@ -70,7 +70,12 @@ export FLASK_DEBUG=0
 export FLASK_ADMIN=xxx@xxx.com
 export SECRET_KEY='xxxxxxx'
 export DATABASE_URL=mysql://username:password@localhost/database
-flask run -h 127.0.0.1 -p 5000
+```
+
+# Gunicorn
+
+```
+gunicorn -c gunicorn_conf.py nightttt7:nightttt7
 ```
 
 # database
@@ -99,11 +104,3 @@ flask db upgrade
 pip3 freeze > requirements.txt
 pip3 install -r requirements.txt
 ```
-
-# Gunicorn
-
-```
-gunicorn -c gunicorn_conf.py nightttt7:nightttt7
-```
-
-# ...
