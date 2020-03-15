@@ -26,7 +26,7 @@
 
 # environment
 
-- development: windows10, python3.73
+- development: windows10, python3.7
 
 # web structure
 
@@ -69,6 +69,7 @@ export FLASK_CONFIG=production
 export FLASK_DEBUG=0
 export FLASK_ADMIN=xxx@xxx.com
 export SECRET_KEY='xxxxxxx'
+export DATABASE_URL=mysql://username:password@localhost/database
 flask run -h 127.0.0.1 -p 5000
 ```
 
@@ -95,7 +96,8 @@ flask db upgrade
 # pip freeze
 
 ```
-pip freeze > requirements.txt
+pip3 freeze > requirements.txt
+pip3 install -r requirements.txt
 ```
 
 # Gunicorn
