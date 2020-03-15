@@ -69,7 +69,7 @@ def edit(id):
         return redirect(url_for('main.index', id=post.id))
     form.title.data = post.title
     form.body.data = post.body
-    return render_template('BLog/edit.html', form=form, form_d=form_d)
+    return render_template('Blog/edit.html', form=form, form_d=form_d)
 
 @Blog.route('/delete/<int:id>', methods=['GET', 'POST'])
 @permission_required(Permission.ADMIN)
@@ -84,7 +84,7 @@ def delete(id):
             db.session.delete(comment)
         db.session.commit()
         return redirect(url_for('main.index', id=post.id))
-    return render_template('BLog/delete.html', form_d=form_d, post=post)
+    return render_template('Blog/delete.html', form_d=form_d, post=post)
 
 
 @Blog.route('<int:id>/deletecomment/<int:id_c>')
