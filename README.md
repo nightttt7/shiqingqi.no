@@ -61,14 +61,10 @@ u = User(email='xxx', username='xxx', password='xxx')
 db.session.add(u)
 db.session.delete(u)
 db.session.commit()
-Role.insert_roles()
-User.giveblog('a@b.com')
-```
 
-```
-flask db init
-flask db migrate -m "comments"
-flask db upgrade
+Role.insert_roles()
+
+User.giveblog('a@b.com')
 ```
 
 # pip freeze
