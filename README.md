@@ -51,33 +51,6 @@
 - Install and configure an SSL certificate to enable secure HTTP. 
 - (Optional but highly recommended) Install a front-end reverse proxy web server such as nginx or Apache. This server is configured to serve static files directly and forward application requests into the application’s web server, which is listening on a private port on localhost.
 
-# run development server
-
-- environment setting
-    - .env
-    - this file should not exist in production environment
-
-```
-flask run -h 127.0.0.1 -p 5000
-```
-
-# run production server
-
-```
-export FLASK_APP=nightttt7.py
-export FLASK_CONFIG=production
-export FLASK_DEBUG=0
-export FLASK_ADMIN=xxx@xxx.com
-export SECRET_KEY='xxxxxxx'
-export DATABASE_URL=mysql://username:password@localhost/database
-```
-
-# Gunicorn
-
-```
-gunicorn -c gunicorn_conf.py nightttt7:nightttt7
-```
-
 # database
 
 ```
@@ -103,4 +76,31 @@ flask db upgrade
 ```
 pip3 freeze > requirements.txt
 pip3 install -r requirements.txt
+```
+
+# run development server
+
+- environment setting
+    - .env
+    - this file should not exist in production environment
+
+```
+flask run -h 127.0.0.1 -p 5000
+```
+
+# run production server
+
+```
+export FLASK_APP=nightttt7.py
+export FLASK_CONFIG=production
+export FLASK_DEBUG=0
+export FLASK_ADMIN=xxx@xxx.com
+export SECRET_KEY='xxxxxxx'
+export DATABASE_URL=mysql://username:password@localhost/database
+```
+
+# Gunicorn
+
+```
+gunicorn -c gunicorn_conf.py nightttt7:nightttt7
 ```
