@@ -4,7 +4,7 @@
 <div class="container">
   <div class="jumbotron">
     <h1 class="display-3">Welcome</h1>
-    <p class="lead"><a href="{{ url_for('CV.index') }}">nightttt7's CV, he is looking for a job</a></p>
+    <p class="lead"><a href="{{ url_for('CV.index') }}">CV</a></p>
     <p class="lead">
     {% if current_user.can(1) %}
     <a href="{{ url_for('Blog.post') }}">Post Blog</a>

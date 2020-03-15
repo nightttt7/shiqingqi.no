@@ -1,6 +1,6 @@
 # log
 
-| date                   | log                                                                         | detail                                                                                                                                                                    |
+| date                 | log                                                                        | detail                                                                                                                                                                |
 | -------------------- | -------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 2017/9/14            | start project                                                              | Set up github project; sync readme to Netease cloud notes; plan to make dicts v1.0 first                                                                              |
 | 2017/9/15            |                                                                            | Add template folder, add template file base and index                                                                                                                 |
@@ -22,8 +22,10 @@
 | 2019/12/22           | add register                                                               | add post register part, this web "could in use" now                                                                                                                   |
 | 2019/12/23-2020/1/?  | pause                                                                      | next plan: change the front-end, try to use React and Primer                                                                                                          |
 | 2019/12/30           | ready to production environment                                            | next: deploy in a linux server                                                                                                                                        |
+| 2020/3/15            | deploy                                                                     | deploy in linux server. Addon Domain                                                                                                                                  |
 
 # environment
+
 - development: windows10, python3.73
 
 # web structure
@@ -51,9 +53,22 @@
 
 # run development server
 
+- environment setting
+    - .env
+    - this file should not exist in production environment
+
 ```
-$env:FLASK_APP = "nightttt7.py"
-$env:FLASK_DEBUG=1
+flask run -h 127.0.0.1 -p 5000
+```
+
+# run production server
+
+```
+export FLASK_APP=nightttt7.py
+export FLASK_CONFIG=production
+export FLASK_DEBUG=0
+export FLASK_ADMIN=xxx@xxx.com
+export SECRET_KEY='xxxxxxx'
 flask run -h 127.0.0.1 -p 5000
 ```
 
