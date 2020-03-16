@@ -20,7 +20,7 @@
 | 2019/12/20           | add post                                                                   | add post related part                                                                                                                                                 |
 | 2019/12/20           | add comment                                                                | add post comment part                                                                                                                                                 |
 | 2019/12/22           | add register                                                               | add post register part, this web "could in use" now                                                                                                                   |
-| 2019/12/23-2020/1/?  | pause                                                                      | next plan: change the front-end, try to use React and Primer                                                                                                          |
+| 2019/12/23  | pause                                                                      | next plan: change the front-end, try to use React and Primer                                                                                                          |
 | 2019/12/30           | ready to production environment                                            | next: deploy in a linux server                                                                                                                                        |
 | 2020/3/15            | deploy                                                                     | deploy in linux server. Addon Domain                                                                                                                                  |
 
@@ -58,6 +58,11 @@ pip3 install -r requirements.txt
 - Install and configure an SSL certificate to enable secure HTTP. 
 - (Optional but highly recommended) Install a front-end reverse proxy web server such as nginx or Apache. This server is configured to serve static files directly and forward application requests into the application’s web server, which is listening on a private port on localhost.
 
+# before everything
+```
+cd my-project-directory
+```
+
 # database
 
 ```
@@ -77,14 +82,18 @@ User.giveblog('a@b.com')
 # run development server
 
 - environment setting
-    - .env
+    - file .env
     - this file should not exist in production environment
+
+- run
 
 ```
 flask run -h 127.0.0.1 -p 5000
 ```
 
 # run production server
+
+- environment setting
 
 ```
 export FLASK_APP=nightttt7.py
@@ -95,8 +104,28 @@ export SECRET_KEY='xxxxxxx'
 export DATABASE_URL=mysql://username:password@localhost/database
 ```
 
-# Gunicorn
+- run Gunicorn only
 
 ```
-gunicorn -c gunicorn_conf.py nightttt7:app
+gunicorn --bind 0.0.0.0:80 nightttt7:app
+```
+
+- run Gunicorn and Nginx
+
+```
+gunicorn --workers 3 --bind unix:nightttt7.sock -m 007 nightttt7:app &
+```
+
+- file /etc/nginx/sites-available/myproject
+
+```
+server {
+    listen 80;
+    server_name nightttt7.no www.nightttt7.no;
+
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/root/nightttt7/myproject.sock;
+    }
+}
 ```
