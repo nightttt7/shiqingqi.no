@@ -1,4 +1,4 @@
-bind: '0.0.0.0:80'  # 监听地址和端口号
+bind = '0.0.0.0:80'  # 监听地址和端口号
 workers = 3  # 进程数
 worker_class = 'sync'  # 工作模式，可选sync, gevent, eventlet, gthread, tornado等
 threads = 1  # 指定每个进程的线程数，默认为1

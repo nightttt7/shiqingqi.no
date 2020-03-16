@@ -43,6 +43,13 @@
 - login (logout *if log in)
 - (manage *if is Administrator)
 
+# pip freeze
+
+```
+pip3 freeze > requirements.txt
+pip3 install -r requirements.txt
+```
+
 # todo in production environment
 
 - Install a database server such as MySQL 
@@ -57,21 +64,14 @@
 flask shell
 db.drop_all()
 db.create_all()
+Role.insert_roles()
+
 u = User(email='xxx', username='xxx', password='xxx')
 db.session.add(u)
 db.session.delete(u)
 db.session.commit()
 
-Role.insert_roles()
-
 User.giveblog('a@b.com')
-```
-
-# pip freeze
-
-```
-pip3 freeze > requirements.txt
-pip3 install -r requirements.txt
 ```
 
 # run development server
@@ -98,5 +98,5 @@ export DATABASE_URL=mysql://username:password@localhost/database
 # Gunicorn
 
 ```
-gunicorn -c gunicorn_conf.py nightttt7:nightttt7
+gunicorn -c gunicorn_conf.py nightttt7:app
 ```
