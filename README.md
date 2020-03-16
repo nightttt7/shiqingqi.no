@@ -59,6 +59,7 @@ pip3 install -r requirements.txt
 - (Optional but highly recommended) Install a front-end reverse proxy web server such as nginx or Apache. This server is configured to serve static files directly and forward application requests into the application’s web server, which is listening on a private port on localhost.
 
 # before everything
+
 ```
 cd my-project-directory
 ```
@@ -113,19 +114,41 @@ gunicorn --bind 0.0.0.0:80 nightttt7:app
 - run Gunicorn and Nginx
 
 ```
-gunicorn --workers 3 --bind unix:nightttt7.sock -m 007 nightttt7:app &
+gunicorn --workers 3 --bind 127.0.0.1:7777 nightttt7:app &
 ```
 
 - file /etc/nginx/sites-available/myproject
 
 ```
 server {
-    listen 80;
-    server_name nightttt7.no www.nightttt7.no;
+    listen                 443;
+    server_name            nightttt7.no www.nightttt7.no;
+
+    ssl                    on;
+    ssl_certificate        /etc/letsencrypt/live/shiqingqi.no/fullchain.pem;
+    ssl_certificate_key    /etc/letsencrypt/live/shiqingqi.no/privkey.pem;
 
     location / {
-        include proxy_params;
-        proxy_pass http://unix:/root/nightttt7/myproject.sock;
+        include            proxy_params;
+        proxy_pass         http://127.0.0.1:7777/;
     }
 }
+```
+
+- restart nginx
+
+```
+systemctl restart nginx
+```
+
+- about firewall
+
+```
+ufw allow 'Nginx Full'
+```
+
+- renew SSL
+
+```
+certbot renew
 ```
