@@ -1,77 +1,55 @@
 {% extends "base0.html" %}
 
-{% block html_attribs %}lang="en" style="height:100%;"{% endblock %}
-
 {% block title %}Nightttt7's Blog{% endblock %}
 
 {% block metas %}{{ super() }}
 <meta name="keywords" content="Blog" />
 <meta name="description" content="Nightttt7's Blog" />
-<meta charset="utf-8"/>
 {% endblock %}
 
 {% block styles %}
-<!-- use boostrap cosmo from cdn -->
-<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" integrity="sha384-h21C2fcDk/eFsW9sC9h0dhokq5pDinLNklTKoxIZRUn3+hvmgQSffLLQ4G4l2eEr" crossorigin="anonymous">  
+<link href="{{ url_for('static',filename='primer.css') }}" rel="stylesheet" />  
 {% endblock %}
 
-{% block body_attribs %}
-style="min-height:100%;position:relative;"
-{% endblock%}
+{% block bodyclass %}
+
+{% endblock bodyclass %}
 
 {% block navbar %}
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="{{ url_for('main.index') }}" style="font-size: 25px">Nightttt7's Blog</a>
+<div class="Header">
+  <div class="Header-item Header-item--full">
+    <div class="Header-item">
+      <a href="{{ url_for('main.index') }}" class="Header-link">Nightttt7's Blog</a>
     </div>
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Tool<span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="#">temp</a></li>
-            <li><a href="#">temp</a></li>
-            <li><a href="#">temp</a></li>
-          </ul>
-        </li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Game<span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="#">chips</a></li>
-            <li><a href="#">temp</a></li>
-          </ul>
-        </li>
-        {% if current_user.is_authenticated %}
-        <li><a href="#"><em>Timesheet</em></a></li>
-        <li><a href="#"><em>Keep</em></a></li>
-        {% endif %}
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        {% if current_user.is_authenticated %}
-        <li><a href="#"><em>{{ current_user.email }}</em></a></li>
-        <li><a href="{{ url_for('auth.logout') }}"><em>log out</em></a></li>
-        {% else %}
-        <li><a href="{{ url_for('auth.login') }}"><em>log in</em></a></li>
-        {% endif %}
-        {% if current_user.is_administrator() %}
-        <li><a href="#"><em>manage</em></a></li>
-        {% endif %}
-      </ul>
+    <div class="Header-item">
+      <a href="#" class="Header-link">Timesheet</a>
     </div>
   </div>
-</nav>
+  {% if current_user.is_authenticated %}
+  <div class="Header-item">
+    <a href="#" class="Header-link">{{ current_user.email }}</a>
+  </div>
+  {% endif %}
+  {% if current_user.is_administrator() %}
+  <div class="Header-item">
+    <a href="#" class="Header-link">manage</a>
+  </div>
+  {% endif %}
+
+  {% if current_user.is_authenticated %}
+  <div class="Header-item">
+    <a href="{{ url_for('auth.logout') }}" class="Header-link">log out</a>
+  </div>
+  {% else %}
+  <div class="Header-item">
+    <a href="{{ url_for('auth.login') }}" class="Header-link">log in</a>
+  </div>
+  {% endif %}
+</div>
 {% endblock %}
 
 {% block footer %}
-<div style="padding-bottom:50px;"></div>
-<footer style="text-align:center;position:absolute;bottom:0;width:100%;height:50px;">
-  <p>© 2020 nightttt7. Powered by Flask & Bootswatch: Cosmo</p>
-</footer>
+<div class="footer">
+  <p class="text-center"> © 2020 nightttt7. Powered by <a href="https://palletsprojects.com/p/flask/">Flask</a> & <a href="https://primer.style/css/">Primer CSS</a> </p>
+</div>
 {% endblock %}

@@ -20,9 +20,10 @@
 | 2019/12/20           | add post                                                                   | add post related part                                                                                                                                                 |
 | 2019/12/20           | add comment                                                                | add post comment part                                                                                                                                                 |
 | 2019/12/22           | add register                                                               | add post register part, this web "could in use" now                                                                                                                   |
-| 2019/12/23  | pause                                                                      | next plan: change the front-end, try to use React and Primer                                                                                                          |
+| 2019/12/23           | pause                                                                      | next plan: change the front-end, try to use React and Primer                                                                                                          |
 | 2019/12/30           | ready to production environment                                            | next: deploy in a linux server                                                                                                                                        |
 | 2020/3/15            | deploy                                                                     | deploy in linux server. Addon Domain                                                                                                                                  |
+| 2020/7/4             | start to use Primer CSS                                                    | base and markdown                                                                                                                                                     |
 
 # environment
 
@@ -86,8 +87,7 @@ User.giveblog('a@b.com')
     - file .env
     - this file should not exist in production environment
 
-- run
-
+- run (after start venv)
 ```
 flask run -h 127.0.0.1 -p 5000
 ```

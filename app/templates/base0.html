@@ -1,22 +1,21 @@
 {% block doc -%}
 <!DOCTYPE html>
-<html {% block html_attribs %}{% endblock html_attribs %}>
+<html lang="en">
 {%- block html %}
   <head>
-    {%- block head %}
-    <title>{% block title %}{{title|default}}{% endblock title %}</title>
-
+  {%- block head %}
+    <title>
+    {% block title %}{% endblock title %}
+    </title>
     {%- block metas %}
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8"/>
     {%- endblock metas %}
-
     {%- block styles %}
-    <!-- Bootstrap -->
-    <link href="{{bootstrap_find_resource('css/bootstrap.css', cdn='bootstrap')}}" rel="stylesheet">
     {%- endblock styles %}
-    {%- endblock head %}
+  {%- endblock head %}
   </head>
-  <body{% block body_attribs %}{% endblock body_attribs %}>
+  <body {% block bodyclass %}{% endblock bodyclass %}>
     {% block body -%}
     {% block navbar %}
     {%- endblock navbar %}
@@ -25,8 +24,6 @@
     {% block footer -%}
     {%- endblock footer %}
     {% block scripts %}
-    <script src="{{bootstrap_find_resource('jquery.js', cdn='jquery')}}"></script>
-    <script src="{{bootstrap_find_resource('js/bootstrap.js', cdn='bootstrap')}}"></script>
     {%- endblock scripts %}
     {%- endblock body %}
   </body>

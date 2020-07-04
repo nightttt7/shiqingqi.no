@@ -13,7 +13,11 @@
     <p class="lead"><a href="{{ url_for('Blog.delete', id=post.id) }}">[delete]</a></p>
     {% endif %}
     <hr class="my-4">
-    <p>{% if post.body_html %} {{ post.body_html | safe }} {% else %} {{ post.body }} {% endif %}</p>
+
+    <div class="markdown-body">
+    {% if post.body_html %} {{ post.body_html | safe }} {% else %} {{ post.body }} {% endif %}
+    </div>
+
     <hr class="my-4">
     {% for comment in comments %}
     <p><small>{% if comment.is_user %}Real {% else %}Maybe {% endif %}</small><strong>{{ comment.name }}</strong>:</p>
