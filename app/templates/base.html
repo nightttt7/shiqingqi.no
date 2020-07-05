@@ -12,7 +12,6 @@
 {% endblock %}
 
 {% block bodyclass %}
-
 {% endblock bodyclass %}
 
 {% block navbar %}
@@ -22,14 +21,38 @@
       <a href="{{ url_for('main.index') }}" class="Header-link">Nightttt7's Blog</a>
     </div>
     <div class="Header-item">
-      <a href="#" class="Header-link">Timesheet</a>
+      <a href="#" class="Header-link">About</a>
+    </div>
+    <div class="Header-item">
+      <details class="dropdown details-reset details-overlay">
+        <summary class="Header-link">
+          Tools
+          <div class="dropdown-caret"></div>
+        </summary>
+        <details-menu class="dropdown-menu dropdown-menu-se">
+          <a class="dropdown-item" href="#">
+            tool1
+          </a>
+          <a class="dropdown-item" href="#">
+            tool2
+          </a>
+        </details-menu>
+      </details>
     </div>
   </div>
+
+  {% if current_user.can(1) %}
+  <div class="Header-item">
+    <a href="{{ url_for('Blog.post') }}" class="Header-link">post</a>
+  </div>
+  {% endif %}
+
   {% if current_user.is_authenticated %}
   <div class="Header-item">
     <a href="#" class="Header-link">{{ current_user.email }}</a>
   </div>
   {% endif %}
+
   {% if current_user.is_administrator() %}
   <div class="Header-item">
     <a href="#" class="Header-link">manage</a>
@@ -45,11 +68,12 @@
     <a href="{{ url_for('auth.login') }}" class="Header-link">log in</a>
   </div>
   {% endif %}
+
 </div>
 {% endblock %}
 
 {% block footer %}
-<div class="footer">
-  <p class="text-center"> © 2020 nightttt7. Powered by <a href="https://palletsprojects.com/p/flask/">Flask</a> & <a href="https://primer.style/css/">Primer CSS</a> </p>
+<div class="footer mt-3 pt-6 mb-3">
+  <p class="text-center f6"> © 2020 Nightttt7's Blog. Powered by <a href="https://palletsprojects.com/p/flask/">Flask</a> & <a href="https://primer.style/css/">Primer CSS</a> </p>
 </div>
 {% endblock %}

@@ -2,39 +2,60 @@
 {% import "bootstrap/wtf.html" as wtf %}
 {% import "_macros.html" as macros %}
 {% block content %}
-<div class="container">
-  <div class="jumbotron">
-    <h1 class="display-3">{{ post.title }}</h1>
-    <p class="lead"> by {{ post.author.username }}</p>
-    {% if current_user == post.author %}
-    <p class="lead"><a href="{{ url_for('Blog.edit', id=post.id) }}">[edit]</a></p>
-    {% endif %}
-    {% if current_user.is_administrator() %}
-    <p class="lead"><a href="{{ url_for('Blog.delete', id=post.id) }}">[delete]</a></p>
-    {% endif %}
-    <hr class="my-4">
-
-    <div class="markdown-body">
+<div class="container-lg mb-3 pb-6">
+  <div class="mt-6 ml-6 mr-6 mb-6">
+    <div class="d-inline">
+      <div class="d-inline-block mr-2">
+        <h1 class="h1">{{ post.title }}</h1>
+      </div>
+      {% if current_user == post.author %}
+      <div class="d-inline-block mr-2">
+        <a href="{{ url_for('Blog.edit', id=post.id) }}">
+          <svg class="octicon octicon-pencil" viewBox="0 0 16 16" version="1.1" width="20" height="20" aria-hidden="true"><path fill-rule="evenodd" d="M11.013 1.427a1.75 1.75 0 012.474 0l1.086 1.086a1.75 1.75 0 010 2.474l-8.61 8.61c-.21.21-.47.364-.756.445l-3.251.93a.75.75 0 01-.927-.928l.929-3.25a1.75 1.75 0 01.445-.758l8.61-8.61zm1.414 1.06a.25.25 0 00-.354 0L10.811 3.75l1.439 1.44 1.263-1.263a.25.25 0 000-.354l-1.086-1.086zM11.189 6.25L9.75 4.81l-6.286 6.287a.25.25 0 00-.064.108l-.558 1.953 1.953-.558a.249.249 0 00.108-.064l6.286-6.286z"></path></svg>
+        </a>
+      </div>
+      {% endif %}
+      {% if current_user.is_administrator() or current_user == post.author %}
+      <div class="d-inline-block">
+        <a href="{{ url_for('Blog.delete', id=post.id) }}">
+          <svg class="octicon octicon-trashcan" viewBox="0 0 16 16" version="1.1" width="20" height="20" aria-hidden="true"><path fill-rule="evenodd" d="M6.5 1.75a.25.25 0 01.25-.25h2.5a.25.25 0 01.25.25V3h-3V1.75zm4.5 0V3h2.25a.75.75 0 010 1.5H2.75a.75.75 0 010-1.5H5V1.75C5 .784 5.784 0 6.75 0h2.5C10.216 0 11 .784 11 1.75zM4.496 6.675a.75.75 0 10-1.492.15l.66 6.6A1.75 1.75 0 005.405 15h5.19c.9 0 1.652-.681 1.741-1.576l.66-6.6a.75.75 0 00-1.492-.149l-.66 6.6a.25.25 0 01-.249.225h-5.19a.25.25 0 01-.249-.225l-.66-6.6z"></path></svg>
+        </a>
+      </div>
+      {% endif %}
+      <div>
+        <p class="f4">{{ post.author.username }}@{{ post.timestamp.strftime("%Y-%m-%d")}}</p>
+      </div>
+    </div>
+    <div class="markdown-body pt-4 mt-4 pb-2 mb-6">
     {% if post.body_html %} {{ post.body_html | safe }} {% else %} {{ post.body }} {% endif %}
     </div>
-
-    <hr class="my-4">
-    {% for comment in comments %}
-    <p><small>{% if comment.is_user %}Real {% else %}Maybe {% endif %}</small><strong>{{ comment.name }}</strong>:</p>
-    <p>
-      {{ comment.body }} 
-      {% if current_user.is_administrator() %}<a href="{{ url_for('Blog.deletecomment', id=post.id, id_c=comment.id) }}">[delete]</a>{% endif %}
-    </p>
-    {% endfor %}
-    <div class="alert alert-dismissible alert-secondary">
-      {{ wtf.quick_form(form_c) }}
+    <div class="mt-6 pt-2">
+      <h1 class="h3">Comments:</h1>
+      <div class="ml-2 mt-3">
+        {% for comment in comments %}
+        <p>
+          {% if comment.is_user %}Authenticated {% else %}Anonymous {% endif %}<b>{{ comment.name }}</b>:
+          {% if current_user.is_administrator() %}
+          <a href="{{ url_for('Blog.deletecomment', id=post.id, id_c=comment.id) }}">
+            <svg class="octicon octicon-trashcan" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6.5 1.75a.25.25 0 01.25-.25h2.5a.25.25 0 01.25.25V3h-3V1.75zm4.5 0V3h2.25a.75.75 0 010 1.5H2.75a.75.75 0 010-1.5H5V1.75C5 .784 5.784 0 6.75 0h2.5C10.216 0 11 .784 11 1.75zM4.496 6.675a.75.75 0 10-1.492.15l.66 6.6A1.75 1.75 0 005.405 15h5.19c.9 0 1.652-.681 1.741-1.576l.66-6.6a.75.75 0 00-1.492-.149l-.66 6.6a.25.25 0 01-.249.225h-5.19a.25.25 0 01-.249-.225l-.66-6.6z"></path></svg>
+          </a>
+          {% endif %}
+        </p>
+        <p>
+          {{ comment.body }}
+        </p>
+        {% endfor %}
+      </div>
+      {% if post.comments.count() > 8 %}
+      <div class="paginate-container">
+        {{ macros.pagination_widget(pagination, 'Blog.read', id=post.id) }}
+      </div>
+      {% endif %}
+      <div>
+        <h1 class="h3">Add your comments</h1>
+        {{ wtf.quick_form(form_c) }}
+      </div>
     </div>
-    {% if post.comments.count() > 9 %}
-    <hr class="my-4">
-    <div class="pagination">
-      {{ macros.pagination_widget(pagination, 'Blog.read', id=post.id) }}
-    </div>
-    {% endif %}
   </div>
 </div>
 {% endblock %}

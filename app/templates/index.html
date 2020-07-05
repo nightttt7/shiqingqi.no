@@ -1,30 +1,68 @@
 {% extends "base.html" %}
 {% import "_macros.html" as macros %}
 {% block content %}
-<div class="container">
-  <div class="jumbotron">
-    <h1 class="display-3">Welcome</h1>
-    <!-- <p class="lead"><a href="{{ url_for('CV.index') }}">CV</a></p> -->
-    <p class="lead">
-    {% if current_user.can(1) %}
-    <a href="{{ url_for('Blog.post') }}">Post Blog</a>
-    {% endif %}
-    </p>
-    <hr class="my-4">
-    {% for post in posts %}
-    <p>
-      <a href="{{ url_for('Blog.read', id=post.id) }}">{{ post.title }}</a> 
-      by {{ post.author.username }}
-      {% if current_user == post.author %}
-      <a href="{{ url_for('Blog.edit', id=post.id) }}">edit</a>
-      {% endif %}
-    </p>
-    {% endfor %}
-    <hr class="my-4">
-    <div class="pagination">
-      {{ macros.pagination_widget(pagination, '.index') }}
+
+<div class="d-flex flex-rows container-lg mb-3 pb-6">
+  <div class="col-12">
+    <div class="mt-6 ml-6 mr-2">
+      <h1 class="mb-3 h1">Recent posts</h1>
+      <div class="ml-4">
+        {% for post in posts %}
+        <div class="d-inline">
+          <div class="d-inline-block mr-2">
+            <a href="{{ url_for('Blog.read', id=post.id) }}" class="link-gray-dark f2">{{ post.title }}</a>
+          </div>
+          {% if current_user == post.author %}
+          <div class="d-inline-block mr-2">
+            <a href="{{ url_for('Blog.edit', id=post.id) }}">
+              <svg class="octicon octicon-pencil" viewBox="0 0 16 16" version="1.1" width="20" height="20" aria-hidden="true"><path fill-rule="evenodd" d="M11.013 1.427a1.75 1.75 0 012.474 0l1.086 1.086a1.75 1.75 0 010 2.474l-8.61 8.61c-.21.21-.47.364-.756.445l-3.251.93a.75.75 0 01-.927-.928l.929-3.25a1.75 1.75 0 01.445-.758l8.61-8.61zm1.414 1.06a.25.25 0 00-.354 0L10.811 3.75l1.439 1.44 1.263-1.263a.25.25 0 000-.354l-1.086-1.086zM11.189 6.25L9.75 4.81l-6.286 6.287a.25.25 0 00-.064.108l-.558 1.953 1.953-.558a.249.249 0 00.108-.064l6.286-6.286z"></path></svg>
+            </a>
+          </div>
+          {% endif %}
+          {% if current_user.is_administrator() or current_user == post.author %}
+          <div class="d-inline-block">
+            <a href="{{ url_for('Blog.delete', id=post.id) }}">
+              <svg class="octicon octicon-trashcan" viewBox="0 0 16 16" version="1.1" width="20" height="20" aria-hidden="true"><path fill-rule="evenodd" d="M6.5 1.75a.25.25 0 01.25-.25h2.5a.25.25 0 01.25.25V3h-3V1.75zm4.5 0V3h2.25a.75.75 0 010 1.5H2.75a.75.75 0 010-1.5H5V1.75C5 .784 5.784 0 6.75 0h2.5C10.216 0 11 .784 11 1.75zM4.496 6.675a.75.75 0 10-1.492.15l.66 6.6A1.75 1.75 0 005.405 15h5.19c.9 0 1.652-.681 1.741-1.576l.66-6.6a.75.75 0 00-1.492-.149l-.66 6.6a.25.25 0 01-.249.225h-5.19a.25.25 0 01-.249-.225l-.66-6.6z"></path></svg>
+            </a>
+          </div>
+          {% endif %}
+          <div>
+            <p class="f4">{{ post.author.username }}@{{ post.timestamp.strftime("%Y-%m-%d")}}</p>
+          </div>
+        </div>
+        {% endfor %}
+        <nav class="paginate-container">
+          {{ macros.pagination_widget(pagination, '.index') }}
+        </nav>
+      </div>
+    </div>
+  </div>
+  <div class="col-4">
+    <div class="mt-6 ml-2 mr-6">
+      <div class="ml-2 mt-2">
+        <h1 class="mb-3 h2">About</h1>
+        <p class="f4 mb-2">Nightttt7</p>
+        <p class="f4 mb-2 text-bold">Qingqi Shi</p>
+        <p class="f4 mb-2">Resume</p>
+        <p class="f4 mb-2">Timeline</p>
+        <div class="mb-2 f4">
+          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="18" height="18" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 64 64"><path fill="#626262" d="M32 0C14 0 0 14 0 32c0 21 19 30 22 30c2 0 2-1 2-2v-5c-7 2-10-2-11-5c0 0 0-1-2-3c-1-1-5-3-1-3c3 0 5 4 5 4c3 4 7 3 9 2c0-2 2-4 2-4c-8-1-14-4-14-15c0-4 1-7 3-9c0 0-2-4 0-9c0 0 5 0 9 4c3-2 13-2 16 0c4-4 9-4 9-4c2 7 0 9 0 9c2 2 3 5 3 9c0 11-7 14-14 15c1 1 2 3 2 6v8c0 1 0 2 2 2c3 0 22-9 22-30C64 14 50 0 32 0z"/></svg>
+          <a href="https://github.com/nightttt7">Github</a>
+        </div>
+        <div class="mb-2 f4">
+          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="18" height="18" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 1024 1024"><path d="M640 1007V704h64q27 0 45.5-12.5T768 661v-42q0-18-18.5-30.5T704 576h-64V448q0-27 19-45.5t45.5-18.5t45-12.5T768 341v-42q0-18-18.5-30.5T704 256q-106 0-149 43t-43 149v128q-26 0-45 12.5T448 619v42q0 18 19 30.5t45 12.5v320q-104 0-199-40.5t-163.5-109T40.5 711T0 512t40.5-199t109-163.5T313 40.5T512 0t199 40.5t163.5 109t109 163.5t40.5 199q0 177-108.5 314.5T640 1007z" fill="#626262"/></svg>
+          <a href="https://www.facebook.com/nightttt7">Facebook</a>
+        </div>
+        <div class="mb-2 f4">
+          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="18" height="18" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 1025 1024"><path d="M896.428 1024h-768q-53 0-90.5-37.5T.428 896V128q0-53 37.5-90.5t90.5-37.5h768q53 0 90.5 37.5t37.5 90.5v768q0 53-37.5 90.5t-90.5 37.5zm-640-864q0-13-9.5-22.5t-22.5-9.5h-64q-13 0-22.5 9.5t-9.5 22.5v64q0 13 9.5 22.5t22.5 9.5h64q13 0 22.5-9.5t9.5-22.5v-64zm0 192q0-13-9.5-22.5t-22.5-9.5h-64q-13 0-22.5 9.5t-9.5 22.5v512q0 13 9.5 22.5t22.5 9.5h64q13 0 22.5-9.5t9.5-22.5V352zm640 160q0-80-56-136t-136-56q-44 0-96.5 14t-95.5 39v-21q0-13-9.5-22.5t-22.5-9.5h-64q-13 0-22.5 9.5t-9.5 22.5v512q0 13 9.5 22.5t22.5 9.5h64q13 0 22.5-9.5t9.5-22.5V576q0-53 37.5-90.5t90.5-37.5t90.5 37.5t37.5 90.5v288q0 13 9.5 22.5t22.5 9.5h64q13 0 22.5-9.5t9.5-22.5V512z" fill="#626262"/></svg>
+          <a href="https://www.linkedin.com/in/shiqingqi">LinkedIn</a>
+        </div>
+        <div class="mb-2 f4">
+          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="18" height="18" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 20 20"><path d="M14.608 12.172c0 .84.239 1.175.864 1.175c1.393 0 2.28-1.775 2.28-4.727c0-4.512-3.288-6.672-7.393-6.672c-4.223 0-8.064 2.832-8.064 8.184c0 5.112 3.36 7.896 8.52 7.896c1.752 0 2.928-.192 4.727-.792l.386 1.607c-1.776.577-3.674.744-5.137.744c-6.768 0-10.393-3.72-10.393-9.456c0-5.784 4.201-9.72 9.985-9.72c6.024 0 9.215 3.6 9.215 8.016c0 3.744-1.175 6.6-4.871 6.6c-1.681 0-2.784-.672-2.928-2.161c-.432 1.656-1.584 2.161-3.145 2.161c-2.088 0-3.84-1.609-3.84-4.848c0-3.264 1.537-5.28 4.297-5.28c1.464 0 2.376.576 2.782 1.488l.697-1.272h2.016v7.057h.002zm-2.951-3.168c0-1.319-.985-1.872-1.801-1.872c-.888 0-1.871.719-1.871 2.832c0 1.68.744 2.616 1.871 2.616c.792 0 1.801-.504 1.801-1.896v-1.68z" fill="#626262"/></svg>
+          <a href="mailto:nightttt7@gmail.com">Email me</a>
+        </div>
+      </div>
     </div>
   </div>
 </div>
-
 {% endblock %}

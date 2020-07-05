@@ -1,12 +1,14 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% block content %}
-<div class="container">
-  <h1 class="display-3">{{ post.title }}</h1>
-  <p class="lead"> by {{ post.author.username }}</p>
-  <div class="alert alert-dismissible alert-danger">
-    {{ wtf.quick_form(form_d) }}
+<div class="container-lg mb-3 pb-6">
+  <div class="mt-6 ml-6 mr-6 mb-6">
+    <h1 class="h3 Subhead-heading Subhead-heading--danger">Are you sure to delete post</h1>
+    <h1 class="h1">{{ post.title }}</h1>
+    <p class="f4">{{ post.author.username }}@{{ post.timestamp.strftime("%Y-%m-%d")}}</p>
+    <div class="Box Box--danger">
+      {{ wtf.quick_form(form_d) }}
+    </div>
   </div>
-</div>
 </div>
 {% endblock %}

@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% block content %}
-<div class="container">
-  <div class="alert alert-dismissible alert-warning">
+<div class="container-lg mb-3 pb-6">
+  <div class="mt-6 ml-6 mr-6 mb-6">
+    <h1 class="h3">Post a new post</h1>
     {{ wtf.quick_form(form) }}
   </div>
 </div>
