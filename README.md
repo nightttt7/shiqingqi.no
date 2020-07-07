@@ -25,25 +25,11 @@
 | 2020/3/15            | deploy                                                                     | deploy in linux server. Addon Domain                                                                                                                                  |
 | 2020/7/4             | start to use Primer CSS                                                    | base and markdown                                                                                                                                                     |
 | 2020/7/5             | change front-end to Primer CSS                                             | all to Primer CSS                                                                                                                                                     |
+| 2020/7/6             | change and adapt                                                           | change login and reg page, adapt for cellphone                                                                                                                        |
 
 # environment
 
-- development: windows10, python3.7
-
-# web structure
-
-- homepage[Nightttt7's Blog]
-    - .CV
-    - (.Post Blog *if Bloger)
-- Tool
-    - ...
-- Game
-    - ...
-- (Timesheet *if log in)
-- (Keep *if log in)
-- (profile [your email] *if log in)
-- login (logout *if log in)
-- (manage *if is Administrator)
+- development: windows10, python3.7, VSCode
 
 # pip freeze
 
@@ -106,15 +92,24 @@ export SECRET_KEY='xxxxxxx'
 export DATABASE_URL=mysql://username:password@localhost/database
 ```
 
+- git pull
+
+```
+cd nightttt7
+git pull
+```
+
 - run Gunicorn only
 
 ```
+pkill gunicorn
 gunicorn --bind 0.0.0.0:80 nightttt7:app
 ```
 
 - run Gunicorn and Nginx
 
 ```
+pkill gunicorn
 gunicorn --workers 3 --bind 127.0.0.1:7777 nightttt7:app &
 ```
 

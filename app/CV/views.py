@@ -5,5 +5,9 @@ from ..models import URL
 
 @CV.route('/')
 def index():
-    CV_url = URL.query.filter_by(urlname='CV_url').first().url
-    return render_template('CV/index.html', CV_url=CV_url)
+    return render_template('CV/index.html')
+
+
+@CV.route('/timeline')
+def timeline():
+    return render_template('CV/timeline.html')

@@ -21,17 +21,13 @@
       <a href="{{ url_for('main.index') }}" class="Header-link">Nightttt7's Blog</a>
     </div>
     <div class="Header-item">
-      <a href="#" class="Header-link">About</a>
-    </div>
-    <div class="Header-item">
       <details class="dropdown details-reset details-overlay">
         <summary class="Header-link">
           Tools
           <div class="dropdown-caret"></div>
         </summary>
         <details-menu class="dropdown-menu dropdown-menu-se">
-          <a class="dropdown-item" href="#">tool1</a>
-          <a class="dropdown-item" href="#">tool2</a>
+          <a class="dropdown-item" href="#">Timesheet</a>
         </details-menu>
       </details>
     </div>
@@ -70,7 +66,6 @@
       </summary>
       <details-menu class="dropdown-menu dropdown-menu-se">
         <a href="{{ url_for('main.index') }}" class="dropdown-item">Nightttt7's Blog</a>
-        <a href="#" class="dropdown-item">About</a>
         <a class="dropdown-item" href="#">tool1</a>
         <a class="dropdown-item" href="#">tool2</a>
         {% if current_user.can(1) %}
@@ -96,6 +91,8 @@
 
 {% block footer %}
 <div class="footer mt-3 pt-6 mb-3">
-  <p class="text-center f6"> © 2020 Nightttt7's Blog. Powered by <a href="https://palletsprojects.com/p/flask/">Flask</a> & <a href="https://primer.style/css/">Primer CSS</a> </p>
+  <p class="text-center f6">
+    © 2020 Nightttt7's Blog. Powered by <a href="https://palletsprojects.com/p/flask/"  target="_blank">Flask</a> & <a href="https://primer.style/css/"  target="_blank">Primer CSS</a>
+  </p>
 </div>
 {% endblock %}

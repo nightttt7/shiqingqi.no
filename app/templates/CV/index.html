@@ -1,4 +1,68 @@
 {% extends "base.html" %}
 {% block content %}
-<iframe width="100%" height="2167" frameborder="0" src= "{{ CV_url }}"></iframe>
+<div class="container-lg mb-3 pb-6">
+  <div class="mt-6 ml-6 mr-6 mb-6">
+    <h1>Resume | <a href="{{ url_for('CV.timeline') }}">Timeline</a></h1>
+    <div class="markdown-body pt-4 mt-4 pb-2 mb-6">
+      <h3 id="profile">PROFILE</h3>
+      <ul>
+      <li>Qingqi Shi</li>
+      <li>Financial Risk Manager (FRM®)</li>
+      <li>Oslo, Norway</li>
+      <li>Email: nightttt7@gmail.com</li>
+      <li>Programming Skills: Python, R, MATLAB, SQL, Excel-VBA, Web related, Linux</li>
+      </ul>
+      <h3 id="education">EDUCATION</h3>
+      <ul>
+      <li>BI Norwegian Business School  <em>(2018 - 2020)</em>
+      <ul>
+      <li>MSc in Quantitative Finance (<em>average B</em>)</li>
+      <li>Dean’s List for Autumn 2018 and Autumn 2019</li>
+      <li>Master thesis: <em>How bond risk affects risk parity portfolios</em></li>
+      </ul>
+      </li>
+      <li>Shanghai University of Finance and Economics  <em>(2011 - 2015)</em>
+      <ul>
+      <li>BSc in International Business (<em>3.11/4</em>)</li>
+      <li>Bachelor thesis: <em>Research on EU Financial Market Integration</em></li>
+      </ul>
+      </li>
+      </ul>
+      <h3 id="work-experence">WORK EXPERENCE</h3>
+      <ul>
+      <li><strong>Research Assistant (part-time), BI Norwegian Business School,</strong> <em>(Oslo, Norway, May 2019 - Now)</em>
+      <ul>
+      <li>Research assistant for Professor Dagfinn Rime and Assistant Professor Sven Klingler in Department of Finance</li>
+      <li>Time series analysis for foreign exchange</li>
+      <li>Contributed part MATLAB and R codes for related papers</li>
+      <li>Data collection, data analysis and tables generation</li>
+      </ul>
+      </li>
+      <li><strong>Credit Risk Analyst, MSFinance,</strong> <em>(Chongqing, China  Mar 2018 - Jul 2018)</em>
+      <ul>
+      <li>Validated and renewed personal credit scoring model, mainly used R and SQL, achieved automation and visualization, reduced default rate</li>
+      <li>Tracked customers' characteristics</li>
+      <li>Conducted survey on prospects of new projects</li>
+      </ul>
+      </li>
+      <li><strong>Risk Management, TaoMicro Investment,</strong> <em>(Chongqing, China, Jul 2016 - Jul 2017)</em>
+      <ul>
+      <li>Tested and validated algorithmic trading models on futures and stock markets using ExcelVBA</li>
+      <li>Monitored abnormal fluctuation of prices and microeconomic news of futures and stock markets</li>
+      <li>Summarized weekly research reports about futures and stock markets</li>
+      </ul>
+      </li>
+      <li><strong>Bank Teller, Industrial and Commercial Bank of China,</strong> <em>(Shanghai, China, Jul 2015 - May 2016)</em></li>
+      </ul>
+      <h3 id="others">OTHERS</h3>
+      <ul>
+      <li>Projects: Programming projects at <a href="https://github.com/nightttt7/My-projects">github</a>. Include working projects and open source projects with Python, R or Excel-VBA</li>
+      <li>Interest Rate Models (COURSERA)  <em>(Aug 2018 - Oct 2018)</em></li>
+      <li>Machine Learning (COURSERA)  <em>(Dec 2018 - Jan 2019)</em></li>
+      <li>Volunteer of three different music festivals in Shanghai</li>
+      <li>Coach of a Skateboard Summer Camp in Shanghai</li>
+      </ul>
+    </div>
+  </div>
+</div>
 {% endblock %}
