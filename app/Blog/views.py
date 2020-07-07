@@ -73,7 +73,7 @@ def edit(id):
 
 
 @Blog.route('/delete/<int:id>', methods=['GET', 'POST'])
-@permission_required(Permission.ADMIN)
+@permission_required(Permission.BLOG)
 def delete(id):
     post = Post.query.get_or_404(id)
     if (not current_user.is_administrator()) and (current_user != post.author):
