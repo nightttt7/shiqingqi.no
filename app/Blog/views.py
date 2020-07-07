@@ -71,11 +71,12 @@ def edit(id):
     form.body.data = post.body
     return render_template('Blog/edit.html', form=form, form_d=form_d)
 
+
 @Blog.route('/delete/<int:id>', methods=['GET', 'POST'])
 @permission_required(Permission.ADMIN)
 def delete(id):
     post = Post.query.get_or_404(id)
-    if not current_user.is_administrator():
+    if not (current_user.is_administrator() or (current_user != post.author)):
         abort(403)
     form_d = DeleteForm()
     if form_d.validate_on_submit():
