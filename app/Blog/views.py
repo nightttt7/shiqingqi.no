@@ -76,7 +76,7 @@ def edit(id):
 @permission_required(Permission.ADMIN)
 def delete(id):
     post = Post.query.get_or_404(id)
-    if not (current_user.is_administrator() or (current_user != post.author)):
+    if not (current_user.is_administrator() or (current_user == post.author)):
         abort(403)
     form_d = DeleteForm()
     if form_d.validate_on_submit():
