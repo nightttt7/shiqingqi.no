@@ -165,7 +165,8 @@ class Post(db.Model):
         target.body_html = bleach.linkify(bleach.clean(markdown(
             value, extensions=['abbr', 'def_list', 'fenced_code',
                                'footnotes', 'tables']), tags=allowed_tags,
-                               attributes={'img': ['src', 'alt']}))
+                               attributes={'img': ['src', 'alt'],
+                                           'a': ['href', 'target']}))
 
 
 db.event.listen(Post.body, 'set', Post.on_changed_body)
