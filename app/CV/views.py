@@ -1,6 +1,5 @@
-from flask import render_template, url_for
+from flask import render_template
 from . import CV
-from ..models import URL
 
 
 @CV.route('/')

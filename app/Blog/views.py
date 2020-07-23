@@ -18,7 +18,7 @@ def post():
         db.session.add(post)
         db.session.commit()
         return redirect(url_for('main.index'))
-    return render_template('Blog/post.html',  form=form)
+    return render_template('Blog/post.html', form=form)
 
 
 @Blog.route('/<int:id>', methods=['GET', 'POST'])
@@ -63,13 +63,9 @@ def edit(id):
         db.session.add(post)
         db.session.commit()
         return redirect(url_for('Blog.read', id=post.id))
-    if form_d.validate_on_submit():
-        db.session.delete(post)
-        db.session.commit()
-        return redirect(url_for('main.index', id=post.id))
     form.title.data = post.title
     form.body.data = post.body
-    return render_template('Blog/edit.html', form=form, form_d=form_d)
+    return render_template('Blog/edit.html', form=form)
 
 
 @Blog.route('/delete/<int:id>', methods=['GET', 'POST'])

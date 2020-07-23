@@ -28,7 +28,9 @@
           <div class="dropdown-caret"></div>
         </summary>
         <details-menu class="dropdown-menu dropdown-menu-se">
-          <a class="dropdown-item" href="#">Timesheet</a>
+          <a class="dropdown-item" href="{{ url_for('timesheet.index') }}">Timesheet</a>
+          <!-- "Translate" page not for sm and md -->
+          <a class="dropdown-item" href="{{ url_for('translate.index') }}">Translate</a>
         </details-menu>
       </details>
     </div>
@@ -73,7 +75,7 @@
       </summary>
       <details-menu class="dropdown-menu dropdown-menu-sw">
         <a href="{{ url_for('main.index') }}" class="dropdown-item">Qingqi's Blog</a>
-        <a class="dropdown-item" href="#">Timesheet</a>
+        <a class="dropdown-item" href="{{ url_for('timesheet.index') }}">Timesheet</a>
         {% if current_user.can(1) %}
         <a href="{{ url_for('Blog.post') }}" class="dropdown-item">post</a>
         {% endif %}

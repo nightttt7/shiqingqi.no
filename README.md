@@ -68,6 +68,13 @@ db.session.commit()
 User.giveblog('a@b.com')
 ```
 
+# upgrade database
+```
+# flask db init
+# flask db migrate -m "comment"
+flask db upgrade
+```
+
 # run development server
 
 - environment setting
@@ -77,6 +84,11 @@ User.giveblog('a@b.com')
 - run (after start venv)
 ```
 flask run -h 127.0.0.1 -p 5000
+```
+
+- for local access
+```
+flask run -h 0.0.0.0 -p 5000
 ```
 
 # run production server

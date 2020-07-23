@@ -2,7 +2,8 @@ import os
 from dotenv import load_dotenv
 import click
 from app import create_app, db
-from app.models import User, Role, URL, Post, Comment
+from flask_migrate import Migrate, upgrade
+from app.models import User, Role, URL, Post, Comment, Todo
 
 
 dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
@@ -11,12 +12,13 @@ if os.path.exists(dotenv_path):
 
 
 app = create_app(os.getenv('FLASK_CONFIG'))
+migrate = Migrate(app, db)
 
 
 @app.shell_context_processor
 def make_shell_context():
     return dict(db=db, User=User, Role=Role, URL=URL,
-                Post=Post, Comment=Comment)
+                Post=Post, Comment=Comment, Todo=Todo)
 
 
 @app.cli.command()

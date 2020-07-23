@@ -25,6 +25,8 @@ class User(UserMixin, db.Model):
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     password_hash = db.Column(db.String(128))
     posts = db.relationship('Post', backref='author', lazy='dynamic')
+    todos = db.relationship('Todo', backref='author', lazy='dynamic')
+    timelogs = db.relationship('TimeLog', backref='author', lazy='dynamic')
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
@@ -155,6 +157,10 @@ class Post(db.Model):
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     comments = db.relationship('Comment', backref='post', lazy='dynamic')
 
+    def __repr__(self):
+        return '< post title: %r, author: %r >' % (self.title,
+                                                   self.author.username)
+
     @staticmethod
     def on_changed_body(target, value, oldvalue, initiator):
         allowed_tags = ['a', 'abbr', 'acronym', 'b', 'i', 's', 'blockquote',
@@ -183,3 +189,33 @@ class Comment(db.Model):
 
     def __repr__(self):
         return '< name: %r, comment: %r>' % (self.name, self.body)
+
+
+class Todo(db.Model):
+    __tablename__ = 'todos'
+    id = db.Column(db.Integer, primary_key=True)
+    item = db.Column(db.Text)
+    statu = db.Column(db.Boolean, default=False)
+    timestamp_start = db.Column(db.DateTime, index=True,
+                                default=datetime.utcnow)
+    timestamp_end = db.Column(db.DateTime)
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    def __repr__(self):
+        return '< todo item: %r, of: %r>' % (self.item, self.author.username)
+
+
+class TimeLog(db.Model):
+    __tablename__ = 'timelogs'
+
+    id = db.Column(db.Integer, primary_key=True)
+    project = db.Column(db.Text)
+    task = db.Column(db.Text)
+    statu = db.Column(db.Boolean, default=False)
+    timestamp_start = db.Column(db.DateTime, index=True,
+                                default=datetime.utcnow)
+    timestamp_end = db.Column(db.DateTime)
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    def __repr__(self):
+        return '< timelog item: %r>' % (self.item, self.task)

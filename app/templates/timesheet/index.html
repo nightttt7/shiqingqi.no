@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content %}
+<div class="container-lg mb-3 pb-6">
+  <div class="mt-6 ml-6 mr-6 mb-6 d-flex flex-column flex-md-row">
+    <div class="col-12 col-md-6 mr-3">
+      <div class="border border-black-fade bg-blue-light">
+        <div class="ml-4 mr-2">
+          <div class="pr-6 pr-md-12">
+            {{ wtf.quick_form(form) }}
+          </div>
+          <div class="pb-8 mt-4">
+            <p class="h1">Todo List</p>
+            {% for todo in todos %}
+            <div class="d-table">
+              <div class="d-table-cell v-align-bottom">
+                <a href="{{ url_for('timesheet.do', id=todo.id) }}">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill-rule="evenodd" d="M3.75 2A1.75 1.75 0 002 3.75v16.5c0 .966.784 1.75 1.75 1.75h16.5A1.75 1.75 0 0022 20.25V3.75A1.75 1.75 0 0020.25 2H3.75zM3.5 3.75a.25.25 0 01.25-.25h16.5a.25.25 0 01.25.25v16.5a.25.25 0 01-.25.25H3.75a.25.25 0 01-.25-.25V3.75z"></path></svg>
+                </a>
+              </div>
+              <div class="d-table-cell v-align-top tooltipped tooltipped-ne" aria-label="Start: {{ todo.timestamp_start.strftime('%Y-%m-%d') }}">
+                <div class="f3">{{ todo.item }}</div>
+              </div>
+              <div class="d-table-cell v-align-bottom">
+                <a href="{{ url_for('timesheet.delete', id=todo.id) }}">
+                  <svg class="octicon octicon-trashcan" viewBox="0 0 16 16" version="1.1" width="20" height="20" aria-hidden="true"><path fill-rule="evenodd" d="M6.5 1.75a.25.25 0 01.25-.25h2.5a.25.25 0 01.25.25V3h-3V1.75zm4.5 0V3h2.25a.75.75 0 010 1.5H2.75a.75.75 0 010-1.5H5V1.75C5 .784 5.784 0 6.75 0h2.5C10.216 0 11 .784 11 1.75zM4.496 6.675a.75.75 0 10-1.492.15l.66 6.6A1.75 1.75 0 005.405 15h5.19c.9 0 1.652-.681 1.741-1.576l.66-6.6a.75.75 0 00-1.492-.149l-.66 6.6a.25.25 0 01-.249.225h-5.19a.25.25 0 01-.249-.225l-.66-6.6z"></path></svg>
+                </a>
+              </div>
+            </div>
+            {% endfor %}
+            <p class="h2"><a href="#" class="text-green">Archives</a></p>
+            {% for archive in archives %}
+            <div class="d-table">
+              <div class="d-table-cell v-align-bottom">
+                <a href="{{ url_for('timesheet.undo', id=archive.id) }}">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M17.28 9.28a.75.75 0 00-1.06-1.06l-5.97 5.97-2.47-2.47a.75.75 0 00-1.06 1.06l3 3a.75.75 0 001.06 0l6.5-6.5z"></path><path fill-rule="evenodd" d="M3.75 2A1.75 1.75 0 002 3.75v16.5c0 .966.784 1.75 1.75 1.75h16.5A1.75 1.75 0 0022 20.25V3.75A1.75 1.75 0 0020.25 2H3.75zM3.5 3.75a.25.25 0 01.25-.25h16.5a.25.25 0 01.25.25v16.5a.25.25 0 01-.25.25H3.75a.25.25 0 01-.25-.25V3.75z"></path></svg>
+                </a>
+              </div>
+              <div class="d-table-cell v-align-top tooltipped tooltipped-ne" aria-label="Start: {{ archive.timestamp_start.strftime('%Y-%m-%d') }} | Finish: {{ archive.timestamp_end.strftime('%Y-%m-%d') }}">
+                <div class="f3">{{ archive.item }}</div>
+              </div>
+              <div class="d-table-cell v-align-bottom">
+                <a href="{{ url_for('timesheet.delete', id=archive.id) }}">
+                  <svg class="octicon octicon-trashcan" viewBox="0 0 16 16" version="1.1" width="20" height="20" aria-hidden="true"><path fill-rule="evenodd" d="M6.5 1.75a.25.25 0 01.25-.25h2.5a.25.25 0 01.25.25V3h-3V1.75zm4.5 0V3h2.25a.75.75 0 010 1.5H2.75a.75.75 0 010-1.5H5V1.75C5 .784 5.784 0 6.75 0h2.5C10.216 0 11 .784 11 1.75zM4.496 6.675a.75.75 0 10-1.492.15l.66 6.6A1.75 1.75 0 005.405 15h5.19c.9 0 1.652-.681 1.741-1.576l.66-6.6a.75.75 0 00-1.492-.149l-.66 6.6a.25.25 0 01-.249.225h-5.19a.25.25 0 01-.249-.225l-.66-6.6z"></path></svg>
+                </a>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 ml-3">
+      <div class="border">
+        Place for timesheet
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

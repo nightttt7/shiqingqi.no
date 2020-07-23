@@ -1,6 +1,9 @@
 # file not inclued
 notincluded.py
 
+# data migrations
+/migrations/
+
 # environment
 .env
 
