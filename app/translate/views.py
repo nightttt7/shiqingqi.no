@@ -1,6 +1,5 @@
 from flask import render_template
 from . import translate
-from ..models import URL
 
 
 @translate.route('/')

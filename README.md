@@ -71,7 +71,7 @@ User.giveblog('a@b.com')
 # upgrade database
 ```
 # flask db init
-# flask db migrate -m "comment"
+flask db migrate -m "comment"
 flask db upgrade
 ```
 

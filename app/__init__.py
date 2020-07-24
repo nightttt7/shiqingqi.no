@@ -31,7 +31,7 @@ def create_app(config_name):
     app.register_blueprint(Blog_blueprint, url_prefix='/blog')
 
     from .CV import CV as CV_blueprint
-    app.register_blueprint(CV_blueprint, url_prefix='/CV')
+    app.register_blueprint(CV_blueprint, url_prefix='/cv')
 
     from .translate import translate as translate_blueprint
     app.register_blueprint(translate_blueprint, url_prefix='/translate')

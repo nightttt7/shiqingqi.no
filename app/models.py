@@ -7,16 +7,6 @@ from datetime import datetime
 import bleach
 
 
-class URL(db.Model):
-    __tablename__ = 'urls'
-    id = db.Column(db.Integer, primary_key=True)
-    urlname = db.Column(db.String(64), unique=True, index=True)
-    url = db.Column(db.String(256))
-
-    def __repr__(self):
-        return '<urlname: %r url: %r>' % (self.urlname, self.url)
-
-
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
@@ -24,6 +14,7 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(64), unique=True, index=True)
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     password_hash = db.Column(db.String(128))
+    time_statu = db.Column(db.Boolean, default=False)
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     todos = db.relationship('Todo', backref='author', lazy='dynamic')
     timelogs = db.relationship('TimeLog', backref='author', lazy='dynamic')
@@ -211,11 +202,15 @@ class TimeLog(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     project = db.Column(db.Text)
     task = db.Column(db.Text)
-    statu = db.Column(db.Boolean, default=False)
+    # status and code:
+    # planed:0
+    # current:1
+    # finished:2
+    statu_code = db.Column(db.Integer)
     timestamp_start = db.Column(db.DateTime, index=True,
                                 default=datetime.utcnow)
     timestamp_end = db.Column(db.DateTime)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     def __repr__(self):
-        return '< timelog item: %r>' % (self.item, self.task)
+        return '< timelog: %r - %r>' % (self.project, self.task)
