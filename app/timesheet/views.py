@@ -44,7 +44,8 @@ def index():
                            # TODO:
                            timelog_plan=timelog_plan,
                            timelog_current=timelog_current,
-                           timelog_finished=timelog_finished
+                           timelog_finished=timelog_finished,
+                           datetime=datetime
                            )
 
 

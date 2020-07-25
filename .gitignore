@@ -1,6 +1,9 @@
 # file not inclued
 notincluded.py
 
+# back folder
+/.venv_bak/
+
 # data migrations
 /migrations/
 

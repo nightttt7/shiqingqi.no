@@ -210,6 +210,7 @@ class TimeLog(db.Model):
     timestamp_start = db.Column(db.DateTime, index=True,
                                 default=datetime.utcnow)
     timestamp_end = db.Column(db.DateTime)
+    # TODO: timedelta
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     def __repr__(self):
