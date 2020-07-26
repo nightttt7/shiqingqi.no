@@ -3,7 +3,7 @@
 {% block content %}
 <div class="container-lg mb-3 pb-6">
   <div class="mt-6 ml-6 mr-6 mb-6 d-flex flex-column flex-md-row">
-    <div class="col-12 col-md-6 mr-3 mb-6">
+    <div class="col-12 col-md-5 mr-3 mb-6">
       <div class="border border-black-fade bg-blue-light">
         <div class="ml-4 mr-2">
           <div class="pr-6 pr-md-12">
@@ -50,9 +50,9 @@
         </div>
       </div>
     </div>
-    <div class="col-12 col-md-6 ml-md-3 ml-0 mr-3 mb-6">
+    <div class="col-12 col-md-7 ml-md-3 ml-0 mr-3 mb-6">
       <div class="border border-black-fade bg-red-light">
-        <div class="ml-4 mr-2">
+        <div class="ml-4 mr-2 pb-8">
           {% if not time_statu %}
           <div class="pr-6 pr-md-12">
             {{ wtf.quick_form(form_start_timelog) }}
@@ -62,36 +62,94 @@
           <div>
             <p class="h1 pb-2">Current Task</p>
             <div class="d-table pb-4">
-              <div class="d-table-cell v-align-top tooltipped tooltipped-ne" aria-label="Start: {{ timelog_current.timestamp_start.strftime('%H:%M') }}">
-                <div class="f3">{{ timelog_current.project }} | {{ timelog_current.task }}</div>
+              <div class="d-table-cell v-align-top tooltipped tooltipped-ne" aria-label="Start: {{ timelog_current.timestamp_start.strftime('%Y-%m-%d') }}   {{ timelog_current.timestamp_start.strftime('%H:%M') }}">
+                <div class="f3">{{ timelog_current.project }} | {{ timelog_current.task }} | {{ (datetime.utcnow()-timelog_current.timestamp_start).seconds//3600 }}h{{ (datetime.utcnow()-timelog_current.timestamp_start).seconds//60%60 }}m</div>
               </div>
-              <div class="d-table-cell v-align-bottom">
+              <!-- <div class="d-table-cell v-align-bottom">
                 <a href="#">
                   <svg class="octicon octicon-pencil" viewBox="0 0 16 16" version="1.1" width="20" height="20" aria-hidden="true"><path fill-rule="evenodd" d="M11.013 1.427a1.75 1.75 0 012.474 0l1.086 1.086a1.75 1.75 0 010 2.474l-8.61 8.61c-.21.21-.47.364-.756.445l-3.251.93a.75.75 0 01-.927-.928l.929-3.25a1.75 1.75 0 01.445-.758l8.61-8.61zm1.414 1.06a.25.25 0 00-.354 0L10.811 3.75l1.439 1.44 1.263-1.263a.25.25 0 000-.354l-1.086-1.086zM11.189 6.25L9.75 4.81l-6.286 6.287a.25.25 0 00-.064.108l-.558 1.953 1.953-.558a.249.249 0 00.108-.064l6.286-6.286z"></path></svg>
                 </a>
-              </div>
+              </div> -->
             </div>
-            <div class="pl-6 tooltipped tooltipped-ne" aria-label="{{ (datetime.utcnow()-timelog_current.timestamp_start).seconds//3600 }} hour {{ (datetime.utcnow()-timelog_current.timestamp_start).seconds//60%60 }} min">
-              <a href="{{ url_for('timesheet.finish', id=timelog_current.id) }}">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="60" height="60"><path fill-rule="evenodd" d="M20.322.75a10.75 10.75 0 00-7.373 2.926l-1.304 1.23A23.743 23.743 0 0010.103 6.5H5.066a1.75 1.75 0 00-1.5.85l-2.71 4.514a.75.75 0 00.49 1.12l4.571.963c.039.049.082.096.129.14L8.04 15.96l1.872 1.994c.044.047.091.09.14.129l.963 4.572a.75.75 0 001.12.488l4.514-2.709a1.75 1.75 0 00.85-1.5v-5.038a23.741 23.741 0 001.596-1.542l1.228-1.304a10.75 10.75 0 002.925-7.374V2.499A1.75 1.75 0 0021.498.75h-1.177zM16 15.112c-.333.248-.672.487-1.018.718l-3.393 2.262.678 3.223 3.612-2.167a.25.25 0 00.121-.214v-3.822zm-10.092-2.7L8.17 9.017c.23-.346.47-.685.717-1.017H5.066a.25.25 0 00-.214.121l-2.167 3.612 3.223.679zm8.07-7.644a9.25 9.25 0 016.344-2.518h1.177a.25.25 0 01.25.25v1.176a9.25 9.25 0 01-2.517 6.346l-1.228 1.303a22.248 22.248 0 01-3.854 3.257l-3.288 2.192-1.743-1.858a.764.764 0 00-.034-.034l-1.859-1.744 2.193-3.29a22.248 22.248 0 013.255-3.851l1.304-1.23zM17.5 8a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm-11 13c.9-.9.9-2.6 0-3.5-.9-.9-2.6-.9-3.5 0-1.209 1.209-1.445 3.901-1.49 4.743a.232.232 0 00.247.247c.842-.045 3.534-.281 4.743-1.49z"></path></svg>
-              </a>
-            </div>
-          </div>
-          {% endif %}
-          <div class="pb-8 mt-4">
-            <p class="h1">Time Logs</p>
-            {% for timelog in timelog_finished %}
-            <div class="d-table">
-              <div class="d-table-cell v-align-top tooltipped tooltipped-ne" aria-label="{{ timelog.timestamp_start.strftime('%H:%M') }} - {{ timelog.timestamp_end.strftime('%H:%M') }}">
-                <div class="f3">{{ timelog.project }} | {{ timelog.task }} | {{ (timelog.timestamp_end-timelog.timestamp_start).seconds//3600 }} hour {{ (timelog.timestamp_end-timelog.timestamp_start).seconds//60%60 }} min</div>
+            <div class="pl-6 d-table">
+              <div class="d-table-cell tooltipped tooltipped-ne pr-6" aria-label="Finish it!">
+                <a href="{{ url_for('timesheet.finish', id=timelog_current.id) }}" >
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="60" height="60"><path fill-rule="evenodd" d="M20.322.75a10.75 10.75 0 00-7.373 2.926l-1.304 1.23A23.743 23.743 0 0010.103 6.5H5.066a1.75 1.75 0 00-1.5.85l-2.71 4.514a.75.75 0 00.49 1.12l4.571.963c.039.049.082.096.129.14L8.04 15.96l1.872 1.994c.044.047.091.09.14.129l.963 4.572a.75.75 0 001.12.488l4.514-2.709a1.75 1.75 0 00.85-1.5v-5.038a23.741 23.741 0 001.596-1.542l1.228-1.304a10.75 10.75 0 002.925-7.374V2.499A1.75 1.75 0 0021.498.75h-1.177zM16 15.112c-.333.248-.672.487-1.018.718l-3.393 2.262.678 3.223 3.612-2.167a.25.25 0 00.121-.214v-3.822zm-10.092-2.7L8.17 9.017c.23-.346.47-.685.717-1.017H5.066a.25.25 0 00-.214.121l-2.167 3.612 3.223.679zm8.07-7.644a9.25 9.25 0 016.344-2.518h1.177a.25.25 0 01.25.25v1.176a9.25 9.25 0 01-2.517 6.346l-1.228 1.303a22.248 22.248 0 01-3.854 3.257l-3.288 2.192-1.743-1.858a.764.764 0 00-.034-.034l-1.859-1.744 2.193-3.29a22.248 22.248 0 013.255-3.851l1.304-1.23zM17.5 8a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm-11 13c.9-.9.9-2.6 0-3.5-.9-.9-2.6-.9-3.5 0-1.209 1.209-1.445 3.901-1.49 4.743a.232.232 0 00.247.247c.842-.045 3.534-.281 4.743-1.49z"></path></svg>
+                </a>
               </div>
-              <div class="d-table-cell v-align-bottom">
-                <a href="{{ url_for('timesheet.delete_timelog', id=timelog.id) }}">
-                  <svg class="octicon octicon-trashcan" viewBox="0 0 16 16" version="1.1" width="20" height="20" aria-hidden="true"><path fill-rule="evenodd" d="M6.5 1.75a.25.25 0 01.25-.25h2.5a.25.25 0 01.25.25V3h-3V1.75zm4.5 0V3h2.25a.75.75 0 010 1.5H2.75a.75.75 0 010-1.5H5V1.75C5 .784 5.784 0 6.75 0h2.5C10.216 0 11 .784 11 1.75zM4.496 6.675a.75.75 0 10-1.492.15l.66 6.6A1.75 1.75 0 005.405 15h5.19c.9 0 1.652-.681 1.741-1.576l.66-6.6a.75.75 0 00-1.492-.149l-.66 6.6a.25.25 0 01-.249.225h-5.19a.25.25 0 01-.249-.225l-.66-6.6z"></path></svg>
+              <div class="d-table-cell tooltipped tooltipped-ne" aria-label="Refresh the time">
+                <a href="#" >
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="60" height="60"><path d="M3.38 8A9.502 9.502 0 0112 2.5a9.502 9.502 0 019.215 7.182.75.75 0 101.456-.364C21.473 4.539 17.15 1 12 1a10.995 10.995 0 00-9.5 5.452V4.75a.75.75 0 00-1.5 0V8.5a1 1 0 001 1h3.75a.75.75 0 000-1.5H3.38zm-.595 6.318a.75.75 0 00-1.455.364C2.527 19.461 6.85 23 12 23c4.052 0 7.592-2.191 9.5-5.451v1.701a.75.75 0 001.5 0V15.5a1 1 0 00-1-1h-3.75a.75.75 0 000 1.5h2.37A9.502 9.502 0 0112 21.5c-4.446 0-8.181-3.055-9.215-7.182z"></path></svg>
                 </a>
               </div>
             </div>
-            {% endfor %}
+          </div>
+          {% endif %}
+                    <div class="mt-4">
+            <p class="h1"><a href="#" class="text-green">Time Logs</a></p>
+            <table>
+              <tr>
+                <td class="f3 text-bold">Projecrt</td>
+                <td class="f3 text-bold">Task</td>
+                <td class="f3 text-bold">Duration</td>
+              </tr>
+              {% for timelog in timelog_finished %}
+              <tr>
+                <td class="f3">
+                  {{ timelog.project }}
+                </td>
+                <td class="f3">
+                  {{ timelog.task }}
+                </td>
+                <td class="f3 tooltipped tooltipped-ne" aria-label="{{ timelog.timestamp_start.strftime('%Y-%m-%d') }}   {{ timelog.timestamp_start.strftime('%H:%M') }} - {{ timelog.timestamp_end.strftime('%H:%M') }}">
+                  {{ (timelog.timestamp_end-timelog.timestamp_start).seconds//3600 }}h{{ (timelog.timestamp_end-timelog.timestamp_start).seconds//60%60 }}m
+                </td>
+                <td>
+                  <a href="{{ url_for('timesheet.delete_timelog', id=timelog.id) }}">
+                    <svg class="octicon octicon-trashcan" viewBox="0 0 16 16" version="1.1" width="20" height="20" aria-hidden="true"><path fill-rule="evenodd" d="M6.5 1.75a.25.25 0 01.25-.25h2.5a.25.25 0 01.25.25V3h-3V1.75zm4.5 0V3h2.25a.75.75 0 010 1.5H2.75a.75.75 0 010-1.5H5V1.75C5 .784 5.784 0 6.75 0h2.5C10.216 0 11 .784 11 1.75zM4.496 6.675a.75.75 0 10-1.492.15l.66 6.6A1.75 1.75 0 005.405 15h5.19c.9 0 1.652-.681 1.741-1.576l.66-6.6a.75.75 0 00-1.492-.149l-.66 6.6a.25.25 0 01-.249.225h-5.19a.25.25 0 01-.249-.225l-.66-6.6z"></path></svg>
+                  </a>
+                </td>
+              </tr>
+              {% endfor %}
+            </table>
+          </div>
+          {% if timelog_plan %}
+          <div class="mt-4">
+            <p class="h1"><a href="#" class="text-green">Time Plans</a></p>
+            <table>
+              <tr>
+                <td class="f3 text-bold">Projecrt</td>
+                <td class="f3 text-bold">Task</td>
+                <td></td>
+                <td class="f3 text-bold">Period</td>
+              </tr>
+              {% for timelog in timelog_plan %}
+              <tr>
+                <td class="f3">
+                  {{ timelog.project }}
+                </td>
+                <td class="f3">
+                  {{ timelog.task }}
+                </td>
+                <td>
+                  <a href="{{ url_for('timesheet.finish_plan', id=timelog.id) }}" >
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20"><path fill-rule="evenodd" d="M20.322.75a10.75 10.75 0 00-7.373 2.926l-1.304 1.23A23.743 23.743 0 0010.103 6.5H5.066a1.75 1.75 0 00-1.5.85l-2.71 4.514a.75.75 0 00.49 1.12l4.571.963c.039.049.082.096.129.14L8.04 15.96l1.872 1.994c.044.047.091.09.14.129l.963 4.572a.75.75 0 001.12.488l4.514-2.709a1.75 1.75 0 00.85-1.5v-5.038a23.741 23.741 0 001.596-1.542l1.228-1.304a10.75 10.75 0 002.925-7.374V2.499A1.75 1.75 0 0021.498.75h-1.177zM16 15.112c-.333.248-.672.487-1.018.718l-3.393 2.262.678 3.223 3.612-2.167a.25.25 0 00.121-.214v-3.822zm-10.092-2.7L8.17 9.017c.23-.346.47-.685.717-1.017H5.066a.25.25 0 00-.214.121l-2.167 3.612 3.223.679zm8.07-7.644a9.25 9.25 0 016.344-2.518h1.177a.25.25 0 01.25.25v1.176a9.25 9.25 0 01-2.517 6.346l-1.228 1.303a22.248 22.248 0 01-3.854 3.257l-3.288 2.192-1.743-1.858a.764.764 0 00-.034-.034l-1.859-1.744 2.193-3.29a22.248 22.248 0 013.255-3.851l1.304-1.23zM17.5 8a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm-11 13c.9-.9.9-2.6 0-3.5-.9-.9-2.6-.9-3.5 0-1.209 1.209-1.445 3.901-1.49 4.743a.232.232 0 00.247.247c.842-.045 3.534-.281 4.743-1.49z"></path></svg>
+                </td>
+                <td class="f4 tooltipped tooltipped-ne" aria-label="{{ (timelog.timestamp_end-timelog.timestamp_start).seconds//3600 }}h{{ (timelog.timestamp_end-timelog.timestamp_start).seconds//60%60 }}m">
+                  {{ (timelog.timestamp_start).strftime('%m-%d %H:%M') }}~{{ (timelog.timestamp_end).strftime('%H:%M') }}
+                </td>
+                <td>
+                  <a href="{{ url_for('timesheet.delete_timelog', id=timelog.id) }}">
+                    <svg class="octicon octicon-trashcan" viewBox="0 0 16 16" version="1.1" width="20" height="20" aria-hidden="true"><path fill-rule="evenodd" d="M6.5 1.75a.25.25 0 01.25-.25h2.5a.25.25 0 01.25.25V3h-3V1.75zm4.5 0V3h2.25a.75.75 0 010 1.5H2.75a.75.75 0 010-1.5H5V1.75C5 .784 5.784 0 6.75 0h2.5C10.216 0 11 .784 11 1.75zM4.496 6.675a.75.75 0 10-1.492.15l.66 6.6A1.75 1.75 0 005.405 15h5.19c.9 0 1.652-.681 1.741-1.576l.66-6.6a.75.75 0 00-1.492-.149l-.66 6.6a.25.25 0 01-.249.225h-5.19a.25.25 0 01-.249-.225l-.66-6.6z"></path></svg>
+                  </a>
+                </td>
+              </tr>
+              {% endfor %}
+            </table>
+          </div>
+          {% endif %}
+          <div class="pr-6 pr-md-12 mt-4">
+            {{ wtf.quick_form(form_add_timelog) }}
           </div>
         </div>
       </div>

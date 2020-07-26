@@ -104,10 +104,15 @@ export SECRET_KEY='xxxxxxx'
 export DATABASE_URL=mysql://username:password@localhost/database
 ```
 
+- change dir
+
+```
+cd qingqi.no
+```
+
 - git pull
 
 ```
-cd nightttt7
 git pull
 ```
 
@@ -115,14 +120,14 @@ git pull
 
 ```
 pkill gunicorn
-gunicorn --bind 0.0.0.0:80 nightttt7:app
+gunicorn --bind 0.0.0.0:80 qingqi.no:app
 ```
 
 - run Gunicorn and Nginx
 
 ```
 pkill gunicorn
-gunicorn --workers 3 --bind 127.0.0.1:7777 nightttt7:app &
+gunicorn --workers 3 --bind 127.0.0.1:7777 qingqi.no:app &
 ```
 
 - file /etc/nginx/sites-available/myproject

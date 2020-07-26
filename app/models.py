@@ -190,6 +190,7 @@ class Todo(db.Model):
     timestamp_start = db.Column(db.DateTime, index=True,
                                 default=datetime.utcnow)
     timestamp_end = db.Column(db.DateTime)
+    time_delta_seconds = db.Column(db.BigInteger)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     def __repr__(self):
@@ -198,7 +199,6 @@ class Todo(db.Model):
 
 class TimeLog(db.Model):
     __tablename__ = 'timelogs'
-
     id = db.Column(db.Integer, primary_key=True)
     project = db.Column(db.Text)
     task = db.Column(db.Text)
@@ -210,8 +210,9 @@ class TimeLog(db.Model):
     timestamp_start = db.Column(db.DateTime, index=True,
                                 default=datetime.utcnow)
     timestamp_end = db.Column(db.DateTime)
-    # TODO: timedelta
+    time_delta_seconds = db.Column(db.BigInteger)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     def __repr__(self):
-        return '< timelog: %r - %r>' % (self.project, self.task)
+        return ('< timelog: %r - %r, statu: %r>' %
+                (self.project, self.task, self.statu_code))

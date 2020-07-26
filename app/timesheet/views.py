@@ -1,7 +1,8 @@
 from flask import render_template, redirect, url_for
 from flask_login import current_user, login_required
 from . import timesheet
-from .forms import AddTodoForm, StartTimeLogForm
+from .forms import (AddTodoForm, StartTimeLogForm,
+                    AddTimeLogForm)
 from .. import db
 from ..models import Permission, Todo, TimeLog
 from ..decorators import permission_required
@@ -29,19 +30,54 @@ def index():
         db.session.add(current_user)
         db.session.commit()
         return redirect(url_for('timesheet.index'))
+    form_add_timelog = AddTimeLogForm()
+    if current_user.can(Permission.KEEP) and form_add_timelog.validate_on_submit():
+        # FIXME: should use user's local time but not utc
+        timestamp_start = datetime.strptime(
+            form_add_timelog.time_start_added.data, '%Y-%m-%d %H:%M')
+        timestamp_end = datetime.strptime(
+            form_add_timelog.time_end_added.data, '%Y-%m-%d %H:%M')
+        if (datetime.utcnow() < timestamp_end):
+            statu_code = 0
+        else:
+            statu_code = 2
+        timelog = TimeLog(project=form_add_timelog.project_added.data,
+                          task=form_add_timelog.task_added.data,
+                          timestamp_start=timestamp_start,
+                          timestamp_end=timestamp_end,
+                          time_delta_seconds=(timestamp_end-timestamp_start).seconds,
+                          statu_code=statu_code,
+                          author=current_user._get_current_object())
+        db.session.add(timelog)
+        db.session.commit()
+        current_user.time_statu = False
+        db.session.add(current_user)
+        db.session.commit()
+        return redirect(url_for('timesheet.index'))
+    # FIXME: should use user's local time but not utc
+    form_add_timelog.time_start_added.data = (
+        datetime.utcnow().strftime('%Y-%m-%d %H:%M'))
+    form_add_timelog.time_end_added.data = (
+        datetime.utcnow().strftime('%Y-%m-%d %H:%M'))
+
+    # passing variables
     todos = (current_user.todos.filter_by(statu=False).
-             order_by(Todo.timestamp_start).all())
+             order_by(Todo.timestamp_start.desc()).all())
     archives = (current_user.todos.filter_by(statu=True).
-                order_by(Todo.timestamp_start).all())
-    timelog_plan = (current_user.timelogs.filter_by(statu_code=0).all())
-    timelog_current = (current_user.timelogs.filter_by(statu_code=1).first())
-    timelog_finished = (current_user.timelogs.filter_by(statu_code=2).all())
+                order_by(Todo.timestamp_start.desc()).all())
+    timelog_plan = (current_user.timelogs.filter_by(statu_code=0).
+                    order_by(TimeLog.timestamp_start.desc()).limit(8).all())
+    timelog_current = (current_user.timelogs.filter_by(statu_code=1).
+                       first())
+    timelog_finished = (current_user.timelogs.filter_by(statu_code=2).
+                        order_by(TimeLog.timestamp_start.desc()).limit(8).
+                        all())
     return render_template('timesheet/index.html',
                            form_add_todo=form_add_todo,
                            todos=todos, archives=archives,
                            form_start_timelog=form_start_timelog,
+                           form_add_timelog=form_add_timelog,
                            time_statu=current_user.time_statu,
-                           # TODO:
                            timelog_plan=timelog_plan,
                            timelog_current=timelog_current,
                            timelog_finished=timelog_finished,
@@ -56,6 +92,8 @@ def do(id):
     if current_user.can(Permission.KEEP) and (current_user == todo.author):
         todo.statu = True
         todo.timestamp_end = datetime.utcnow()
+        todo.time_delta_seconds = (
+            (todo.timestamp_end-todo.timestamp_start).seconds)
         db.session.add(todo)
         db.session.commit()
     return redirect(url_for('timesheet.index'))
@@ -67,7 +105,6 @@ def undo(id):
     todo = Todo.query.get_or_404(id)
     if current_user.can(Permission.KEEP) and (current_user == todo.author):
         todo.statu = False
-        todo.timestamp_start = datetime.utcnow()
         db.session.add(todo)
         db.session.commit()
     return redirect(url_for('timesheet.index'))
@@ -90,9 +127,22 @@ def finish(id):
     if current_user.can(Permission.KEEP) and (current_user == timelog.author):
         timelog.statu_code = 2
         timelog.timestamp_end = datetime.utcnow()
+        timelog.time_delta_seconds = (
+            (timelog.timestamp_end-timelog.timestamp_start).seconds)
         db.session.add(timelog)
         current_user.time_statu = False
         db.session.add(current_user)
+        db.session.commit()
+    return redirect(url_for('timesheet.index'))
+
+
+@timesheet.route('/finish_plan/<int:id>')
+@login_required
+def finish_plan(id):
+    timelog = TimeLog.query.get_or_404(id)
+    if current_user.can(Permission.KEEP) and (current_user == timelog.author):
+        timelog.statu_code = 2
+        db.session.add(timelog)
         db.session.commit()
     return redirect(url_for('timesheet.index'))
 
