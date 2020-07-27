@@ -120,14 +120,14 @@ git pull
 
 ```
 pkill gunicorn
-gunicorn --bind 0.0.0.0:80 qingqi.no:app
+gunicorn --bind 0.0.0.0:80 nightttt7:app
 ```
 
 - run Gunicorn and Nginx
 
 ```
 pkill gunicorn
-gunicorn --workers 3 --bind 127.0.0.1:7777 qingqi.no:app &
+gunicorn --workers 3 --bind 127.0.0.1:7777 nightttt7:app &
 ```
 
 - file /etc/nginx/sites-available/myproject

@@ -12,6 +12,7 @@ from datetime import datetime
 @timesheet.route('/', methods=['GET', 'POST'])
 @login_required
 def index():
+
     form_add_todo = AddTodoForm()
     if current_user.can(Permission.KEEP) and form_add_todo.validate_on_submit():
         todo = Todo(item=form_add_todo.item.data,
@@ -19,6 +20,8 @@ def index():
         db.session.add(todo)
         db.session.commit()
         return redirect(url_for('timesheet.index'))
+
+    # FIXME: the timestamp_start is not the current time, but of last load
     form_start_timelog = StartTimeLogForm()
     if current_user.can(Permission.KEEP) and form_start_timelog.validate_on_submit():
         timelog = TimeLog(project=form_start_timelog.project.data,
@@ -30,6 +33,8 @@ def index():
         db.session.add(current_user)
         db.session.commit()
         return redirect(url_for('timesheet.index'))
+
+    # TODO: now only support less 24 hours, could fix it, or limit user's input
     form_add_timelog = AddTimeLogForm()
     if current_user.can(Permission.KEEP) and form_add_timelog.validate_on_submit():
         # FIXME: should use user's local time but not utc
@@ -72,6 +77,10 @@ def index():
     timelog_finished = (current_user.timelogs.filter_by(statu_code=2).
                         order_by(TimeLog.timestamp_start.desc()).limit(8).
                         all())
+
+    # for testing
+    # current_user.time_statu = True
+
     return render_template('timesheet/index.html',
                            form_add_todo=form_add_todo,
                            todos=todos, archives=archives,
@@ -143,6 +152,53 @@ def finish_plan(id):
     if current_user.can(Permission.KEEP) and (current_user == timelog.author):
         timelog.statu_code = 2
         db.session.add(timelog)
+        db.session.commit()
+    return redirect(url_for('timesheet.index'))
+
+
+@timesheet.route('/start_finished/<int:id>')
+@login_required
+def start_finished(id):
+    timelog_old = TimeLog.query.get_or_404(id)
+    if current_user.can(Permission.KEEP) and (current_user == timelog_old.author) and (not current_user.time_statu):
+        timelog = TimeLog(project=timelog_old.project,
+                          task=timelog_old.task,
+                          statu_code=1,
+                          author=current_user._get_current_object())
+        db.session.add(timelog)
+        current_user.time_statu = True
+        db.session.add(current_user)
+        db.session.commit()
+    return redirect(url_for('timesheet.index'))
+
+
+@timesheet.route('/start_planed/<int:id>')
+@login_required
+def start_planed(id):
+    timelog = TimeLog.query.get_or_404(id)
+    if current_user.can(Permission.KEEP) and (current_user == timelog.author) and (not current_user.time_statu):
+        timelog.statu_code = 1
+        timelog.timestamp_start = datetime.utcnow()
+        db.session.add(timelog)
+        current_user.time_statu = True
+        db.session.add(current_user)
+        db.session.commit()
+    return redirect(url_for('timesheet.index'))
+
+
+@timesheet.route('/start_planed_keep/<int:id>')
+@login_required
+def start_planed_keep(id):
+    timelog_old = TimeLog.query.get_or_404(id)
+    if current_user.can(Permission.KEEP) and (current_user == timelog_old.author) and (not current_user.time_statu):
+        timelog = TimeLog(project=timelog_old.project,
+                          task=timelog_old.task,
+                          statu_code=1,
+                          timestamp_end=timelog_old.timestamp_end,
+                          author=current_user._get_current_object())
+        db.session.add(timelog)
+        current_user.time_statu = True
+        db.session.add(current_user)
         db.session.commit()
     return redirect(url_for('timesheet.index'))
 
