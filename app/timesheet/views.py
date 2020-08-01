@@ -12,7 +12,6 @@ from datetime import datetime
 @timesheet.route('/', methods=['GET', 'POST'])
 @login_required
 def index():
-
     form_add_todo = AddTodoForm()
     if current_user.can(Permission.KEEP) and form_add_todo.validate_on_submit():
         todo = Todo(item=form_add_todo.item.data,
@@ -37,7 +36,6 @@ def index():
     # TODO: now only support less 24 hours, could fix it, or limit user's input
     form_add_timelog = AddTimeLogForm()
     if current_user.can(Permission.KEEP) and form_add_timelog.validate_on_submit():
-        # FIXME: should use user's local time but not utc
         timestamp_start = datetime.strptime(
             form_add_timelog.time_start_added.data, '%Y-%m-%d %H:%M')
         timestamp_end = datetime.strptime(
@@ -59,11 +57,10 @@ def index():
         db.session.add(current_user)
         db.session.commit()
         return redirect(url_for('timesheet.index'))
-    # FIXME: should use user's local time but not utc
     form_add_timelog.time_start_added.data = (
-        datetime.utcnow().strftime('%Y-%m-%d %H:%M'))
+        datetime.utcnow().strftime('%Y-%m-%d 14:00'))
     form_add_timelog.time_end_added.data = (
-        datetime.utcnow().strftime('%Y-%m-%d %H:%M'))
+        datetime.utcnow().strftime('%Y-%m-%d 18:00'))
 
     # passing variables
     todos = (current_user.todos.filter_by(statu=False).
