@@ -17,6 +17,6 @@ class StartTimeLogForm(FlaskForm):
 class AddTimeLogForm(FlaskForm):
     project_added = StringField('Project:', validators=[DataRequired()])
     task_added = StringField('Task', validators=[DataRequired()])
-    time_start_added = StringField('Start', validators=[DataRequired()])
-    time_end_added = StringField('End', validators=[DataRequired()])
+    time_start_added = StringField('Start (in UTC time)', validators=[DataRequired()])
+    time_end_added = StringField('End (in UTC time)', validators=[DataRequired()])
     submit_added = SubmitField('Add')

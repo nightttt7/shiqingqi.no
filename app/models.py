@@ -210,6 +210,7 @@ class TimeLog(db.Model):
     timestamp_start = db.Column(db.DateTime, index=True,
                                 default=datetime.utcnow)
     timestamp_end = db.Column(db.DateTime)
+    # FIXME: can't greater than one day
     time_delta_seconds = db.Column(db.BigInteger)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 

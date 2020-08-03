@@ -2,8 +2,8 @@
 notincluded.py
 notincluded
 
-# back folder
-/.venv_bak/
+# not in github
+VPSset.md
 
 # data migrations
 /migrations/

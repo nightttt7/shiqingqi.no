@@ -19,7 +19,6 @@ def index():
         db.session.add(todo)
         db.session.commit()
         return redirect(url_for('timesheet.index'))
-
     # FIXME: the timestamp_start is not the current time, but of last load
     form_start_timelog = StartTimeLogForm()
     if current_user.can(Permission.KEEP) and form_start_timelog.validate_on_submit():
@@ -32,8 +31,7 @@ def index():
         db.session.add(current_user)
         db.session.commit()
         return redirect(url_for('timesheet.index'))
-
-    # TODO: now only support less 24 hours, could fix it, or limit user's input
+    # FIXME: the input time will be parsed as UTC time but not local time
     form_add_timelog = AddTimeLogForm()
     if current_user.can(Permission.KEEP) and form_add_timelog.validate_on_submit():
         timestamp_start = datetime.strptime(
@@ -61,7 +59,6 @@ def index():
         datetime.utcnow().strftime('%Y-%m-%d 14:00'))
     form_add_timelog.time_end_added.data = (
         datetime.utcnow().strftime('%Y-%m-%d 18:00'))
-
     # passing variables
     todos = (current_user.todos.filter_by(statu=False).
              order_by(Todo.timestamp_start.desc()).all())
@@ -74,10 +71,8 @@ def index():
     timelog_finished = (current_user.timelogs.filter_by(statu_code=2).
                         order_by(TimeLog.timestamp_start.desc()).limit(8).
                         all())
-
     # for testing
     # current_user.time_statu = True
-
     return render_template('timesheet/index.html',
                            form_add_todo=form_add_todo,
                            todos=todos, archives=archives,
