@@ -1,15 +1,26 @@
 {% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
 {% block content %}
 <div class="container-lg mb-3 pb-6">
-  <div class="mt-6 ml-6 mr-6 mb-6 d-flex flex-column flex-md-row">
-    <div class="col-12 col-md-5 mr-3 mb-6">
+  <div class="mt-md-6 ml-md-6 mr-md-6 mb-6 d-flex flex-column flex-md-row">
+    <div class="col-12 col-md-5 mr-3 mb-md-6">
       <div class="border border-black-fade bg-blue-light">
-        <div class="ml-4 mr-2">
-          <div class="pr-6 pr-md-12">
-            {{ wtf.quick_form(form_add_todo) }}
-          </div>
-          <div class="pb-8 mt-4">
+        <div class="ml-4 mr-2 mt-3 mb-8">
+          <form method="post">
+            <fieldset>
+              <legend hidden>Add todo</legend>
+              {{ form_add_todo.hidden_tag() }}
+              <div>
+                <div>
+                  {{ form_add_todo.todo_item.label() }}
+                </div>
+                <div class="mb-3 mr-6">
+                  {{ form_add_todo.todo_item(class="form-control input-block") }}
+                </div>
+              </div>
+              {{ form_add_todo.submit_todo(class="btn") }}
+            </fieldset>
+          </form>
+          <div class="mt-4">
             {% if todos %}
             <p class="h1">Todo List</p>
             {% for todo in todos %}
@@ -58,11 +69,32 @@
     </div>
     <div class="col-12 col-md-7 ml-md-3 ml-0 mr-3 mb-6">
       <div class="border border-black-fade bg-red-light">
-        <div class="ml-4 mr-2 pb-8">
+        <div class="ml-4 mr-2 mt-3 mb-8">
           {% if not time_statu %}
-          <div class="pr-6 pr-md-12">
-            {{ wtf.quick_form(form_start_timelog) }}
-          </div>
+          <form method="post">
+            <fieldset>
+              <legend hidden>Start timelog</legend>
+              {{ form_start_timelog.hidden_tag() }}
+              <div>
+                <div>
+                  {{ form_start_timelog.project_start.label() }}
+                </div>
+                <div class="mb-3 mr-6">
+                  {{ form_start_timelog.project_start(class="form-control", size="22") }}
+                </div>
+              </div>
+              <div>
+                <div>
+                  {{ form_start_timelog.task_start.label() }}
+                </div>
+                <div class="mb-3 mr-6">
+                  {{ form_start_timelog.task_start(class="form-control", size="22") }}
+                </div>
+              </div>
+              {{ form_start_timelog.time_start_start(type="hidden") }}
+              {{ form_start_timelog.submit_start(class="btn") }}
+            </fieldset>
+          </form>
           {% endif %}
           {% if time_statu %}
           <div>
@@ -207,9 +239,46 @@
             </table>
           </div>
           {% endif %}
-          <div class="pr-6 pr-md-12 mt-4">
-            {{ wtf.quick_form(form_add_timelog) }}
-          </div>
+          <form class="mt-3" method="post">
+            <fieldset>
+              <legend hidden>Add timelog</legend>
+              {{ form_add_timelog.hidden_tag() }}
+              <div>
+                <div>
+                  {{ form_add_timelog.project_add.label() }}
+                </div>
+                <div class="mb-3 mr-6">
+                  {{ form_add_timelog.project_add(class="form-control", size="22") }}
+                </div>
+              </div>
+              <div>
+                <div>
+                  {{ form_add_timelog.task_add.label() }}
+                </div>
+                <div class="mb-3 mr-6">
+                  {{ form_add_timelog.task_add(class="form-control", size="22") }}
+                </div>
+              </div>
+              <div>
+                <div>
+                  {{ form_add_timelog.time_start_add.label() }}
+                </div>
+                <div class="mb-3 mr-6">
+                  {{ form_add_timelog.time_start_add(class="form-control", size="18") }}
+                </div>
+              </div>
+              <div>
+                <div>
+                  {{ form_add_timelog.time_end_add.label() }}
+                </div>
+                <div class="mb-3 mr-6">
+                  {{ form_add_timelog.time_end_add(class="form-control", size="18") }}
+                </div>
+              </div>
+              {{ form_add_timelog.utc_offset(type="hidden") }}
+              {{ form_add_timelog.submit_add(class="btn") }}
+            </fieldset>
+          </form>
         </div>
       </div>
     </div>
@@ -220,6 +289,7 @@
 
 {% block scripts %}
 {{ super() }}
+
 {% if time_statu %}
 <script>
 function pad(n, width, z) {
@@ -227,13 +297,40 @@ function pad(n, width, z) {
   n = n + '';
   return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
 }
-function refresh () {
+
+function refreshDuration () {
   start =  moment.utc("{{ timelog_current.timestamp_start.strftime('%Y-%m-%d %H:%M:%S') }}", "Y-MM-DD HH:mm:ss");
   fromnow = moment.duration(moment().diff(start));
   document.getElementById("fromnow").innerHTML = pad(Math.floor(fromnow.asHours()), 2).toString()+":"+pad(fromnow.minutes(), 2).toString()+":"+pad(fromnow.seconds(), 2).toString();
-  setTimeout(refresh, 1000);
+  setTimeout(refreshDuration, 1000);
 }
-refresh ()
+
+refreshDuration ()
 </script>
 {% endif %}
+
+{% if not time_statu %}
+<script>
+  function refreshStartTime () {
+    document.getElementById("time_start_start").value = moment.utc().format("Y-MM-DD HH:mm:ss")
+    setTimeout(refreshStartTime, 30000);
+  }
+
+  refreshStartTime ()
+  </script>
+{% endif %}
+
+<script>
+function setDefaultTime () {
+  document.getElementById("time_start_add").value = moment().format("Y-MM-DD HH:mm");
+  document.getElementById("time_end_add").value = moment().format("Y-MM-DD HH:mm");
+}
+
+function setUtcOffset () {
+  document.getElementById("utc_offset").value = moment().utcOffset();
+}
+
+setDefaultTime ()
+setUtcOffset ()
+</script>
 {% endblock %}

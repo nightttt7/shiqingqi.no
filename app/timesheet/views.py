@@ -6,7 +6,7 @@ from .forms import (AddTodoForm, StartTimeLogForm,
 from .. import db
 from ..models import Permission, Todo, TimeLog
 from ..decorators import permission_required
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 @timesheet.route('/', methods=['GET', 'POST'])
@@ -14,16 +14,19 @@ from datetime import datetime
 def index():
     form_add_todo = AddTodoForm()
     if current_user.can(Permission.KEEP) and form_add_todo.validate_on_submit():
-        todo = Todo(item=form_add_todo.item.data,
+        todo = Todo(item=form_add_todo.todo_item.data,
                     author=current_user._get_current_object())
         db.session.add(todo)
         db.session.commit()
         return redirect(url_for('timesheet.index'))
-    # FIXME: the timestamp_start is not the current time, but of last load
     form_start_timelog = StartTimeLogForm()
     if current_user.can(Permission.KEEP) and form_start_timelog.validate_on_submit():
-        timelog = TimeLog(project=form_start_timelog.project.data,
-                          task=form_start_timelog.task.data,
+        time_start_start = (
+            datetime.strptime(form_start_timelog.time_start_start.data,
+                              '%Y-%m-%d %H:%M:%S'))
+        timelog = TimeLog(project=form_start_timelog.project_start.data,
+                          task=form_start_timelog.task_start.data,
+                          timestamp_start=time_start_start,
                           statu_code=1,
                           author=current_user._get_current_object())
         db.session.add(timelog)
@@ -31,19 +34,21 @@ def index():
         db.session.add(current_user)
         db.session.commit()
         return redirect(url_for('timesheet.index'))
-    # FIXME: the input time will be parsed as UTC time but not local time
     form_add_timelog = AddTimeLogForm()
     if current_user.can(Permission.KEEP) and form_add_timelog.validate_on_submit():
-        timestamp_start = datetime.strptime(
-            form_add_timelog.time_start_added.data, '%Y-%m-%d %H:%M')
-        timestamp_end = datetime.strptime(
-            form_add_timelog.time_end_added.data, '%Y-%m-%d %H:%M')
+        utc_offset = int(form_add_timelog.utc_offset.data)
+        timestamp_start = (datetime.strptime(
+            form_add_timelog.time_start_add.data, '%Y-%m-%d %H:%M') -
+            timedelta(minutes=utc_offset))
+        timestamp_end = (datetime.strptime(
+            form_add_timelog.time_end_add.data, '%Y-%m-%d %H:%M') -
+            timedelta(minutes=utc_offset))
         if (datetime.utcnow() < timestamp_end):
             statu_code = 0
         else:
             statu_code = 2
-        timelog = TimeLog(project=form_add_timelog.project_added.data,
-                          task=form_add_timelog.task_added.data,
+        timelog = TimeLog(project=form_add_timelog.project_add.data,
+                          task=form_add_timelog.task_add.data,
                           timestamp_start=timestamp_start,
                           timestamp_end=timestamp_end,
                           time_delta_seconds=(timestamp_end-timestamp_start).seconds,
@@ -55,11 +60,6 @@ def index():
         db.session.add(current_user)
         db.session.commit()
         return redirect(url_for('timesheet.index'))
-    form_add_timelog.time_start_added.data = (
-        datetime.utcnow().strftime('%Y-%m-%d 14:00'))
-    form_add_timelog.time_end_added.data = (
-        datetime.utcnow().strftime('%Y-%m-%d 18:00'))
-    # passing variables
     todos = (current_user.todos.filter_by(statu=False).
              order_by(Todo.timestamp_start.desc()).all())
     archives = (current_user.todos.filter_by(statu=True).

@@ -26,6 +26,7 @@
 | 2020/7/4             | start to use Primer CSS                                                    | base and markdown                                                                                                                                                     |
 | 2020/7/5             | change front-end to Primer CSS                                             | all to Primer CSS                                                                                                                                                     |
 | 2020/7/6             | change and adapt                                                           | change login and reg page, adapt for cellphone                                                                                                                        |
+| 2020/8/7             | add timesheet page                                                         | something new and javascript                                                                                                                                          |
 
 # environment
 
