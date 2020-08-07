@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, request
 from flask_login import current_user, login_required
 from . import timesheet
 from .forms import (AddTodoForm, StartTimeLogForm,
@@ -63,7 +63,7 @@ def index():
     todos = (current_user.todos.filter_by(statu=False).
              order_by(Todo.timestamp_start.desc()).all())
     archives = (current_user.todos.filter_by(statu=True).
-                order_by(Todo.timestamp_start.desc()).all())
+                order_by(Todo.timestamp_start.desc()).limit(8).all())
     timelog_plan = (current_user.timelogs.filter_by(statu_code=0).
                     order_by(TimeLog.timestamp_start.desc()).limit(8).all())
     timelog_current = (current_user.timelogs.filter_by(statu_code=1).
@@ -75,7 +75,8 @@ def index():
     # current_user.time_statu = True
     return render_template('timesheet/index.html',
                            form_add_todo=form_add_todo,
-                           todos=todos, archives=archives,
+                           todos=todos,
+                           archives=archives,
                            form_start_timelog=form_start_timelog,
                            form_add_timelog=form_add_timelog,
                            time_statu=current_user.time_statu,
@@ -97,7 +98,12 @@ def do(id):
             (todo.timestamp_end-todo.timestamp_start).seconds)
         db.session.add(todo)
         db.session.commit()
-    return redirect(url_for('timesheet.index'))
+    target = request.args.get('next')
+    if target is None or not target.startswith('/'):
+        target = request.referrer
+        if target is None:
+            target = url_for('timesheet.index')
+    return redirect(target)
 
 
 @timesheet.route('/undo/<int:id>')
@@ -108,7 +114,12 @@ def undo(id):
         todo.statu = False
         db.session.add(todo)
         db.session.commit()
-    return redirect(url_for('timesheet.index'))
+    target = request.args.get('next')
+    if target is None or not target.startswith('/'):
+        target = request.referrer
+        if target is None:
+            target = url_for('timesheet.index')
+    return redirect(target)
 
 
 @timesheet.route('/delete_todo/<int:id>')
@@ -118,7 +129,12 @@ def delete_todo(id):
     if current_user.can(Permission.KEEP) and (current_user == todo.author):
         db.session.delete(todo)
         db.session.commit()
-    return redirect(url_for('timesheet.index'))
+    target = request.args.get('next')
+    if target is None or not target.startswith('/'):
+        target = request.referrer
+        if target is None:
+            target = url_for('timesheet.index')
+    return redirect(target)
 
 
 @timesheet.route('/finish/<int:id>')
@@ -134,7 +150,12 @@ def finish(id):
         current_user.time_statu = False
         db.session.add(current_user)
         db.session.commit()
-    return redirect(url_for('timesheet.index'))
+    target = request.args.get('next')
+    if target is None or not target.startswith('/'):
+        target = request.referrer
+        if target is None:
+            target = url_for('timesheet.index')
+    return redirect(target)
 
 
 @timesheet.route('/finish_plan/<int:id>')
@@ -145,7 +166,12 @@ def finish_plan(id):
         timelog.statu_code = 2
         db.session.add(timelog)
         db.session.commit()
-    return redirect(url_for('timesheet.index'))
+    target = request.args.get('next')
+    if target is None or not target.startswith('/'):
+        target = request.referrer
+        if target is None:
+            target = url_for('timesheet.index')
+    return redirect(target)
 
 
 @timesheet.route('/start_finished/<int:id>')
@@ -202,4 +228,40 @@ def delete_timelog(id):
     if current_user.can(Permission.KEEP) and (current_user == timelog.author):
         db.session.delete(timelog)
         db.session.commit()
-    return redirect(url_for('timesheet.index'))
+    target = request.args.get('next')
+    if target is None or not target.startswith('/'):
+        target = request.referrer
+        if target is None:
+            target = url_for('timesheet.index')
+    return redirect(target)
+
+
+@timesheet.route('/archives')
+@login_required
+def archives():
+    archives = (current_user.todos.filter_by(statu=True).
+                order_by(Todo.timestamp_start.desc()).all())
+    return render_template('timesheet/archives.html',
+                           archives=archives
+                           )
+
+
+@timesheet.route('/timelog_finished')
+@login_required
+def timelog_finished():
+    timelog_finished = (current_user.timelogs.filter_by(statu_code=2).
+                        order_by(TimeLog.timestamp_start.desc()).
+                        all())
+    return render_template('timesheet/timelog_finished.html',
+                           timelog_finished=timelog_finished
+                           )
+
+
+@timesheet.route('/timelog_plan')
+@login_required
+def timelog_plan():
+    timelog_plan = (current_user.timelogs.filter_by(statu_code=0).
+                    order_by(TimeLog.timestamp_start.desc()).all())
+    return render_template('timesheet/timelog_plan.html',
+                           timelog_plan=timelog_plan
+                           )

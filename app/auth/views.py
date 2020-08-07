@@ -17,12 +17,20 @@ def login():
             if next is None or not next.startswith('/'):
                 next = url_for('main.index')
             return redirect(next)
+        else:
+            user = User.query.filter_by(username=form.email.data).first()
+            if user is not None and user.verify_password(form.password.data):
+                login_user(user, form.remember_me.data)
+                next = request.args.get('next')
+                if next is None or not next.startswith('/'):
+                    next = url_for('main.index')
+                return redirect(next)
     return render_template('auth/login.html', form=form)
 
 
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
-    form = RegistrationForm() 
+    form = RegistrationForm()
     if form.validate_on_submit():
         user = User(email=form.email.data.lower(),
                     username=form.username.data,

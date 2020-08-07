@@ -56,7 +56,6 @@ def edit(id):
     if current_user != post.author:
         abort(403)
     form = PostForm()
-    form_d = DeleteForm()
     if form.validate_on_submit():
         post.title = form.title.data
         post.body = form.body.data

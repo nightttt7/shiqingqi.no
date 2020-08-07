@@ -43,7 +43,7 @@
             {% endfor %}
             {% endif %}
             {% if archives %}
-            <p class="h2"><a href="#" class="text-green">Archives</a></p>
+            <p class="h2"><a href="{{ url_for('timesheet.archives') }}" class="text-green">Archives</a></p>
             {% for archive in archives %}
             <div class="d-table">
               <div class="d-table-cell v-align-bottom">
@@ -141,10 +141,10 @@
           {% endif %}
           {% if timelog_finished %}
           <div class="mt-4">
-            <p class="h1"><a href="#" class="text-green">Time Logs</a></p>
+            <p class="h1"><a href="{{ url_for('timesheet.timelog_finished') }}" class="text-green">Time Logs</a></p>
             <table>
               <tr>
-                <td class="f3 text-bold pr-2">Projecrt</td>
+                <td class="f3 text-bold pr-2">Project</td>
                 <td class="f3 text-bold pr-2">Task</td>
                 <td class="f3 text-bold pr-2">Period</td>
               </tr>
@@ -182,10 +182,10 @@
           {% endif %}
           {% if timelog_plan %}
           <div class="mt-4">
-            <p class="h1"><a href="#" class="text-green">Time Plans</a></p>
+            <p class="h1"><a href="{{ url_for('timesheet.timelog_plan') }}" class="text-green">Time Plans</a></p>
             <table>
               <tr>
-                <td class="f3 text-bold pr-2">Projecrt</td>
+                <td class="f3 text-bold pr-2">Project</td>
                 <td class="f3 text-bold">Task</td>
                 <td></td>
                 <td></td>

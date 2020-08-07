@@ -30,11 +30,20 @@
     {% if post.body_html %} {{ post.body_html | safe }} {% else %} {{ post.body }} {% endif %}
     </div>
     <div class="mt-6 pt-2">
-      <h1 class="h3">Comments:</h1>
+      <div class="d-flex flex-row flex-items-center">
+        <div class="h3 mr-1">Comments</div>
+        <div class="tooltipped tooltipped-ne" aria-label="The comments in yellow are from anonymous users, in blue are from authenticated users">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" fill="#8bb095" d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"></path></svg>
+        </div>
+      </div>
       <div class="ml-2 mt-3">
         {% for comment in comments %}
         <p>
-          {% if comment.is_user %}Authenticated {% else %}Anonymous {% endif %}<b>{{ comment.name }}</b>:
+          {% if comment.is_user %}
+          <b class="text-blue tooltipped tooltipped-ne" aria-label="Authenticated">{{ comment.name }}</b>
+          {% else %}
+          <b class="text-yellow tooltipped tooltipped-ne" aria-label="Anonymous">{{ comment.name }}</b>
+          {% endif %}:
           {% if current_user.is_administrator() %}
           <a href="{{ url_for('Blog.deletecomment', id=post.id, id_c=comment.id) }}">
             <svg class="octicon octicon-trashcan" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6.5 1.75a.25.25 0 01.25-.25h2.5a.25.25 0 01.25.25V3h-3V1.75zm4.5 0V3h2.25a.75.75 0 010 1.5H2.75a.75.75 0 010-1.5H5V1.75C5 .784 5.784 0 6.75 0h2.5C10.216 0 11 .784 11 1.75zM4.496 6.675a.75.75 0 10-1.492.15l.66 6.6A1.75 1.75 0 005.405 15h5.19c.9 0 1.652-.681 1.741-1.576l.66-6.6a.75.75 0 00-1.492-.149l-.66 6.6a.25.25 0 01-.249.225h-5.19a.25.25 0 01-.249-.225l-.66-6.6z"></path></svg>
@@ -51,9 +60,30 @@
         {{ macros.pagination_widget(pagination, 'Blog.read', id=post.id) }}
       </div>
       {% endif %}
-      <div>
-        <h1 class="h3">Add your comments</h1>
-        {{ wtf.quick_form(form_c) }}
+      <div class="mt-6">
+        <form method="post" autocomplete="off">
+          <fieldset>
+            <legend class="h3 mb-3">Add your comment</legend>
+            {{ form_c.hidden_tag() }}
+            <div>
+              <div>
+                {{ form_c.name.label() }}
+              </div>
+              <div class="mb-3">
+                {{ form_c.name(class="form-control", size="10") }}
+              </div>
+            </div>
+            <div>
+              <div>
+                {{ form_c.body.label() }}
+              </div>
+              <div class="mb-3">
+                {{ form_c.body(class="form-control input-block", placeholder="Markdown not supported here") }}
+              </div>
+            </div>
+            {{ form_c.submit(class="btn") }}
+          </fieldset>
+        </form>
       </div>
     </div>
   </div>

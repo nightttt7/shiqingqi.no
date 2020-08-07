@@ -6,15 +6,14 @@ from ..models import User
 
 class LoginForm(FlaskForm):
     email = StringField('Email',
-                        validators=[Required(), Length(1, 64), Email()])
+                        validators=[Required(), Length(1, 64)])
     password = PasswordField('Password', validators=[Required()])
     remember_me = BooleanField('remember')
     submit = SubmitField('Log In')
 
 
 class RegistrationForm(FlaskForm):
-    email = StringField('Email', validators=[DataRequired(), Length(1, 64),
-                                             Email()])
+    email = StringField('Email', validators=[DataRequired(), Length(1, 64)])
     username = StringField('Username', validators=[
         DataRequired(), Length(2, 16),
         Regexp('^[A-Za-z][A-Za-z0-9_.]*$', 0,

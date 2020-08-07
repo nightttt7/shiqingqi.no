@@ -11,11 +11,11 @@ class PostForm(FlaskForm):
 
 
 class DeleteForm(FlaskForm):
-    submit = SubmitField('Delete')
+    submit = SubmitField('Confirm and delete')
 
 
 class CommentForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     body = TextAreaField('Comment', validators=[DataRequired()],
-                         render_kw={'rows': '4'})
-    submit = SubmitField('Submit')
+                         render_kw={'rows': '3'})
+    submit = SubmitField('Comment')
