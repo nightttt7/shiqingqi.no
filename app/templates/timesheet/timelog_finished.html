@@ -2,25 +2,25 @@
 {% block content %}
 <div class="container-lg mb-3 pb-6">
   <div class="mt-6 ml-6 mr-6 mb-6">
-    <p class="h2"><a href="{{ url_for('timesheet.index') }}" class="text-blue">Return</a></p>
-    <p class="h1 text-green">Time Logs</p>
+    <p class="h2"><a href="{{ url_for('timesheet.index') }}" class="text-blue">Return timesheet</a></p>
+    <p><a class="h1 text-green" href="{{ url_for('timesheet.timelog_finished') }}">Time Logs</a> <a class="h3 text-orange" href="{{ url_for('timesheet.timelog_stat') }}">Statistics</a></p>
     <table>
       <tr>
-        <td class="f3 text-bold pr-3">Projecrt</td>
-        <td class="f3 text-bold pr-3">Task</td>
-        <td class="f3 text-bold pr-3">Period</td>
+        <td class="f3 text-bold pr-3 {% if highlight == 'project' or highlight == 'task' %}text-green{% endif %}">Project</td>
+        <td class="f3 text-bold pr-3 {% if highlight == 'task' %}text-green{% endif %}">Task</td>
+        <td class="f3 text-bold pr-3 {% if highlight == 'date' %}text-green{% endif %}">Period</td>
         <td class="f3 text-bold pr-3">Duration</td>
       </tr>
       {% for timelog in timelog_finished %}
       <tr>
         <td class="f3 pr-3">
-          {{ timelog.project }}
+          <a class="link-gray-dark" href="{{ url_for('timesheet.timelog_finished', project=timelog.project) }}">{{ timelog.project }}</a>
         </td>
         <td class="f3 pr-3">
-          {{ timelog.task }}
+          <a class="link-gray-dark" href="{{ url_for('timesheet.timelog_finished', project=timelog.project, task=timelog.task) }}">{{ timelog.task }}</a>
         </td>
         <td class="f4 pr-3">
-          {{ moment(timelog.timestamp_start).format('MM-DD HH:mm') }}~{{ moment(timelog.timestamp_end).format('HH:mm') }}
+          <a class="link-gray-dark" href="{{ url_for('timesheet.timelog_finished', date=timelog.timestamp_start.strftime('%Y-%m-%d')) }}">{{ moment(timelog.timestamp_start).format('Y-MM-DD') }}</a> {{ moment(timelog.timestamp_start).format('HH:mm') }}~{{ moment(timelog.timestamp_end).format('HH:mm') }}
         </td>
         <td class="f4 pr-3">
           {{ timelog.time_delta_seconds//3600 }}h {{ timelog.time_delta_seconds//60%60 }}m
@@ -43,6 +43,14 @@
         </td>
       </tr>
       {% endfor %}
+      <tr>
+        <td></td>
+        <td></td>
+        <td class="pr-3"><b class="text-bold float-right">total</b></td>
+        <td>
+          {{ duration_sum//3600 }}h {{ duration_sum//60%60 }}m
+        </td>
+      </tr>
     </table>
   </div>
 </div>

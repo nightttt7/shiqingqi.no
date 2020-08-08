@@ -24,3 +24,10 @@ class AddTimeLogForm(FlaskForm):
     time_end_add = StringField('End', validators=[DataRequired()])
     utc_offset = StringField('Hidden element')
     submit_add = SubmitField('Add')
+
+
+class StatTimeLogFormBase(FlaskForm):
+    stat_start = StringField('Start', validators=[DataRequired()])
+    stat_end = StringField('End', validators=[DataRequired()])
+    utc_offset = StringField('Hidden element')
+    submit_stat = SubmitField('Generate statistics')

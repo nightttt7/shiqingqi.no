@@ -2,8 +2,10 @@ from flask import render_template, redirect, url_for, request
 from flask_login import current_user, login_required
 from . import timesheet
 from .forms import (AddTodoForm, StartTimeLogForm,
-                    AddTimeLogForm)
+                    AddTimeLogForm, StatTimeLogFormBase)
+from wtforms import SelectMultipleField
 from .. import db
+from sqlalchemy.sql import func
 from ..models import Permission, Todo, TimeLog
 from ..decorators import permission_required
 from datetime import datetime, timedelta
@@ -246,14 +248,139 @@ def archives():
                            )
 
 
-@timesheet.route('/timelog_finished')
+@timesheet.route('/timelog_finished', methods=['GET'])
 @login_required
 def timelog_finished():
-    timelog_finished = (current_user.timelogs.filter_by(statu_code=2).
-                        order_by(TimeLog.timestamp_start.desc()).
-                        all())
+    if request.args.get('task'):
+        timelog_finished = (
+            current_user.timelogs.filter_by(
+                statu_code=2,
+                project=request.args.get('project'),
+                task=request.args.get('task')).
+            order_by(TimeLog.timestamp_start.desc()).all())
+        highlight = 'task'
+        duration_sum = (
+            TimeLog.query.
+            with_entities(func.sum(TimeLog.time_delta_seconds).label("sum")).
+            filter_by(statu_code=2,
+                      author_id=current_user.id,
+                      project=request.args.get('project'),
+                      task=request.args.get('task')
+                      ).first()).sum
+    elif request.args.get('project'):
+        timelog_finished = (
+            current_user.timelogs.filter_by(
+                statu_code=2,
+                project=request.args.get('project')).
+            order_by(TimeLog.timestamp_start.desc()).all())
+        highlight = 'project'
+        duration_sum = (
+            TimeLog.query.
+            with_entities(func.sum(TimeLog.time_delta_seconds).label("sum")).
+            filter_by(statu_code=2,
+                      author_id=current_user.id,
+                      project=request.args.get('project')
+                      ).first()).sum
+    elif request.args.get('date'):
+        timelog_finished = (
+            current_user.timelogs.filter(
+                TimeLog.timestamp_start >=
+                datetime.strptime(request.args.get('date'), '%Y-%m-%d'),
+                TimeLog.timestamp_start <
+                (datetime.strptime(request.args.get('date'), '%Y-%m-%d') +
+                 timedelta(days=1)),
+                TimeLog.statu_code == 2).
+            order_by(TimeLog.timestamp_start.desc()).all())
+        highlight = 'date'
+        duration_sum = (
+            TimeLog.query.
+            with_entities(func.sum(TimeLog.time_delta_seconds).label("sum")).
+            filter(TimeLog.statu_code == 2,
+                   TimeLog.author_id == current_user.id,
+                   TimeLog.timestamp_start >=
+                   datetime.strptime(request.args.get('date'), '%Y-%m-%d'),
+                   TimeLog.timestamp_start <
+                   (datetime.strptime(request.args.get('date'), '%Y-%m-%d') +
+                    timedelta(days=1))
+                   ).first()).sum
+    else:
+        timelog_finished = (current_user.timelogs.filter_by(statu_code=2).
+                            order_by(TimeLog.timestamp_start.desc()).
+                            all())
+        highlight = 'all'
+        duration_sum = (
+            # why SQLAlchemy so complex?
+            TimeLog.query.
+            with_entities(func.sum(TimeLog.time_delta_seconds).label("sum")).
+            filter_by(statu_code=2, author_id=current_user.id).first()).sum
     return render_template('timesheet/timelog_finished.html',
-                           timelog_finished=timelog_finished
+                           timelog_finished=timelog_finished,
+                           highlight=highlight,
+                           duration_sum=duration_sum
+                           )
+
+
+@timesheet.route('/timelog_stat', methods=['GET', 'POST'])
+@login_required
+def timelog_stat():
+    project_list = set([log.project for log in (
+        current_user.timelogs.filter_by(statu_code=2).
+        order_by(TimeLog.timestamp_start.desc()).all())])
+    # add 1 for choice "all"
+    num_project = len(project_list) + 1
+    # to avoid the word to be used as the project name
+    choices = [('longrandomwordiueldkfifj', 'all')]
+    for project in project_list:
+        choices.append((project, project))
+
+    class StatTimeLogForm(StatTimeLogFormBase):
+        project_stat = SelectMultipleField('Project', choices=choices)
+
+    form_stat_timelog = StatTimeLogForm()
+    if current_user.can(Permission.KEEP) and form_stat_timelog.validate_on_submit():
+        utc_offset = int(form_stat_timelog.utc_offset.data)
+        stat_start = (datetime.strptime(
+            form_stat_timelog.stat_start.data, '%Y-%m-%d') -
+            timedelta(minutes=utc_offset))
+        stat_end = (datetime.strptime(
+            form_stat_timelog.stat_end.data, '%Y-%m-%d') -
+            timedelta(minutes=utc_offset))
+        # TODO: 1 whether sum different date 2 show sum duration for each group
+        if 'longrandomwordiueldkfifj' in form_stat_timelog.project_stat.data:
+            result = (
+                current_user.timelogs.filter(
+                    TimeLog.timestamp_start >=
+                    datetime.strptime(form_stat_timelog.stat_start.data,
+                                      '%Y-%m-%d'),
+                    TimeLog.timestamp_start <
+                    (datetime.strptime(form_stat_timelog.stat_end.data,
+                                       '%Y-%m-%d') + timedelta(days=1)),
+                    # TimeLog.project.in_(form_stat_timelog.project_stat.data),
+                    TimeLog.statu_code == 2).
+                order_by(TimeLog.timestamp_start.desc()).all())
+        else:
+            result = (
+                current_user.timelogs.filter(
+                    TimeLog.timestamp_start >=
+                    datetime.strptime(form_stat_timelog.stat_start.data,
+                                      '%Y-%m-%d'),
+                    TimeLog.timestamp_start <
+                    (datetime.strptime(form_stat_timelog.stat_end.data,
+                                       '%Y-%m-%d') + timedelta(days=1)),
+                    TimeLog.project.in_(form_stat_timelog.project_stat.data),
+                    TimeLog.statu_code == 2).
+                order_by(TimeLog.timestamp_start.desc()).all())
+        return render_template('timesheet/timelog_stat.html',
+                               form_stat_timelog=form_stat_timelog,
+                               num_project=num_project,
+                               # whether have stat result
+                               result_mode=True,
+                               result=result,
+                               )
+    return render_template('timesheet/timelog_stat.html',
+                           form_stat_timelog=form_stat_timelog,
+                           num_project=num_project,
+                           result_mode=False,
                            )
 
 
