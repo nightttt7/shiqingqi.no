@@ -5,26 +5,52 @@
     <p class="h2"><a href="{{ url_for('timesheet.index') }}" class="text-blue">Return timesheet</a></p>
     <p><a class="h1 text-green" href="{{ url_for('timesheet.timelog_finished') }}">Time Logs</a> <a class="h3 text-orange" href="{{ url_for('timesheet.timelog_stat') }}">Statistics</a></p>
     {% if result_mode %}
-    <table>
+    <p class="f3 text-bold">Period</p>
+    <button class="btn" type="button" id="result-btn" onclick="showResult()">show whole period</button>
+    <button class="btn" type="button" id="result-by-day-btn" onclick="showResultByDay()">show result by day</button>
+    <p class="f4">{{form_stat_timelog.stat_start.data}}~{{form_stat_timelog.stat_end.data}}</p>
+    <table id="result">
       <tr>
         <td class="f3 text-bold pr-3">Project</td>
-        <td class="f3 text-bold pr-3">Task</td>
-        <td class="f3 text-bold pr-3">Period</td>
         <td class="f3 text-bold pr-3">Duration</td>
+        <td class="f3 text-bold pr-3">Percent</td>
       </tr>
-      {% for timelog in result %}
+      {% for timelog in result.itertuples() %}
       <tr>
         <td class="f3 pr-3">
-          <a class="link-gray-dark" href="{{ url_for('timesheet.timelog_finished', project=timelog.project) }}">{{ timelog.project }}</a>
+          <!-- timelog here is a tuple, need use "[]" to select but not "." -->
+          <a class="link-gray-dark" href="{{ url_for('timesheet.timelog_finished', project=timelog.project) }}">{{ timelog['project'] }}</a>
+        </td>
+        <td class="f4 pr-3">
+          {{ timelog['seconds']//3600 }}h {{ timelog['seconds']//60%60 }}m
+        </td>
+        <td class="f4 pr-3">
+          {{ timelog['seconds_percent']}}%
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+    <table id="result-by-day" hidden>
+      <tr>
+        <td class="f3 text-bold pr-3">Date</td>
+        <td class="f3 text-bold pr-3">Project</td>
+        <td class="f3 text-bold pr-3">Duration</td>
+        <td class="f3 text-bold pr-3">Percent</td>
+      </tr>
+      {% for timelog in result_by_day.itertuples() %}
+      <tr>
+        <td class="f3 pr-3">
+          {{ timelog['date'] }}
         </td>
         <td class="f3 pr-3">
-          <a class="link-gray-dark" href="{{ url_for('timesheet.timelog_finished', project=timelog.project, task=timelog.task) }}">{{ timelog.task }}</a>
+          <!-- timelog here is a tuple, need use "[]" to select but not "." -->
+          <a class="link-gray-dark" href="{{ url_for('timesheet.timelog_finished', project=timelog.project) }}">{{ timelog['project'] }}</a>
         </td>
         <td class="f4 pr-3">
-          <a class="link-gray-dark" href="{{ url_for('timesheet.timelog_finished', date=timelog.timestamp_start.strftime('%Y-%m-%d')) }}">{{ moment(timelog.timestamp_start).format('Y-MM-DD') }}</a> {{ moment(timelog.timestamp_start).format('HH:mm') }}~{{ moment(timelog.timestamp_end).format('HH:mm') }}
+          {{ timelog['seconds']//3600 }}h {{ timelog['seconds']//60%60 }}m
         </td>
         <td class="f4 pr-3">
-          {{ timelog.time_delta_seconds//3600 }}h {{ timelog.time_delta_seconds//60%60 }}m
+          {{ timelog['seconds_percent']}}%
         </td>
       </tr>
       {% endfor %}
@@ -78,7 +104,20 @@ function setUtcOffset () {
   document.getElementById("utc_offset").value = moment().utcOffset();
 }
 
+function showResultByDay () {
+  document.getElementById("result-by-day").removeAttribute("hidden");
+  document.getElementById("result").hidden = "hidden";
+}
+
+function showResult () {
+  document.getElementById("result-by-day").hidden = "hidden";
+  document.getElementById("result").removeAttribute("hidden");
+}
+
+{% if not result_mode %}
 setDefaultTime ()
+{% endif %}
+
 setUtcOffset ()
 </script>
 {% endblock %}
