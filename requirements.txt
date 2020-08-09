@@ -32,6 +32,8 @@ Markdown==3.1.1
 MarkupSafe==1.1.1
 mccabe==0.6.1
 monotonic==1.5
+numpy==1.19.1
+pandas==1.1.0
 pycodestyle==2.6.0
 pycparser==2.19
 pylint==2.4.4
