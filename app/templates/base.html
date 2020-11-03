@@ -22,18 +22,19 @@
       <a href="{{ url_for('main.index') }}" class="Header-link">Qingqi's Blog</a>
     </div>
     <div class="Header-item">
+      <a href="{{ url_for('timesheet.index') }}" class="Header-link">Timesheet</a>
+    </div>
+    <!-- <div class="Header-item">
       <details class="dropdown details-reset details-overlay">
         <summary class="Header-link">
           Tools
           <div class="dropdown-caret"></div>
         </summary>
         <details-menu class="dropdown-menu dropdown-menu-se">
-          <a class="dropdown-item" href="{{ url_for('timesheet.index') }}">Timesheet</a>
-          <!-- "Translate" page not for sm and md -->
-          <a class="dropdown-item" href="{{ url_for('translate.index') }}">Translate</a>
+          <a href="{{ url_for('timesheet.index') }}" class="dropdown-item">Timesheet</a>
         </details-menu>
       </details>
-    </div>
+    </div> -->
   </div>
   {% if current_user.can(1) %}
   <div class="Header-item">

@@ -37,10 +37,10 @@ def create_app(config_name):
     from .CV import CV as CV_blueprint
     app.register_blueprint(CV_blueprint, url_prefix='/cv')
 
-    from .translate import translate as translate_blueprint
-    app.register_blueprint(translate_blueprint, url_prefix='/translate')
-
     from .timesheet import timesheet as timesheet_blueprint
     app.register_blueprint(timesheet_blueprint, url_prefix='/timesheet')
+
+    from .gameoflife import gameoflife as gameoflife_blueprint
+    app.register_blueprint(gameoflife_blueprint, url_prefix='/gameoflife')
 
     return app

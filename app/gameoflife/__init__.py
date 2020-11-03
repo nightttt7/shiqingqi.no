@@ -1,5 +1,5 @@
 from flask import Blueprint
 
-translate = Blueprint('translate', __name__)
+gameoflife = Blueprint('gameoflife', __name__)
 
 from . import views
