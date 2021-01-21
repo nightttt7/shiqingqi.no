@@ -39,14 +39,6 @@ pip3 freeze > requirements.txt
 pip3 install -r requirements.txt
 ```
 
-# todo in production environment
-
-- Install a database server such as MySQL 
-- Install a production-ready web server such as Gunicorn 
-- Install a process-monitoring utility such as Supervisor, that immediately restarts the web server if it crashes or after the host is power-cycled.
-- Install and configure an SSL certificate to enable secure HTTP. 
-- (Optional but highly recommended) Install a front-end reverse proxy web server such as nginx or Apache. This server is configured to serve static files directly and forward application requests into the application’s web server, which is listening on a private port on localhost.
-
 # before everything
 
 ```
@@ -125,7 +117,7 @@ gunicorn --bind 0.0.0.0:80 nightttt7:app
 ```
 
 - run Gunicorn and Nginx
-
+pi
 ```
 pkill gunicorn
 gunicorn --workers 3 --bind 127.0.0.1:7777 nightttt7:app &
