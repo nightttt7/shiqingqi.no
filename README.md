@@ -27,10 +27,11 @@
 | 2020/7/5             | change front-end to Primer CSS                                             | all to Primer CSS                                                                                                                                                     |
 | 2020/7/6             | change and adapt                                                           | change login and reg page, adapt for cellphone                                                                                                                        |
 | 2020/8/7             | add timesheet page                                                         | something new and javascript                                                                                                                                          |
+| 2021/1/22            | change server to AWS                                                       | change server                                                                                                                                              |
 
 # environment
 
-- development: windows10, python3.7, VSCode
+- development: windows10, python3.8, VSCode
 
 # pip freeze
 
@@ -86,7 +87,7 @@ flask run -h 0.0.0.0 -p 5000
 
 # run production server
 
-- environment setting
+- environment setting (example)
 
 ```
 export FLASK_APP=nightttt7.py
@@ -94,7 +95,7 @@ export FLASK_CONFIG=production
 export FLASK_DEBUG=0
 export FLASK_ADMIN=xxx@xxx.com
 export SECRET_KEY='xxxxxxx'
-export DATABASE_URL=mysql://username:password@localhost/database
+DATABASE_URL=mysql+pymysql://nightttt7:uu76YFRi7cCBt^h@localhost/nightttt7
 ```
 
 - change dir
@@ -113,17 +114,22 @@ git pull
 
 ```
 pkill gunicorn
-gunicorn --bind 0.0.0.0:80 nightttt7:app
+gunicorn --bind 0.0.0.0:443 nightttt7:app
 ```
 
 - run Gunicorn and Nginx
-pi
 ```
 pkill gunicorn
-gunicorn --workers 3 --bind 127.0.0.1:7777 nightttt7:app &
+gunicorn --bind 127.0.0.1:7777 nightttt7:app &
 ```
 
-- file /etc/nginx/sites-available/myproject
+- if more workers supported
+```
+pkill gunicorn
+gunicorn --workers 2 --bind 127.0.0.1:7777 nightttt7:app &
+```
+
+- file /etc/nginx/sites-available/default
 
 ```
 server {
