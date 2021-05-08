@@ -9,7 +9,7 @@ Click==7.0
 colorama==0.4.3
 dnspython==1.16.0
 dominate==2.4.0
-eventlet==0.25.1
+eventlet==0.31.0
 Flask==1.1.1
 Flask-Babel==1.0.0
 Flask-Bootstrap==3.3.7.1
