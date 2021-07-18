@@ -28,6 +28,7 @@
 | 2020/7/6             | change and adapt                                                           | change login and reg page, adapt for cellphone                                                                                                                        |
 | 2020/8/7             | add timesheet page                                                         | something new and javascript                                                                                                                                          |
 | 2021/1/22            | change server to AWS                                                       | change server                                                                                                                                              |
+| 2021/7/19            | change name and fine tune contents                                         | change server                                                                                                                                              |
 
 # environment
 
@@ -90,12 +91,12 @@ flask run -h 0.0.0.0 -p 5000
 - environment setting (example)
 
 ```
-export FLASK_APP=nightttt7.py
+export FLASK_APP=filename.py
 export FLASK_CONFIG=production
 export FLASK_DEBUG=0
 export FLASK_ADMIN=xxx@xxx.com
 export SECRET_KEY='xxxxxxx'
-DATABASE_URL=mysql+pymysql://nightttt7:uu76YFRi7cCBt^h@localhost/nightttt7
+DATABASE_URL=mysql+pymysql://username:password@host/database
 ```
 
 - change dir
