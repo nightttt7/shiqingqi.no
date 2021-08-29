@@ -146,6 +146,7 @@ class Post(db.Model):
     body_html = db.Column(db.Text)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    tag = db.Column(db.Text)
     comments = db.relationship('Comment', backref='post', lazy='dynamic')
 
     def __repr__(self):
