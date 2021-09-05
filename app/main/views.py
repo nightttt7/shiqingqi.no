@@ -29,5 +29,5 @@ def sameauthor(author_id):
     pagination = Post.query.filter_by(author_id=author_id).order_by(Post.timestamp.desc()).paginate(
         page, per_page=8, error_out=False)
     posts = pagination.items
-    username = Post.query.filter_by(author_id=author_id).first_or_404().author.username
-    return render_template('index_sameauthor.html', posts=posts, pagination=pagination, username=username)
+    author = Post.query.filter_by(author_id=author_id).first_or_404().author
+    return render_template('index_sameauthor.html', posts=posts, pagination=pagination, author=author)

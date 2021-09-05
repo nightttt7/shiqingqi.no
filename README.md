@@ -27,8 +27,9 @@
 | 2020/7/5             | change front-end to Primer CSS                                             | all to Primer CSS                                                                                                                                                     |
 | 2020/7/6             | change and adapt                                                           | change login and reg page, adapt for cellphone                                                                                                                        |
 | 2020/8/7             | add timesheet page                                                         | something new and javascript                                                                                                                                          |
-| 2021/1/22            | change server to AWS                                                       | change server                                                                                                                                              |
-| 2021/7/19            | change name and fine tune contents                                         | change server                                                                                                                                              |
+| 2021/1/22            | change server to AWS                                                       | change server                                                                                                                                                         |
+| 2021/7/19            | change name and fine tune contents                                         | change server                                                                                                                                                         |
+| 2021/8/31            | add new features                                                           | change server                                                                                                                                                         |
 
 # environment
 

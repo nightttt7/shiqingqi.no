@@ -2,7 +2,7 @@
 {% import "_macros.html" as macros %}
 {% block contentcore %}
 
-<h1 class="mb-3 h1">Author: {{username}}</h1>
+<h1 class="mb-3 h1">Author: {{author.username}}</h1>
 <div class="ml-4">
   {% for post in posts %}
   <div class="d-inline">
@@ -33,7 +33,7 @@
   </div>
   {% endfor %}
   <nav class="paginate-container">
-    {{ macros.pagination_widget(pagination, '.index') }}
+    {{ macros.pagination_widget_sameauthor(pagination, 'main.sameauthor', author_id=author.id) }}
   </nav>
 </div>
 {% endblock %}

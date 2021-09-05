@@ -23,7 +23,10 @@
       </div>
       {% endif %}
       <div>
-        <p class="f4">{{ post.author.username }}@{{ post.timestamp.strftime("%Y-%m-%d")}}</p>
+        <p class="f5">
+          <a href="{{ url_for('main.sameauthor', author_id=post.author_id) }}" class="link-gray-dark f5">{{ post.author.username }}</a>@{{ post.timestamp.strftime("%Y-%m-%d")}}
+          <a href="{{ url_for('main.sametag', tag=post.tag) }}" class="link-gray-dark f5">#{{ post.tag }}</a></p>
+        </p>
       </div>
     </div>
     <div class="markdown-body pt-4 mt-4 pb-2 mb-6">

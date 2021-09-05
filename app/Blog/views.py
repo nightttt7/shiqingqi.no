@@ -13,6 +13,7 @@ def post():
     form = PostForm()
     if current_user.can(Permission.BLOG) and form.validate_on_submit():
         post = Post(title=form.title.data,
+                    tag=form.tag.data,
                     body=form.body.data,
                     author=current_user._get_current_object())
         db.session.add(post)
@@ -58,11 +59,13 @@ def edit(id):
     form = PostForm()
     if form.validate_on_submit():
         post.title = form.title.data
+        post.tag = form.tag.data,
         post.body = form.body.data
         db.session.add(post)
         db.session.commit()
         return redirect(url_for('Blog.read', id=post.id))
     form.title.data = post.title
+    form.tag.data = post.tag
     form.body.data = post.body
     return render_template('Blog/edit.html', form=form)
 
