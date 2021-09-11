@@ -1,5 +1,5 @@
 from flask import Blueprint
 
-CV = Blueprint('CV', __name__)
+timeline = Blueprint('timeline', __name__)
 
 from . import views

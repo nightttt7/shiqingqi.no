@@ -59,7 +59,7 @@ def edit(id):
     form = PostForm()
     if form.validate_on_submit():
         post.title = form.title.data
-        post.tag = form.tag.data,
+        post.tag = form.tag.data
         post.body = form.body.data
         db.session.add(post)
         db.session.commit()

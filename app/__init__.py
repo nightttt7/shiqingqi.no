@@ -34,13 +34,13 @@ def create_app(config_name):
     from .Blog import Blog as Blog_blueprint
     app.register_blueprint(Blog_blueprint, url_prefix='/blog')
 
-    from .CV import CV as CV_blueprint
-    app.register_blueprint(CV_blueprint, url_prefix='/cv')
+    from .timeline import timeline as timeline_blueprint
+    app.register_blueprint(timeline_blueprint, url_prefix='/timeline')
 
     from .timesheet import timesheet as timesheet_blueprint
-    app.register_blueprint(timesheet_blueprint, url_prefix='/timesheet')
+    app.register_blueprint(timesheet_blueprint, url_prefix='/t')
 
     from .gameoflife import gameoflife as gameoflife_blueprint
-    app.register_blueprint(gameoflife_blueprint, url_prefix='/gameoflife')
+    app.register_blueprint(gameoflife_blueprint, url_prefix='/g')
 
     return app
