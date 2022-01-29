@@ -23,16 +23,16 @@
 - 2021-01-22: change server to AWS
 - 2021-07-19: change name and fine tune contents
 - 2021-08-31: add new features
-- 2022-01-28: REST API and React
+- 2022-01-28: start to REST API and React
 
-# pip freeze
+# requirements
 ```
 pip freeze > requirements.txt
 pip install -r requirements.txt
 ```
 
 # manual installation
-- Linter: pycodestyle
+- ARM Linux: pandas (apt install python3-pandas)
 - Linux python: gunicorn
 - Linux: nginx
 
@@ -86,37 +86,37 @@ DATABASE_URL=mysql+pymysql://username:password@host/database
 
 - change dir
 ```
-cd [path]
+cd lovecatcat.com
 ```
 
 - run Gunicorn only
 
 ```
 pkill gunicorn
-gunicorn --bind 0.0.0.0:443 [filename]:app
+gunicorn --bind 0.0.0.0:443 run:app
 ```
 
 - run Gunicorn and Nginx
 ```
 pkill gunicorn
-gunicorn --bind 127.0.0.1:7777 [filename]:app &
+gunicorn --bind 127.0.0.1:7777 run:app &
 ```
 
 - if more workers supported
 ```
 pkill gunicorn
-gunicorn --workers 2 --bind 127.0.0.1:7777 [filename]:app &
+gunicorn --workers 2 --bind 127.0.0.1:7777 run:app &
 ```
 
 - nginx setting (only https): /etc/nginx/sites-available/default
 ```
 server {
     listen                 443;
-    server_name            [name].com www.[name].com;
+    server_name            lovecatcat.com www.lovecatcat.com;
 
     ssl                    on;
-    ssl_certificate        /etc/letsencrypt/live/[domain]/fullchain.pem;
-    ssl_certificate_key    /etc/letsencrypt/live/[domain]/privkey.pem;
+    ssl_certificate        /etc/letsencrypt/live/lovecatcat.com/fullchain.pem;
+    ssl_certificate_key    /etc/letsencrypt/live/lovecatcat.com/privkey.pem;
 
     location / {
         include            proxy_params;

@@ -16,9 +16,7 @@ Jinja2==3.0.3
 Mako==1.1.6
 Markdown==3.3.6
 MarkupSafe==2.0.1
-numpy==1.22.1
 packaging==21.3
-pandas==1.4.0
 pycodestyle==2.8.0
 pyparsing==3.0.7
 python-dateutil==2.8.2
