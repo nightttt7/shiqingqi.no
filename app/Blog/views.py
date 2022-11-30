@@ -87,8 +87,11 @@ def delete(id):
 
 
 @Blog.route('<int:id>/deletecomment/<int:id_c>')
-@permission_required(Permission.ADMIN)
+@permission_required(Permission.BLOG)
 def deletecomment(id, id_c):
+    post = Post.query.get_or_404(id)
+    if (not current_user.is_administrator()) and (current_user != post.author):
+        abort(403)
     comment = Comment.query.get_or_404(id_c)
     db.session.delete(comment)
     db.session.commit()
