@@ -24,6 +24,7 @@
 - 2021-07-19: change name and fine tune contents
 - 2021-08-31: add new features
 - 2022-01-28: start to REST API and React
+- TODO: develop the backstage, there's SPAM in the comments!
 
 # requirements
 ```
@@ -68,7 +69,7 @@ flask db upgrade
 flask run -h 127.0.0.1 -p 5000
 ```
 
-- for local access
+- for local access (after start venv) (may need to open the port)
 ```
 flask run -h 0.0.0.0 -p 5000
 ```

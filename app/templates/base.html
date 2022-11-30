@@ -1,3 +1,5 @@
+<!-- NB! navbar have PC and mobile version -->
+
 {% extends "base0.html" %}
 
 {% block title %}Qingqi & Lian's Blog{% endblock %}
@@ -41,11 +43,13 @@
     <a href="{{ url_for('Blog.post') }}" class="Header-link">post</a>
   </div>
   {% endif %}
+  
   {% if current_user.is_authenticated %}
   <div class="Header-item">
-    <a href="#" class="Header-link">{{ current_user.email }}</a>
+    <a href="{{ url_for('account.index') }}" class="Header-link">{{ current_user.email }}</a>
   </div>
   {% endif %}
+  <!-- TODO: add manage part -->
   {% if current_user.is_administrator() %}
   <div class="Header-item">
     <a href="#" class="Header-link">manage</a>
@@ -76,13 +80,14 @@
       </summary>
       <details-menu class="dropdown-menu dropdown-menu-sw">
         <a href="{{ url_for('main.index') }}" class="dropdown-item">Qingqi & Lian's Blog</a>
-        <a class="dropdown-item" href="{{ url_for('timesheet.index') }}">Timesheet</a>
+        <a href="{{ url_for('timesheet.index') }}" class="dropdown-item">Timesheet</a>
         {% if current_user.can(1) %}
         <a href="{{ url_for('Blog.post') }}" class="dropdown-item">post</a>
         {% endif %}
         {% if current_user.is_authenticated %}
-        <a href="#" class="dropdown-item">{{ current_user.email }}</a>
+        <a href="{{ url_for('account.index') }}" class="dropdown-item">{{ current_user.email }}</a>
         {% endif %}
+        <!-- TODO: add manage part -->
         {% if current_user.is_administrator() %}
         <a href="#" class="dropdown-item">manage</a>
         {% endif %}
@@ -101,7 +106,7 @@
 {% block footer %}
 <div class="footer mt-3 pt-6 mb-3">
   <p class="text-center f6">
-    © 2021 Qingqi & Lian's Blog. Powered by <a href="https://palletsprojects.com/p/flask/"  target="_blank">Flask</a> & <a href="https://primer.style/css/"  target="_blank">Primer CSS</a>
+    © 2023 Qingqi & Lian's Blog. Powered by <a href="https://palletsprojects.com/p/flask/"  target="_blank">Flask</a> & <a href="https://primer.style/css/"  target="_blank">Primer CSS</a>
   </p>
 </div>
 {% endblock %}
