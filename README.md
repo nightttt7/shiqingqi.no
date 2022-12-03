@@ -24,7 +24,6 @@
 - 2021-07-19: change name and fine tune contents
 - 2021-08-31: add new features
 - 2022-01-28: start to REST API and React
-- TODO: develop the backstage, there's SPAM in the comments!
 
 # requirements
 ```
