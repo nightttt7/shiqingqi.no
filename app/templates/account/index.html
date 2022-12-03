@@ -6,7 +6,15 @@
     <h1 class="mb-3 h1">Account</h1>
     <h2 class="mb-3 h2">Comments to &lt;<a href="{{ url_for('main.sameauthor', author_id=current_user.id) }}" class="link-gray-dark">your posts</a>&gt</h2>
     {% for post_and_comment in post_and_comment_s %}
-    <p class="f4">[{{ post_and_comment['comment'].name }}] comment in &lt;<a href="{{ url_for('Blog.read', id=post_and_comment['post'].id) }}" class="link-gray-dark">{{ post_and_comment['post'].title }}</a>&gt;</p>
+    <p class="f4">
+      {% if post_and_comment['comment'].is_user %}
+      <b class="text-blue tooltipped tooltipped-ne" aria-label="Authenticated">{{ post_and_comment['comment'].name }}</b>
+      {% else %}
+      <b class="text-yellow tooltipped tooltipped-ne" aria-label="Anonymous">{{ post_and_comment['comment'].name }}</b>
+      {% endif %}
+      comment in
+      &lt;<a href="{{ url_for('Blog.read', id=post_and_comment['post'].id) }}" class="link-gray-dark">{{ post_and_comment['post'].title }}</a>&gt;
+    </p>
     <p class="f5">@{{ post_and_comment['comment'].timestamp.strftime("%Y-%m-%d %H:%M:%S") }}</p>
     <p class="f4">{{ post_and_comment['comment'].body }}</p>
     {% endfor %}
