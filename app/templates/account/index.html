@@ -6,7 +6,7 @@
     <h1 class="mb-3 h1">Account</h1>
     <h2 class="mb-3 h2">Comments to your posts</h2>
     {% for post_and_comment in post_and_comment_s %}
-    <p class="f3">[{{ post_and_comment['comment'].name }}] comment in &lt;<a href="{{ url_for('Blog.read', id=post_and_comment['post'].id) }}" class="link-gray-dark">{{ post_and_comment['post'].title }}</a>&gt;</p>
+    <p class="f3">[{{ post_and_comment['comment'].name }}] comment in &lt;<a href="{{ url_for('Blog.read', id=post_and_comment['post'].id) }}" class="link-gray-dark">{{ post_and_comment['post'].title }}</a>&gt;@{{ post_and_comment['comment'].timestamp.strftime("%Y-%m-%d %H:%M:%S") }}</p>
     <p class="f4">{{ post_and_comment['comment'].body }}</p>
     {% endfor %}
   </div>

@@ -11,5 +11,5 @@ def index():
     for post in Post.query.filter_by(author_id=current_user.id):
         for comment in post.comments:
             post_and_comment_s.append({'post': post, 'comment': comment})
-    return render_template('account/index.html',
-                           post_and_comment_s=post_and_comment_s)
+    post_and_comment_s.sort(key=lambda x: x['comment'].timestamp, reverse=True)
+    return render_template('account/index.html', post_and_comment_s=post_and_comment_s)
