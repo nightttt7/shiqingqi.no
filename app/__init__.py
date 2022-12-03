@@ -46,4 +46,7 @@ def create_app(config_name):
     from .account import account as account_blueprint
     app.register_blueprint(account_blueprint, url_prefix='/account')
 
+    from .manage import manage as manage_blueprint
+    app.register_blueprint(manage_blueprint, url_prefix='/manage')
+
     return app

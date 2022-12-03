@@ -49,10 +49,9 @@
     <a href="{{ url_for('account.index') }}" class="Header-link">{{ current_user.email }}</a>
   </div>
   {% endif %}
-  <!-- TODO: add manage part -->
   {% if current_user.is_administrator() %}
   <div class="Header-item">
-    <a href="#" class="Header-link">manage</a>
+    <a href="{{ url_for('manage.index') }}" class="Header-link">manage</a>
   </div>
   {% endif %}
   {% if current_user.is_authenticated %}
@@ -65,6 +64,7 @@
   </div>
   {% endif %}
 </div>
+
 <div class="Header hide-lg hide-xl">
   <div class="Header-item Header-item--full">
     <div class="Header-item">
@@ -87,9 +87,8 @@
         {% if current_user.is_authenticated %}
         <a href="{{ url_for('account.index') }}" class="dropdown-item">{{ current_user.email }}</a>
         {% endif %}
-        <!-- TODO: add manage part -->
         {% if current_user.is_administrator() %}
-        <a href="#" class="dropdown-item">manage</a>
+        <a href="{{ url_for('manage.index') }}" class="dropdown-item">manage</a>
         {% endif %}
         {% if current_user.is_authenticated %}
         <a href="{{ url_for('auth.logout') }}" class="dropdown-item">log out</a>
