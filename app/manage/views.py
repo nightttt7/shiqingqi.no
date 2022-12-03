@@ -1,11 +1,11 @@
 from flask import render_template
-from flask_login import current_user
 from . import manage
-from .. import db
-from ..models import Permission, Role, User, Post, Comment
+from ..models import Permission, Role, User, Post
+from ..decorators import permission_required
 
 
 @manage.route('/')
+@permission_required(Permission.ADMIN)
 def index():
     post_and_comment_s = []
     for post in Post.query:

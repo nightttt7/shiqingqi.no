@@ -1,11 +1,12 @@
 from flask import render_template
 from flask_login import current_user
 from . import account
-from .. import db
-from ..models import Permission, Role, User, Post, Comment
+from ..models import Permission, Post
+from ..decorators import permission_required
 
 
 @account.route('/')
+@permission_required(Permission.BLOG)
 def index():
     post_and_comment_s = []
     for post in Post.query.filter_by(author_id=current_user.id):
