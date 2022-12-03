@@ -12,4 +12,7 @@ def index():
         for comment in post.comments:
             post_and_comment_s.append({'post': post, 'comment': comment})
     post_and_comment_s.sort(key=lambda x: x['comment'].timestamp, reverse=True)
-    return render_template('account/index.html', post_and_comment_s=post_and_comment_s)
+
+    return render_template('account/index.html',
+                           post_and_comment_s=post_and_comment_s,
+                           current_user=current_user)
