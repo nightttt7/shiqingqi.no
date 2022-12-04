@@ -62,6 +62,9 @@
   <div class="Header-item">
     <a href="{{ url_for('auth.login') }}" class="Header-link">log in</a>
   </div>
+  <div class="Header-item">
+    <a href="{{ url_for('auth.register') }}" class="Header-link">register</a>
+  </div>
   {% endif %}
 </div>
 
@@ -94,6 +97,7 @@
         <a href="{{ url_for('auth.logout') }}" class="dropdown-item">log out</a>
         {% else %}
         <a href="{{ url_for('auth.login') }}" class="dropdown-item">log in</a>
+        <a href="{{ url_for('auth.register') }}" class="dropdown-item">register</a>
         {% endif %}
       </details-menu>
     </details>
