@@ -27,7 +27,7 @@
     {% endif %}
     <div>
       <p class="f5">
-        <a href="{{ url_for('main.sameauthor', author_id=post.author_id) }}" class="link-gray-dark f5">{{ post.author.username }}</a>@{{ post.timestamp.strftime("%Y-%m-%d")}}
+        <a href="{{ url_for('main.sameauthor', author_id=post.author_id) }}" class="text-blue f5">{{ post.author.username }}</a>@{{ post.timestamp.strftime("%Y-%m-%d")}}
         <a href="{{ url_for('main.sametag', tag=post.tag) }}" class="link-gray-dark f5">#{{ post.tag }}</a></p>
     </div>
   </div>
