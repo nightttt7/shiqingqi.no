@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% import "_macros.html" as macros %}
+{% block content %}
+<div class="container-lg mb-3 pb-6">
+  <div class="mt-6 ml-6 mr-6 mb-6">
+    <h1 class="mb-3 h1"><a href="{{ url_for('manage.index') }}">Manage</a></h1>
+    <h2 class="mb-3 h2">Comments</h2>
+    {% for post_and_comment in post_and_comment_s %}
+    <p>
+      {% if post_and_comment['comment'].is_user %}
+      <b class="text-blue tooltipped tooltipped-ne" aria-label="Authenticated">{{ post_and_comment['comment'].name }}</b>
+      {% else %}
+      <b class="text-yellow tooltipped tooltipped-ne" aria-label="Anonymous">{{ post_and_comment['comment'].name }}</b>
+      {% endif %}
+      comment in {{ post_and_comment['user'].username }}'s 
+      &lt;<a href="{{ url_for('Blog.read', id=post_and_comment['post'].id) }}" class="link-gray-dark">{{ post_and_comment['post'].title }}</a>&gt;
+    </p>
+    <p>@{{ post_and_comment['comment'].timestamp.strftime("%Y-%m-%d %H:%M:%S") }}
+      <a href="{{ url_for('Blog.deletecomment', id=post_and_comment['post'].id, id_c=post_and_comment['comment'].id) }}">
+        <svg class="octicon octicon-trashcan" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6.5 1.75a.25.25 0 01.25-.25h2.5a.25.25 0 01.25.25V3h-3V1.75zm4.5 0V3h2.25a.75.75 0 010 1.5H2.75a.75.75 0 010-1.5H5V1.75C5 .784 5.784 0 6.75 0h2.5C10.216 0 11 .784 11 1.75zM4.496 6.675a.75.75 0 10-1.492.15l.66 6.6A1.75 1.75 0 005.405 15h5.19c.9 0 1.652-.681 1.741-1.576l.66-6.6a.75.75 0 00-1.492-.149l-.66 6.6a.25.25 0 01-.249.225h-5.19a.25.25 0 01-.249-.225l-.66-6.6z"></path></svg>
+      </a>
+    </p>
+    <p>{{ post_and_comment['comment'].body }}</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

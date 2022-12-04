@@ -27,11 +27,8 @@ class User(UserMixin, db.Model):
             if self.role is None:
                 self.role = Role.query.filter_by(default=True).first()
 
-    @staticmethod
-    def giveblog(email):
-        User.query.filter_by(email=email).first().role = \
-            Role.query.filter_by(name='Bloger').first()
-        db.session.commit()
+    def set_permision(self, role_name):
+        self.role = Role.query.filter_by(name=role_name).first()
 
     @property
     def password(self):

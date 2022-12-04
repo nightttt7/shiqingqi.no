@@ -47,8 +47,6 @@ u = User(email='xxx', username='xxx', password='xxx')
 db.session.add(u)
 db.session.delete(u)
 db.session.commit()
-
-User.giveblog('a@b.com')
 ```
 
 # upgrade database
