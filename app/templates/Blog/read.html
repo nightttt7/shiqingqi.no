@@ -64,6 +64,8 @@
         {{ macros.pagination_widget(pagination, 'Blog.read', id=post.id) }}
       </div>
       {% endif %}
+      <!-- TODO: not show form for not current_user.is_authenticated -->
+      {% if current_user.is_authenticated %}
       <div class="mt-6">
         <form method="post" autocomplete="off">
           <fieldset>
@@ -89,6 +91,13 @@
           </fieldset>
         </form>
       </div>
+      {% else %}
+      <div class="mt-6">
+        <p class="h3 mb-3">
+          <a href="{{ url_for('auth.login') }}" class="text-blue">Log in</a> to add your comment
+        </p>
+      </div>
+      {% endif %}
     </div>
   </div>
 </div>

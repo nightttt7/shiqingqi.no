@@ -31,11 +31,14 @@ def read(id):
         if current_user.is_authenticated:
             if form_c.name.data == current_user.username:
                 is_user = True
-        comment = Comment(name=form_c.name.data, body=form_c.body.data,
-                          is_user=is_user, post=post)
-        db.session.add(comment)
-        db.session.commit()
-        return redirect(url_for('Blog.read', id=post.id, page=-1))
+            # indentation changed
+            comment = Comment(name=form_c.name.data, body=form_c.body.data,
+                              is_user=is_user, post=post)
+            db.session.add(comment)
+            db.session.commit()
+            return redirect(url_for('Blog.read', id=post.id, page=-1))
+        else:
+            abort(403)
     page = request.args.get('page', 1, type=int)
     if page == -1:
         page = (post.comments.count() - 1) // 8 + 1
@@ -46,8 +49,12 @@ def read(id):
         form_c.name.data = current_user.username
     else:
         form_c.name.data = 'anonymous'
-    return render_template('Blog/read.html', post=post, form_c=form_c,
-                           comments=comments, pagination=pagination)
+    return render_template('Blog/read.html',
+                           current_user=current_user,
+                           post=post,
+                           form_c=form_c,
+                           comments=comments,
+                           pagination=pagination)
 
 
 @Blog.route('/edit/<int:id>', methods=['GET', 'POST'])
