@@ -23,7 +23,8 @@
 - 2021-01-22: change server to AWS
 - 2021-07-19: change name and fine tune contents
 - 2021-08-31: add new features
-- 2022-01-28: start to REST API and React
+- 2022-12-12: almost finished this Flask & Primer CSS version
+- next version: use REST API and React
 
 # requirements
 ```
