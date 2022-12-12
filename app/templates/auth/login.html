@@ -10,20 +10,22 @@
         <legend hidden>Log in</legend>
         {{ form.hidden_tag() }}
         <div class="mb-3 d-flex flex-row flex-items-center">
-          {{ form.email.label(class="mr-3 col-1") }}
-          {{ form.email(class="form-control", size="20") }}
+          {{ form.email.label(class="mr-6 col-1") }}
+          {{ form.email(class="form-control", size="25") }}
         </div>
         <div class="mb-3 d-flex flex-row flex-items-center">
-          {{ form.password.label(class="mr-3 col-1") }}
-          {{ form.password(class="form-control", size="20") }}
+          {{ form.password.label(class="mr-6 col-1") }}
+          {{ form.password(class="form-control", size="25") }}
         </div>
         <div class="mb-4 mt-4 d-flex flex-row flex-items-center">
-          {{ form.remember_me.label(class="mr-3 col-1") }}
+          {{ form.remember_me.label(class="mr-6 col-1") }}
           {{ form.remember_me(class="ml-1", checked="checked") }}
         </div>
         {{ form.submit(class="btn") }}
       </fieldset>
     </form>
+    <p class="mt-6 text-italic">* Forgot Email or Password? Try contact nightttt7@gmail.com</p>
+    <p class="text-italic">** Nothing is guaranteed</p>
   </div>
 </div>
 {% endblock %}
